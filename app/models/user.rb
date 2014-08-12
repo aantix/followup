@@ -1,12 +1,14 @@
+require 'google/api_client'
+
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :trackable, :validatable
-  devise :omniauthable, omniauth_providers: [:facebook]
+  devise :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
   #->Prelang (user_login/devise)
-  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
+  def self.find_for_oauth(auth, signed_in_resource=nil)
     user = User.where(provider: auth.provider, uid: auth.uid).first
 
     # The User was found in our database
@@ -17,7 +19,25 @@ class User < ActiveRecord::Base
                 provider: auth.provider,
                 uid:      auth.uid,
                 email:    auth.info.email,
-                password: Devise.friendly_token[0,20])
+                password: Devise.friendly_token[0,20],
+                omniauth_token: auth.credentials.token,
+                omniauth_refresh_token: auth.credentials.refresh_token,
+                omniauth_expires_at: Time.at(auth.credentials.expires_at),
+                omniauth_expires: auth.credentials.expires)
+  end
+
+
+  def refresh_token
+    client = Google::APIClient.new
+    client.authorization.client_id = ENV['GOOGLE_APP_ID']
+    client.authorization.client_secret = ENV['GOOGLE_SECRET_ID']
+    client.authorization.grant_type = 'refresh_token'
+    client.authorization.refresh_token = omniauth_refresh_token
+
+    client.authorization.fetch_access_token!
+
+    self.omniauth_token = client.authorization.access_token
+    save!
   end
 
 
