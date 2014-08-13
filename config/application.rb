@@ -21,6 +21,3 @@ module FollowupApp
     # config.i18n.default_locale = :de
   end
 end
-
-StanfordCoreNLP.jar_path = "#{Rails.root}/libs/stanford-core-nlp-full/"
-StanfordCoreNLP.model_path = "#{Rails.root}/libs/stanford-core-nlp-full/"

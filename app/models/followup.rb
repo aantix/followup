@@ -1,4 +1,5 @@
 class Followup
+  LOOKBACK = 2
 
   def initialize(user)
     # https://github.com/nu7hatch/gmail/pull/80
@@ -13,16 +14,21 @@ class Followup
   # https://github.com/dcparker/ruby-gmail/issues/11
   # http://blog.wojt.eu/post/13496746332/retrieving-gmail-thread-ids-with-ruby
   def emails
-    email     = Hash.new({})
+    @user.refresh_token!
 
-    user.refresh_token
-    all_email = @gmail.inbox.emails(:unread, :after => 5.days.ago)
+    email = Hash.new([])
+    inbox = @gmail.inbox.emails(after: LOOKBACK.days.ago)
+    sent  = @gmail.mailbox(:sent).emails(after: LOOKBACK.days.ago)
 
-    all_email.each do |e|
-      data = gmail.imap.fetch(e.uid, "(X-GM-THRID)")
-      thread_id =  data[0].attr["X-GM-THRID"].to_s(16)
+    all_email = inbox.concat(sent)
 
-      email[thread_id] << e
+    all_email.each_with_index do |e, i|
+      unless Email.filtered?(e, user.email)
+        body, signature = Email.extract_body_signature(e.body)
+        questions = Email.questions(body)
+
+        email[e.thread_id] << [e.subject, questions]
+      end
     end
 
     email

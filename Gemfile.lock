@@ -9,9 +9,8 @@ GIT
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
 
-GIT
-  remote: https://github.com/aantix/gmail.git
-  revision: ca84838ba92c3c2ff29098dafa1f5c2eae172114
+PATH
+  remote: ../gmail
   specs:
     gmail (0.4.0)
       gmail_xoauth (>= 0.4.0)

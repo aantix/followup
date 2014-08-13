@@ -27,17 +27,21 @@ class User < ActiveRecord::Base
   end
 
 
-  def refresh_token
-    client = Google::APIClient.new
-    client.authorization.client_id = ENV['GOOGLE_APP_ID']
-    client.authorization.client_secret = ENV['GOOGLE_SECRET_ID']
-    client.authorization.grant_type = 'refresh_token'
-    client.authorization.refresh_token = omniauth_refresh_token
+  def refresh_token!
+    if omniauth_expires_at > Time.now
+      client = Google::APIClient.new
+      client.authorization.client_id = ENV['GOOGLE_APP_ID']
+      client.authorization.client_secret = ENV['GOOGLE_SECRET_ID']
+      client.authorization.grant_type = 'refresh_token'
+      client.authorization.refresh_token = omniauth_refresh_token
 
-    client.authorization.fetch_access_token!
+      client.authorization.fetch_access_token!
 
-    self.omniauth_token = client.authorization.access_token
-    save!
+      self.omniauth_expires_at = Time.now + client.authorization.expires_in
+      self.omniauth_token = client.authorization.access_token
+
+      save!
+    end
   end
 
 

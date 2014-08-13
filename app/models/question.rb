@@ -1,17 +1,24 @@
 class Question
 
   def initialize(original_text)
-    @origina_text = text
-    @@pipeline||=StanfordCoreNLP.load(:tokenize, :ssplit, :pos, :lemma, :parse, :ner, :dcoref)
-    @text = StanfordCoreNLP::Annotation.new(text)
-    @@pipeline.annotate(text)
+    @origina_text = original_text
+    @@pipeline=StanfordCoreNLP.load(:tokenize, :ssplit, :pos, :lemma, :parse, :ner, :dcoref)
+    @text = StanfordCoreNLP::Annotation.new(original_text)
+    @@pipeline.annotate(@text)
   end
 
   def questions_from_text
-    @text.get(:sentences).inject([]) do |questions, sentence|
+    questions = []
+    @text.get(:sentences).each do |sentence|
       tree = sentence.get(:tree).to_a[0]
-      questions << sentence.to_s if tree =~ /(\(SBARQ\d|\(SQ\d)/
+
+      puts sentence.to_s
+      puts tree.to_s
+
+      questions.append(sentence.to_s) if tree.to_s =~ /(\(SBARQ\s+|\(SQ\s+)/
     end
+
+    questions
   end
 
 end
