@@ -9,9 +9,10 @@ gem 'mysql2'
 #gem 'gmail', git: 'https://github.com/aantix/gmail.git'
 gem 'gmail', path: '../gmail'
 
-gem 'stanford-core-nlp'
-
 gem 'sass-rails', '~> 4.0.3'
+
+gem 'tactful_tokenizer'
+gem 'sanitize'
 
 gem 'bootstrap-sass'
 

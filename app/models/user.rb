@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
 
 
   def refresh_token!
-    if omniauth_expires_at > Time.now
+    if omniauth_expires_at < Time.now
       client = Google::APIClient.new
       client.authorization.client_id = ENV['GOOGLE_APP_ID']
       client.authorization.client_secret = ENV['GOOGLE_SECRET_ID']

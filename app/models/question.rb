@@ -1,24 +1,23 @@
 class Question
+  QUESTION_WORDS = ['who', 'what', 'when', 'where', 'why', 'are']
 
   def initialize(original_text)
-    @origina_text = original_text
-    @@pipeline=StanfordCoreNLP.load(:tokenize, :ssplit, :pos, :lemma, :parse, :ner, :dcoref)
-    @text = StanfordCoreNLP::Annotation.new(original_text)
-    @@pipeline.annotate(@text)
+    @original_text = Sanitize.clean(original_text, Sanitize::Config::RESTRICTED)
+    @@parser = TactfulTokenizer::Model.new
   end
 
   def questions_from_text
-    questions = []
-    @text.get(:sentences).each do |sentence|
-      tree = sentence.get(:tree).to_a[0]
+    sentences = @@parser.tokenize_text(@original_text)
 
-      puts sentence.to_s
-      puts tree.to_s
-
-      questions.append(sentence.to_s) if tree.to_s =~ /(\(SBARQ\s+|\(SQ\s+)/
+    sentences.inject([]) do |questions, sentence|
+      questions.append(sentence.to_s) if is_question?(sentence)
+      questions
     end
+  end
 
-    questions
+  def is_question?(text)
+    words = text.strip.split(' ')
+    words.any?{|w| QUESTION_WORDS.include?(w.downcase.gsub("'s", ""))}
   end
 
 end
