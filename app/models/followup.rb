@@ -1,5 +1,5 @@
 class Followup
-  LOOKBACK = 2
+  LOOKBACK = 1
 
   def initialize(user)
     # https://github.com/nu7hatch/gmail/pull/80
@@ -23,15 +23,33 @@ class Followup
     all_email = inbox.concat(sent)
 
     all_email.each do |e|
-      print "."
-      unless Email.filtered?(e, @user.email)
+      if Email.filtered?(e, @user.email)
+        print "x"
+      else
         body, signature = Email.extract_body_signature(e.body.to_s)
+
+        if body.nil?
+          print "x"
+          next
+        else
+          print "."
+        end
+
         questions       = Question.new(body).questions_from_text
 
         email[e.thread_id]||=[]
-        email[e.thread_id] << [e.subject, body, signature, questions]
+        email[e.thread_id] << [e.subject, Email.from_addresses(e), questions]
       end
     end
+
+    email.each do |thread_id, data|
+      last_email = data.last
+
+      puts "#{last_email[0]} (#{last_email[1].first})"
+      puts "  https://mail.google.com/mail/u/0/#inbox/#{thread_id}"
+
+      puts last_email[2].join(" ... ")
+    end;1
 
     email
   end

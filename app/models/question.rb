@@ -1,5 +1,5 @@
 class Question
-  QUESTION_WORDS = ['who', 'what', 'when', 'where', 'why', 'are']
+  QUESTION_WORDS = ['who', 'what', 'when', 'where', 'why', 'are you']
 
   def initialize(original_text)
     @original_text = Sanitize.clean(original_text, Sanitize::Config::RESTRICTED)
