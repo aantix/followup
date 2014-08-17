@@ -1,5 +1,7 @@
+require 'cgi'
+
 class Followup
-  LOOKBACK = 1
+  LOOKBACK = 3
 
   def initialize(user)
     # https://github.com/nu7hatch/gmail/pull/80
@@ -23,10 +25,33 @@ class Followup
     all_email = inbox.concat(sent)
 
     all_email.each do |e|
-      if Email.filtered?(e, @user.email)
+      mail = Mail.read_from_string e.msg
+
+      body = if mail.multipart?
+               puts "here"
+               mail.parts.collect{|p| p.body.decoded if Email::TYPES.any?{|et| p.content_type =~ /#{et}/i}}.compact.join("\n")
+             else
+               puts "here2"
+               mail.body.decoded
+             end
+
+      if Email.filtered?(e, body, @user.email)
         print "x"
       else
-        body, signature = Email.extract_body_signature(e.body.to_s)
+        begin
+
+          File.open("/tmp/emails/email#{e.msg_id}.txt", 'w') { |file| file.write body}
+        rescue => e
+          puts "**************"
+          mail.parts.each{|p| puts p.content_type}
+          puts "**************"
+        end
+
+        puts "====================="
+        puts body
+        puts "====================="
+
+        body, signature = Email.extract_body_signature(body)
 
         if body.nil?
           print "x"
@@ -35,7 +60,7 @@ class Followup
           print "."
         end
 
-        questions       = Question.new(body).questions_from_text
+        questions = Question.new(body).questions_from_text
 
         email[e.thread_id]||=[]
         email[e.thread_id] << [e.subject, Email.from_addresses(e), questions]

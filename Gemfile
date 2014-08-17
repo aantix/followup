@@ -13,6 +13,7 @@ gem 'sass-rails', '~> 4.0.3'
 
 gem 'tactful_tokenizer'
 gem 'sanitize'
+gem 'mail'
 
 gem 'bootstrap-sass'
 
@@ -64,4 +65,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
+  gem 'vcr'
 end

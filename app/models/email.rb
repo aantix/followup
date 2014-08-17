@@ -1,31 +1,38 @@
-require 'cgi'
+require 'rack/utils'
 
 class Email
   HTML       = "text/html"
   TEXT       = "text/plain"
 
+  TYPES      = [HTML, TEXT]
+
   TALON_PATH = "/usr/bin/python #{Rails.root}/scripts/email_extract/extract_response.py"
 
   BLACKLISTED_PHRASES   = ['click here', "password reset", "new password",
                            'activate account', 'your login', 'unsubscribe',
-                           'manage preferences', 'contact us', "password reset"]
+                           'manage preferences', 'contact us', "password reset",
+                           'stop receiving email']
 
-  BLACKLISTED_EMAILS    = ['noreply', 'mailer-daemon']
+  BLACKLISTED_EMAILS    = ['noreply', 'no-reply','mailer-daemon', 'alert', 'alerts']
 
-  BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply', 'password reset']
+  BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply', 'password reset', "confirm subscription"]
 
   def self.extract_body_signature(email_body)
     #body = html?(email_body) ? extract_html(email_body) : email_body
     #return nil, nil if body.nil?
 
-    #response  = `#{TALON_PATH} \"#{content_type(email_body)}\" \"#{CGI.escapeHTML(body)}\"`
-    response  = `#{TALON_PATH} \"#{content_type(email_body)}\" \"#{CGI.escapeHTML(email_body)}\"`
+    response  = `#{TALON_PATH} \"#{content_type(email_body)}\" \"#{Rack::Utils.escape_html(email_body)}\"`
 
-    json      = JSON.parse(response)
-    body      = json["reply"]
-    signature = json["signature"]
+    if response.present?
 
-    return body, signature
+      json      = JSON.parse(response)
+      body      = json["reply"]
+      signature = json["signature"]
+
+      return body, signature
+    end
+
+    return nil, nil
   end
 
   def self.extract_html(message_body)
@@ -36,21 +43,30 @@ class Email
     nil
   end
 
+  # Find the first content type listed, as that most likely is the outer envelope and
+  #  represents the reply
   def self.content_type(message)
-    html?(message) ? HTML : TEXT
+    html = html?(message)
+    text = plain_text?(message)
+
+    if html && text
+      return html < text ? HTML : TEXT
+    end
+
+    html ? HTML : TEXT
   end
 
   def self.html?(message)
-    message =~ /#{HTML}/
+    message.index(/#{HTML}/i)
   end
 
   def self.plain_text?(message)
-    message =~ /#{TEXT}/
+    message.index(/#{TEXT}/i)
   end
 
-  def self.filtered?(message, owner_email)
+  def self.filtered?(message, message_body, owner_email)
     blacklisted_email?(from_addresses(message)) ||
-        blacklisted_phrases?(message.body) ||
+        blacklisted_phrases?(message_body) ||
         blacklisted_subject?(message.subject) ||
         no_direct_addressment(to_addresses(message), owner_email)
   end
