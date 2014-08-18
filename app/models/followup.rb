@@ -27,31 +27,15 @@ class Followup
     all_email.each do |e|
       mail = Mail.read_from_string e.msg
 
-      body = if mail.multipart?
-               puts "here"
-               mail.parts.collect{|p| p.body.decoded if Email::TYPES.any?{|et| p.content_type =~ /#{et}/i}}.compact.join("\n")
-             else
-               puts "here2"
-               mail.body.decoded
-             end
+      content_type, body = email_body(mail)
 
-      if Email.filtered?(e, body, @user.email)
+      if Email.filtered?(e, filter_body(mail), @user.email)
         print "x"
       else
-        begin
+        File.open("/tmp/emails/email#{e.msg_id}.txt", 'w') { |file| file.write body} rescue nil
 
-          File.open("/tmp/emails/email#{e.msg_id}.txt", 'w') { |file| file.write body}
-        rescue => e
-          puts "**************"
-          mail.parts.each{|p| puts p.content_type}
-          puts "**************"
-        end
-
-        puts "====================="
-        puts body
-        puts "====================="
-
-        body, signature = Email.extract_body_signature(body)
+        body, signature = Email.extract_body_signature(content_type, body)
+        binding.pry
 
         if body.nil?
           print "x"
@@ -77,6 +61,43 @@ class Followup
     end;1
 
     email
+  end
+
+  # Prefer the text version vs HTML version for multipart/alternative messages
+  def email_body(mail)
+    content_type = Email::TEXT
+
+    body = if mail.multipart? # Probably a multipart/alternative message
+      p = mail.text_part
+
+      if p.nil?
+        p = mail.html_part
+        content_type = Email::HTML
+      end
+
+      p.present? ? p.decoded : nil
+    else
+      content_type = Email::HTML if Email.html?(mail.content_type)
+      mail.body.decoded
+    end
+
+    return nil, nil if body.nil?
+    return content_type, body
+  end
+
+  # Prefer the html version vs the text version for filtering out emails
+  #  usually because the html version will include an unsubscribe link
+  def filter_body(mail)
+    body = if mail.multipart? # Probably a multipart/alternative message
+      p = mail.html_part
+      p = mail.text_part if p.nil?
+
+      p.present? ? p.decoded : nil
+    else
+      mail.body.decoded
+    end
+
+    body
   end
 
 end
