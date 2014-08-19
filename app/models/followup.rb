@@ -1,7 +1,7 @@
 require 'cgi'
 
 class Followup
-  LOOKBACK = 3
+  LOOKBACK = 6
 
   def initialize(user)
     # https://github.com/nu7hatch/gmail/pull/80
@@ -35,7 +35,6 @@ class Followup
         File.open("/tmp/emails/email#{e.msg_id}.txt", 'w') { |file| file.write body} rescue nil
 
         body, signature = Email.extract_body_signature(content_type, body)
-        binding.pry
 
         if body.nil?
           print "x"

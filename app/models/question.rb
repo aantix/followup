@@ -16,8 +16,9 @@ class Question
   end
 
   def is_question?(text)
-    words = text.strip.split(' ')
-    words.any?{|w| QUESTION_WORDS.include?(w.downcase.gsub("'s", ""))}
+    #words = text.strip.split(' ')
+    #words.any?{|w| QUESTION_WORDS.include?(w.downcase.gsub("'s", ""))}
+    text.include?("?")
   end
 
 end
