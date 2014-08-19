@@ -2,5 +2,7 @@
 
 FactoryGirl.define do
   factory :question do
+    email_id 1
+    question "MyText"
   end
 end

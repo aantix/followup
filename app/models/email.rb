@@ -1,6 +1,9 @@
 require 'rack/utils'
 
-class Email
+class Email < ActiveRecord::Base
+  belongs_to :user, dependent: :destroy
+  has_many :questions, dependent: :destroy
+
   HTML        = "text/html"
   TEXT        = "text/plain"
   ALTERNATIVE = "multipart/alternative"

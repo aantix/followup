@@ -18,7 +18,6 @@ class Followup
   # https://github.com/dcparker/ruby-gmail/issues/11
   # http://blog.wojt.eu/post/13496746332/retrieving-gmail-thread-ids-with-ruby
   def emails
-    email = {}
     inbox = @gmail.inbox.emails(after: LOOKBACK.days.ago)
     sent  = @gmail.mailbox(:sent).emails(after: LOOKBACK.days.ago)
 
@@ -29,37 +28,27 @@ class Followup
 
       content_type, body = email_body(mail)
 
-      if Email.filtered?(e, filter_body(mail), @user.email)
-        print "x"
-      else
-        File.open("/tmp/emails/email#{e.msg_id}.txt", 'w') { |file| file.write body} rescue nil
+      print "."
 
+      unless Email.filtered?(e, filter_body(mail), @user.email)
         body, signature = Email.extract_body_signature(content_type, body)
+        next if body.nil?
 
-        if body.nil?
-          print "x"
-          next
-        else
-          print "."
+        questions = Question.questions_from_text(body)
+
+        email = @user.emails.create!(thread_id: e.thread_id,
+                                     message_id: e.msg_id,
+                                     from: mail.from.first,
+                                     subject: e.subject,
+                                     body: body,
+                                     received_on: mail.date)
+
+        questions.each do |question|
+          email.questions.create!(question: question)
         end
 
-        questions = Question.new(body).questions_from_text
-
-        email[e.thread_id]||=[]
-        email[e.thread_id] << [e.subject, Email.from_addresses(e), questions]
       end
     end
-
-    email.each do |thread_id, data|
-      last_email = data.last
-
-      puts "#{last_email[0]} (#{last_email[1].first})"
-      puts "  https://mail.google.com/mail/u/0/#inbox/#{thread_id}"
-
-      puts last_email[2].join(" ... ")
-    end;1
-
-    email
   end
 
   # Prefer the text version vs HTML version for multipart/alternative messages
