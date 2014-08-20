@@ -36,12 +36,14 @@ class Followup
 
         questions = Question.questions_from_text(body)
 
-        email = @user.emails.create!(thread_id: e.thread_id,
-                                     message_id: e.msg_id,
-                                     from: mail.from.first,
-                                     subject: e.subject,
-                                     body: body,
-                                     received_on: mail.date)
+        thread    = @user.email_threads.find_or_create_by(thread_id: e.thread_id)
+
+        email     = thread.emails.create!(message_id: e.msg_id,
+                                          from_email: mail[:from].addrs.first.address,
+                                          from_name: mail[:from].addrs.first.display_name,
+                                          subject: e.subject,
+                                          body: body,
+                                          received_on: mail.date)
 
         questions.each do |question|
           email.questions.create!(question: question)

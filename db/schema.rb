@@ -11,16 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140819051212) do
+ActiveRecord::Schema.define(version: 20140820053321) do
 
-  create_table "emails", force: true do |t|
+  create_table "email_threads", force: true do |t|
     t.integer  "user_id"
     t.string   "thread_id"
+    t.datetime "last_email_at"
+    t.integer  "emails_count",  default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "emails", force: true do |t|
+    t.integer  "email_thread_id"
     t.string   "message_id"
-    t.string   "from"
+    t.string   "from_email"
+    t.string   "from_name"
     t.string   "subject"
     t.text     "body"
     t.datetime "received_on"
+    t.integer  "questions_count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

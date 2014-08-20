@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.4'
+gem 'rails', '4.1.5'
 gem 'mysql2'
 
 # Need to bump the mail gem to 2.5.4 to make it compaitble with Rails and gmail gem

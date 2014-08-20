@@ -1,16 +1,14 @@
 require 'google/api_client'
 
 class User < ActiveRecord::Base
-  has_many :emails, dependent: :destroy
+  has_many :email_threads
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :trackable, :validatable
-  devise :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
-  def email_threads
-    emails.group_by(&:thread_id)
-  end
+  devise :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
   #->Prelang (user_login/devise)
   def self.find_for_oauth(auth, signed_in_resource=nil)

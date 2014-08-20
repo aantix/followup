@@ -1,0 +1,51 @@
+<% span = email.questions.empty? ? "12" : "10"  %>
+
+<div class="row">
+  <div class="span#{span}">
+    <span class="intro">
+      <%= image_tag profile_image_path %>
+      <% if email.from_email == current_user.email %>
+        You
+      <% else %>
+        <%= email.from_name %>
+      <% end %>
+      wrote
+      <%= time_ago_in_words(email.received_on) %> ago..
+    </span>
+
+    <span class="darker-grey">
+      <% if email.body.length <= 500 %>
+        <%= highlight_body(email.body, email.questions) %>
+      <% else %>
+        <%= highlight_questions(email.questions) %>
+      <% end %>
+    </span>
+  </div>
+
+  <% if span != "12" %>
+    <div class="span2 question-callout">
+      <h2>
+        <blockquote>
+          email.questions.first
+        </blockquote>
+      </h2>
+    </div>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="span8 subject light-grey">
+    <i>
+      <%= link_to email.subject, "http://gmail.com/#{email.thread_id}" %>,
+    </i>
+  </div>
+
+  <div class="span4 actions">
+    <% if email.from == current_user.email %>
+      <%= link_to "follow up?", '#', class: "btn btn-primary" %>
+    <% else %>
+      <%= link_to "respond?", '#', class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+</div>

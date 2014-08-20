@@ -1,7 +1,7 @@
 require 'rack/utils'
 
 class Email < ActiveRecord::Base
-  belongs_to :user, dependent: :destroy
+  belongs_to :email_thread, dependent: :destroy, counter_cache: true
   has_many :questions, dependent: :destroy
 
   HTML        = "text/html"
@@ -15,11 +15,13 @@ class Email < ActiveRecord::Base
   BLACKLISTED_PHRASES   = ['click here', "password reset", "new password",
                            'activate account', 'your login', 'unsubscribe',
                            'manage preferences', 'contact us', "password reset",
-                           'stop receiving email']
+                           'stop receiving email', 'stop receiving these']
 
   BLACKLISTED_EMAILS    = ['noreply@', 'no-reply@','mailer-daemon@', 'alert@', 'alerts@', 'admin@', 'deploy@', 'member@']
 
   BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply', 'password reset', "confirm subscription"]
+
+  after_create :update_last_email_at
 
   def self.extract_body_signature(content_type, email_body)
     response  = `#{TALON_PATH} \"#{content_type}\" \"#{Rack::Utils.escape_html(email_body)}\"`
@@ -34,6 +36,11 @@ class Email < ActiveRecord::Base
     end
 
     return nil, nil
+  end
+
+  def update_last_email_at
+    email_thread.last_email_at = self.received_on
+    email_thread.save!
   end
 
   def self.html?(message)

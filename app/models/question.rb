@@ -1,5 +1,5 @@
 class Question < ActiveRecord::Base
-  QUESTION_WORDS = ['who', 'what', 'when', 'where', 'why', 'are you']
+  belongs_to :email, counter_cache: true
 
   PARSER = TactfulTokenizer::Model.new
 

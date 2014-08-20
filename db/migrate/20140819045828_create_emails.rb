@@ -1,13 +1,14 @@
 class CreateEmails < ActiveRecord::Migration
   def change
     create_table :emails do |t|
-      t.integer :user_id
-      t.string :thread_id
+      t.integer :email_thread_id
       t.string :message_id
-      t.string :from
+      t.string :from_email
+      t.string :from_name
       t.string :subject
       t.text :body
       t.datetime :received_on
+      t.integer :questions_count, default: 0
 
       t.timestamps
     end

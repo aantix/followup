@@ -4,7 +4,7 @@ class EmailsController < ApplicationController
   # GET /emails
   # GET /emails.json
   def index
-    @emails = Email.all
+    @email_threads = current_user.email_threads.where("last_email_at > ?", Time.now)
   end
 
   # GET /emails/1
