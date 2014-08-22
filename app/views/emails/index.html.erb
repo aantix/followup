@@ -2,8 +2,14 @@
   <% threads = @email_threads.group_by{|et| et.last_email_at.to_date } %>
 
   <% threads.each do |last_email_at, threads_for_day| %>
-    <h1 class="email-date-header">
-      <%= last_email_at.to_formatted_s(:long_ordinal) %>
+    <h1 class="email-date-header text-uppercase">
+      <% if last_email_at == Date.today %>
+        Today
+      <% elsif last_email_at == Date.today - 1.day %>
+        Yesterday
+      <% else %>
+        <%= last_email_at.to_formatted_s(:long_ordinal) %>
+      <% end %>
     </h1>
     <%= render partial: "email", collection: threads_for_day %>
   <% end %>

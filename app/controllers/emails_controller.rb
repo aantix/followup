@@ -5,7 +5,7 @@ class EmailsController < ApplicationController
   # GET /emails
   # GET /emails.json
   def index
-    @email_threads = current_user.email_threads.where("last_email_at > ?", 2.days.ago)
+    @email_threads = current_user.email_threads.where("last_email_at > ?", 2.days.ago).order("last_email_at desc")
   end
 
   # GET /emails/1
