@@ -32,23 +32,28 @@ class Followup
 
       unless Email.filtered?(e, filter_body(mail), @user.email)
         body, signature = Email.extract_body_signature(content_type, body)
-        next if body.nil?
+        next if body.blank?
 
-        questions = Question.questions_from_text(body)
+        binding.pry
 
         thread    = @user.email_threads.find_or_create_by(thread_id: e.thread_id)
+        from      = mail[:from].addrs.first.address
 
-        email     = thread.emails.create!(message_id: e.msg_id,
-                                          from_email: mail[:from].addrs.first.address,
-                                          from_name: mail[:from].addrs.first.display_name,
-                                          subject: e.subject,
-                                          body: body,
-                                          received_on: mail.date)
+        email     = thread.emails.find_or_create_by(message_id: e.msg_id) do |eml|
+              eml.from_email  = from
+              eml.from_name   = mail[:from].addrs.first.display_name
+              eml.subject     = e.subject
+              eml.body        = body
+              eml.received_on = mail.date
+        end
+
+        questions = Question.questions_from_text(body)
 
         questions.each do |question|
           email.questions.create!(question: question)
         end
 
+        EmailProfileImage.download_images_for(from)
       end
     end
   end

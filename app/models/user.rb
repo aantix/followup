@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
                 provider: auth.provider,
                 uid:      auth.uid,
                 email:    auth.info.email,
+                image_url: auth.info.image,
                 password: Devise.friendly_token[0,20],
                 omniauth_token: auth.credentials.token,
                 omniauth_refresh_token: auth.credentials.refresh_token,

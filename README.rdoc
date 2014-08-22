@@ -1,9 +1,24 @@
 == TODO
 
+
+* Implement images for the individual emails.  Can query rapportive with this gem :
+
+  http://patrickperey.com/find-anyones-email-a-ruby-script/
+  https://github.com/the4dpatrick/possible-email
+
+
 * Create a model "EmailThread" that has_many :emails
 
   - The thread model contains a timestamp of the last email in the thread.
+  -- Done
 
   - Can query the thread for followup? (one email sent from owner, no response) or response?
     (lots of emails, last email had questions in it).
+    -- Done
 
+
+
+  -- PossibleEmail returns an empty response iobject when nothing is found, but when somethign is found
+     the data element is on the response object.  Querying for whether a  the data element is on the object is just weird
+
+     -- Remove any of the puts statements. They're extraneous.

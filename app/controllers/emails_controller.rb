@@ -1,10 +1,11 @@
 class EmailsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_email, only: [:show, :edit, :update, :destroy]
 
   # GET /emails
   # GET /emails.json
   def index
-    @email_threads = current_user.email_threads.where("last_email_at > ?", Time.now)
+    @email_threads = current_user.email_threads.where("last_email_at > ?", 2.days.ago)
   end
 
   # GET /emails/1

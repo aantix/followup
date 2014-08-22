@@ -3,6 +3,7 @@ require 'rack/utils'
 class Email < ActiveRecord::Base
   belongs_to :email_thread, dependent: :destroy, counter_cache: true
   has_many :questions, dependent: :destroy
+  has_many :email_profile_images, primary_key: :from_email, foreign_key: :email
 
   HTML        = "text/html"
   TEXT        = "text/plain"
@@ -17,9 +18,11 @@ class Email < ActiveRecord::Base
                            'manage preferences', 'contact us', "password reset",
                            'stop receiving email', 'stop receiving these']
 
-  BLACKLISTED_EMAILS    = ['noreply@', 'no-reply@','mailer-daemon@', 'alert@', 'alerts@', 'admin@', 'deploy@', 'member@']
+  BLACKLISTED_EMAILS    = ['noreply@', 'no-reply@','mailer-daemon@', 'alert@', 'alerts@', 'admin@', 'deploy@', 'member@', 'notifications@', 'members@']
 
   BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply', 'password reset', "confirm subscription"]
+
+  BLACKLISTED_HEADERS   = ['Precedence: bulk?', 'Precedence: list?', 'Precedence: junk?', 'Auto-Submitted: auto-generated']
 
   after_create :update_last_email_at
 
@@ -57,6 +60,7 @@ class Email < ActiveRecord::Base
     blacklisted_email?(from_addresses(message)) ||
         blacklisted_phrases?(message_body) ||
         blacklisted_subject?(message.subject) ||
+        blacklisted_header?(message.msg) ||
         no_direct_addressment(to_addresses(message), owner_email)
   end
 
@@ -76,6 +80,10 @@ class Email < ActiveRecord::Base
 
   def self.blacklisted_subject?(subject)
     blacklisted_words?(BLACKLISTED_SUBJECTS, subject)
+  end
+
+  def self.blacklisted_header?(message)
+    blacklisted_words?(BLACKLISTED_HEADERS, message)
   end
 
   def self.blacklisted_words?(phrases, text)

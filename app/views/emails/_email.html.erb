@@ -1,47 +1,64 @@
-<% span = email.questions.empty? ? "12" : "10"  %>
+<% email = email.emails.last %>
+<% span  = email.questions.empty? ? "12" : "10"  %>
 
-<div class="row">
-  <div class="span#{span}">
-    <span class="intro">
-      <%= image_tag profile_image_path %>
-      <% if email.from_email == current_user.email %>
-        You
-      <% else %>
-        <%= email.from_name %>
-      <% end %>
-      wrote
-      <%= time_ago_in_words(email.received_on) %> ago..
-    </span>
+<div class="row email-time">
 
-    <span class="darker-grey">
-      <% if email.body.length <= 500 %>
-        <%= highlight_body(email.body, email.questions) %>
-      <% else %>
-        <%= highlight_questions(email.questions) %>
-      <% end %>
-    </span>
+  <div class="col-md-1 spacer">
   </div>
 
-  <% if span != "12" %>
-    <div class="span2 question-callout">
-      <h2>
-        <blockquote>
-          email.questions.first
-        </blockquote>
-      </h2>
-    </div>
-  <% end %>
+  <div class="col-md-2 text-center timestamp">
+    <h4>
+      <%= email.received_on.strftime("%I:%M %p") %>
+    </h4>
+  </div>
+
+  <div class="col-md-9 spacer">
+    &nbsp;
+  </div>
 </div>
 
-<div class="row">
-  <div class="span8 subject light-grey">
-    <i>
-      <%= link_to email.subject, "http://gmail.com/#{email.thread_id}" %>,
-    </i>
+
+<div class="row email-data">
+  <div class="col-md-1">
+    &nbsp;
   </div>
 
-  <div class="span4 actions">
-    <% if email.from == current_user.email %>
+  <div class="col-md-2 email-image text-center">
+    <% if email.email_profile_images.present? %>
+      <%= image_tag email.email_profile_images.last.url, class: "img-circle" %>
+    <% else %>
+      <div class="first-letter">
+        <%= email.from_name[0].upcase %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-7">
+    <h3>
+      <small class="text-capitalize">
+        <%= subject_label(email, current_user) %>
+        <%= action_label(email, current_user) %>..
+      </small>
+
+      <br/>
+
+      <span class="subject text-uppercase">
+        <%= email.subject %>
+      </span>
+    </h3>
+
+    <% if email.body.length <= 500 %>
+      <% # highlight_body(email.body, email.questions) %>
+    <% else %>
+      <% # highlight_questions(email.questions) %>
+    <% end %>
+    <p>
+      <%= email.body %>
+    </p>
+  </div>
+
+  <div class="col-md-2">
+    <% if email.from_email == current_user.email %>
       <%= link_to "follow up?", '#', class: "btn btn-primary" %>
     <% else %>
       <%= link_to "respond?", '#', class: "btn btn-primary" %>

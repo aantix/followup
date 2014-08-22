@@ -1,3 +1,99 @@
 // Place all the styles related to the Emails controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#emails {
+//  h4 {
+//    overflow: hidden;
+//    text-align: center;
+//    font-size: 15px;
+//    font-family: Georgia, serif;
+//    font-style:italic;
+//    color: #999999;
+//    margin-bottom: 20px;
+//    font-weight: normal;
+//  }
+//
+//  h4:before,
+//  h4:after {
+//    border-top: 1px solid #e6e7e8;
+//    content: "";
+//    display: inline-block;
+//    height: .1em;
+//    position: relative;
+//    vertical-align: middle;
+//    width: 50%;
+//    margin-bottom: .15em;
+//  }
+//  h4:before {
+//    right: 0.5em;
+//    margin-left: -50%;
+//  }
+//  h4:after {
+//    left: 0.5em;
+//    margin-right: -50%;
+//  }
+
+  h3 {
+    margin-top: 0px;
+  }
+
+  .spacer {
+    border-bottom: 1px solid #EDECF2;
+    height: 30px;
+  }
+
+  .timestamp {
+    height: 38px;
+    line-height: 38px;
+
+    h4 {
+      margin-bottom: 0px;
+      margin-top: 20px;
+    }
+  }
+
+  .email-image{
+    margin:auto;
+
+    img {
+      width: 100px;
+      height: 100px;
+
+      display:block;
+      margin:auto;
+    }
+
+    .first-letter {
+      background: #B00100;
+      color: #ffffff;
+      padding: 25px;
+      font-size: 50px;
+      width: 100px;
+      height: 100px;
+      margin:auto;
+      display: block;
+      line-height: 50px;
+    }
+  }
+
+  .email-who-wrote{
+    font-size: 22px;
+  }
+
+  .email-data{
+    min-height: 100px;
+    margin-bottom: 30px;
+  }
+
+  .email-time{
+    height: 50px;
+  }
+  .email-date-header:not(:first-child){
+    margin-top: 60px;
+  }
+
+  .email-date-header {
+    margin-bottom: 30px;
+  }
+}

@@ -1,3 +1,10 @@
-<% user.email_threads do |thread| %>
-  <%= render partial: thread.emails.last %>
-<% end %>
+<div id="emails">
+  <% threads = @email_threads.group_by{|et| et.last_email_at.to_date } %>
+
+  <% threads.each do |last_email_at, threads_for_day| %>
+    <h1 class="email-date-header">
+      <%= last_email_at.to_formatted_s(:long_ordinal) %>
+    </h1>
+    <%= render partial: "email", collection: threads_for_day %>
+  <% end %>
+</div>
