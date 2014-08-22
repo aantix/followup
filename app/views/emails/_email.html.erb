@@ -3,9 +3,6 @@
 
 <div class="row email-time">
 
-  <div class="col-md-1 spacer">
-  </div>
-
   <div class="col-md-2 text-center timestamp">
     <h4>
       <%= email.received_on.strftime("%I:%M %p") %>
@@ -19,9 +16,6 @@
 
 
 <div class="row email-data">
-  <div class="col-md-1">
-    &nbsp;
-  </div>
 
   <div class="col-md-2 email-image text-center">
     <% if email.email_profile_images.present? %>
@@ -57,11 +51,11 @@
     </p>
   </div>
 
-  <div class="col-md-2">
+  <div class="col-md-2 email-actions">
     <% if email.from_email == current_user.email %>
-      <%= link_to "follow up?", '#', class: "btn btn-primary" %>
+      <%= link_to "Follow Up", '#', class: "btn btn-primary" %>
     <% else %>
-      <%= link_to "respond?", '#', class: "btn btn-primary" %>
+      <%= link_to "Respond", '#', class: "btn btn-primary" %>
     <% end %>
   </div>
 
