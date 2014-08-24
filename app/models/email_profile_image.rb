@@ -21,7 +21,7 @@ class EmailProfileImage < ActiveRecord::Base
       self.remote_image_url = self.url
       self.active = true
       save!
-    rescue Cloudinary::CarrierWave::UploadError => e
+    rescue Cloudinary::CarrierWave::UploadError, RestClient::RequestTimeout => e
       # Probably an old/non-existent image
     end
   end

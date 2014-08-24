@@ -69,7 +69,7 @@ class Email < ActiveRecord::Base
     message.index(/#{TEXT}/i)
   end
 
-  def self.filtered?(message, message_body, owner_email)
+  def self.filtered?(message, message_body, owner_email, direct_addressment)
     return true if message_body.nil?
 
     blacklisted_email?(from_addresses(message)) ||
@@ -77,7 +77,7 @@ class Email < ActiveRecord::Base
         blacklisted_subject?(message.subject) ||
         blacklisted_header?(message.msg) ||
         too_many_links?(message_body) ||
-        no_direct_addressment(to_addresses(message), owner_email)
+        (direct_addressment && no_direct_addressment(to_addresses(message), owner_email))
   end
 
   def self.no_direct_addressment(emails, owner)

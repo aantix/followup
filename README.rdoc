@@ -1,9 +1,14 @@
 == TODO
 
 * How to make this performant when someone requests for the first time?
+  -- Is it possible to request multiple messages in parallel (e.msg) since this is the most time consuming?
+
   -- Start a bunch of sidekiq jobs to process email and download images?
   -- Use the new ActiveJob?
     -- Requires devise update ( https://github.com/plataformatec/devise/pull/3153) to get to Rails 4.2
+
+* Why isn't this message showing up in sent?
+  https://mail.google.com/mail/u/0/#sent/14803bf68ba0bd00
 
 * The Python program will need to be recompiled under Unbuntu
   -- Is there a way to maintain both compiles?  Control by symlink?
