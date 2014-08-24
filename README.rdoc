@@ -3,6 +3,7 @@
 * How to make this performant when someone requests for the first time?
   -- Start a bunch of sidekiq jobs to process email and download images?
   -- Use the new ActiveJob?
+    -- Requires devise update ( https://github.com/plataformatec/devise/pull/3153) to get to Rails 4.2
 
 * The Python program will need to be recompiled under Unbuntu
   -- Is there a way to maintain both compiles?  Control by symlink?

@@ -5,6 +5,8 @@ class Question < ActiveRecord::Base
 
   def self.questions_from_text(original_text)
     text = Sanitize.clean(original_text, Sanitize::Config::RESTRICTED)
+
+    text.gsub!("\n", " ")
     sentences = PARSER.tokenize_text(text)
 
     sentences.inject([]) do |questions, sentence|

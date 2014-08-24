@@ -1,6 +1,4 @@
-// Place all the styles related to the Emails controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "bootstrap";
 
 #emails {
 //  h4 {
@@ -100,4 +98,17 @@
   .email-actions{
     float: right;
   }
+
+  .email-displayname{
+    color: $brand-warning;
+  }
+
+  .email-displayname-action{
+    color: $gray-lighter;
+  }
+
+  .email-subject {
+    #margin-bottom: 10px;
+  }
 }
+

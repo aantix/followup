@@ -34,7 +34,7 @@ module EmailsHelper
   end
 
   def highlight_questions(questions)
-    bolded_questions = questions.collect{|q| "#{MARKED}#{q.question.strip}#{UNMARKED}"}
+    bolded_questions = questions.collect{|q| "&#8220;#{q.question.strip.capitalize}&#8221;"}
     bolded_questions.join(" ... ").html_safe
 
   end

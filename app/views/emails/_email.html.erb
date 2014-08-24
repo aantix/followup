@@ -27,24 +27,36 @@
     <% end %>
   </div>
 
-  <div class="col-md-<%= 9 - span %>">
-    <h3>
-      <small class="text-capitalize">
-        <%= subject_label(email, current_user) %>
-        <%= action_label(email, current_user) %>..
-      </small>
-
-      <br/>
-
-      <span class="subject text-uppercase">
-        <%= email.subject %>
-      </span>
-    </h3>
-
-    <div class="<%= email_body_class(email.body) %>">
-      <%= highlight_body(email_body_display(email.body, email.content_type), email.questions) %>
+  <div class="col-md-<%= 9 - span %> email-body">
+    <div class="row">
+      <div class="col-md-12">
+        <span class="email-displayname text-capitalize">
+          <%= subject_label(email, current_user) %>
+        </span>
+        <span class="email-displayname-action">
+          <%= action_label(email, current_user) %>..
+        </span>
+      </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-12">
+        <h4 class="email-subject">
+          <span class="subject text-uppercase">
+            <%= email.subject %>
+          </span>
+        </h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="<%= email_body_class(email.body) %>">
+          <%= highlight_body(email_body_display(email.body, email.content_type), email.questions) %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <% if span > 0 %>
@@ -63,6 +75,9 @@
     <% else %>
       <%= link_to "Respond", '#', class: "btn btn-primary" %>
     <% end %>
+    <br/>
+    <br/>
+    <%= link_to "Remove&nbsp;".html_safe, '#', class: "btn btn-danger" %>
   </div>
 
 </div>
