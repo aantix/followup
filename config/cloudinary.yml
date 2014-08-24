@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: fiveaskfive
+  api_key: '857651979226921'
+  api_secret: JJYqMr9DkyprRTnlSgI-QYaYvHU
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: fiveaskfive
+  api_key: '857651979226921'
+  api_secret: JJYqMr9DkyprRTnlSgI-QYaYvHU
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: fiveaskfive
+  api_key: '857651979226921'
+  api_secret: JJYqMr9DkyprRTnlSgI-QYaYvHU
+  enhance_image_tag: true
+  static_image_support: false

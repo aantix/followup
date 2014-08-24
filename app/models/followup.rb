@@ -1,7 +1,7 @@
 require 'cgi'
 
 class Followup
-  LOOKBACK = 6
+  LOOKBACK = 14
 
   def initialize(user)
     # https://github.com/nu7hatch/gmail/pull/80
@@ -18,8 +18,8 @@ class Followup
   # https://github.com/dcparker/ruby-gmail/issues/11
   # http://blog.wojt.eu/post/13496746332/retrieving-gmail-thread-ids-with-ruby
   def emails
-    inbox = @gmail.inbox.emails(after: LOOKBACK.days.ago)
-    sent  = @gmail.mailbox(:sent).emails(after: LOOKBACK.days.ago)
+    inbox   = @gmail.inbox.emails(after: LOOKBACK.days.ago)
+    sent    = @gmail.mailbox(:sent).emails(after: LOOKBACK.days.ago)
 
     all_email = inbox.concat(sent)
 
@@ -34,21 +34,19 @@ class Followup
         body, signature = Email.extract_body_signature(content_type, body)
         next if body.blank?
 
-        binding.pry
-
         thread    = @user.email_threads.find_or_create_by(thread_id: e.thread_id)
         from      = mail[:from].addrs.first.address
 
         email     = thread.emails.find_or_create_by(message_id: e.msg_id) do |eml|
-              eml.from_email  = from
-              eml.from_name   = mail[:from].addrs.first.display_name
-              eml.subject     = e.subject
-              eml.body        = body
-              eml.received_on = mail.date
+          eml.from_email   = from
+          eml.from_name    = mail[:from].addrs.first.display_name
+          eml.subject      = e.subject
+          eml.body         = body
+          eml.content_type = content_type
+          eml.received_on  = mail.date
         end
 
         questions = Question.questions_from_text(body)
-
         questions.each do |question|
           email.questions.create!(question: question)
         end

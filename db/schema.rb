@@ -16,6 +16,8 @@ ActiveRecord::Schema.define(version: 20140820200458) do
   create_table "email_profile_images", force: true do |t|
     t.string   "email"
     t.string   "url"
+    t.string   "image"
+    t.boolean  "active",     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -36,6 +38,7 @@ ActiveRecord::Schema.define(version: 20140820200458) do
     t.string   "from_name"
     t.string   "subject"
     t.text     "body"
+    t.string   "content_type"
     t.datetime "received_on"
     t.integer  "questions_count", default: 0
     t.datetime "created_at"

@@ -1,10 +1,38 @@
 == TODO
 
+* How to make this performant when someone requests for the first time?
+  -- Start a bunch of sidekiq jobs to process email and download images?
+  -- Use the new ActiveJob?
+
+* The Python program will need to be recompiled under Unbuntu
+  -- Is there a way to maintain both compiles?  Control by symlink?
+
+* Cron job to schedule the sending of daily emails
+
+* Remove an email from the list (to stop the tracking)
+
+* Refine the "followup" scenario; when someone hasn't responded, call that out.
+
+* Have the user specify their timeone
+
+* Put up a minimal homepage
+
+* Deploy to Heroku; queues running on BlueVM
+
+* Respond to email inline?
+
+
+
+
+
+
+
 
 * Implement images for the individual emails.  Can query rapportive with this gem :
 
   http://patrickperey.com/find-anyones-email-a-ruby-script/
   https://github.com/the4dpatrick/possible-email
+  -- Done
 
 
 * Create a model "EmailThread" that has_many :emails
@@ -17,8 +45,8 @@
     -- Done
 
 
-
   -- PossibleEmail returns an empty response iobject when nothing is found, but when somethign is found
      the data element is on the response object.  Querying for whether a  the data element is on the object is just weird
 
      -- Remove any of the puts statements. They're extraneous.
+     --

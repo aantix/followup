@@ -7,6 +7,7 @@ class CreateEmails < ActiveRecord::Migration
       t.string :from_name
       t.string :subject
       t.text :body
+      t.string :content_type
       t.datetime :received_on
       t.integer :questions_count, default: 0
 

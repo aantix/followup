@@ -27,6 +27,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'will_paginate'
 gem 'possible_email'
 
+gem 'sidekick'
+
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
@@ -52,6 +54,10 @@ gem 'google-api-client'
 gem 'rails_config'
 gem 'validates_formatting_of'
 gem 'tzinfo-data'
+gem 'nokogiri'
+
+gem 'carrierwave'
+gem 'cloudinary'
 
 group :development, :test do
   gem 'crack'
@@ -61,6 +67,10 @@ group :development, :test do
   gem 'pry'
   gem "better_errors"
   gem "binding_of_caller"
+end
+
+group :production do
+  gem 'pg'
 end
 
 group :test do
