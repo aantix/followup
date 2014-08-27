@@ -1,55 +1,90 @@
 require 'cgi'
+require 'thread/pool'
 
 class FollowupWorker
   include Sidekiq::Worker
 
-  LOOKBACK = 2
+  MAX_THREADS = 10
+  LOOKBACK    = 1
+  @@jobs      = []
 
-  def perform(user)
+  def self.analyze_emails(user)
+    puts "Start! #{Time.now}"
+
+    gmails = {}
+    pool   = Thread.pool(MAX_THREADS)
 
     # https://github.com/nu7hatch/gmail/pull/80
     user.refresh_token!
 
-    gmail = Gmail.connect(:xoauth2, user.email, oauth2_token: user.omniauth_token)
+    LOOKBACK.times do |lookback|
+      options = {after: LOOKBACK.days.ago, before: (LOOKBACK - 1).days.ago}
 
-    inbox = gmail.inbox.emails(after: LOOKBACK.days.ago)
-    sent = gmail.mailbox(:sent).emails(after: LOOKBACK.days.ago)
+      pool.process do
+        gmails[lookback]||=Gmail.connect(:xoauth2, user.email, oauth2_token: user.omniauth_token)
 
-    #{sent => false, inbox => true}.each do |(box, direct_addressment)|
-    {sent => false}.each do |(box, direct_addressment)|
-      box.each do |e|
+        gmail   = gmails[lookback]
+        inbox   = gmail.inbox.emails(options)
+        sent    = gmail.mailbox(:sent).emails(options)
 
-        mail = Mail.read_from_string e.msg
-
-        content_type, body = email_body(mail)
-
-        print "."
-
-        unless Email.filtered?(e, filter_body(mail), user.email, direct_addressment)
-          body, signature = Email.extract_body_signature(content_type, body)
-          next if body.blank?
-
-          thread = user.email_threads.find_or_create_by(thread_id: e.thread_id)
-          from = mail[:from].addrs.first.address
-
-          email = thread.emails.find_or_create_by(message_id: e.msg_id) do |eml|
-            eml.from_email = from
-            eml.from_name = mail[:from].addrs.first.display_name
-            eml.subject = e.subject
-            eml.body = body
-            eml.content_type = content_type
-            eml.received_on = mail.date
+        {sent => false, inbox => true}.each do |(box, direct_addressment)|
+          box.each do |e|
+            @@jobs << FollowupWorker.perform_async(e.msg, e.thread_id, e.msg_id,
+                                                   e.subject, user.id, direct_addressment)
           end
-
-          questions = Question.questions_from_text(body)
-          questions.each do |question|
-            email.questions.create!(question: question)
-          end
-
-          EmailProfileImage.download_images_for(from)
         end
       end
     end
+
+    complete = false
+    print "o #{@@jobs.size} o"
+    while !complete
+      complete = @@jobs.all? do |job_id|
+        Sidekiq::Status::complete? job_id
+      end
+      print "o #{@@jobs.size} o"
+      sleep 1
+    end
+
+    puts "Complete! #{Time.now}"
+  end
+
+  def perform(msg, thread_id, msg_id, subject, user_id, direct_addressment)
+    mail = Mail.read_from_string msg
+    user = User.find(user_id)
+
+    @@jobs << EmailProfileImageWorker.perform_async(from(mail), nil, EmailProfileImageWorker::EMAIL_LOOKUP)
+    content_type, body = email_body(mail)
+
+    print "."
+
+    unless Email.filtered?(mail, msg, filter_body(mail), user.email, direct_addressment)
+      body, signature = Email.extract_body_signature(content_type, body)
+      return if body.blank?
+      return if from_same_address?(mail)
+
+      thread = user.email_threads.find_or_create_by(thread_id: thread_id)
+
+      email = thread.emails.find_or_create_by(message_id: msg_id) do |eml|
+        eml.from_email = from(mail)
+        eml.from_name = mail[:from].addrs.first.display_name
+        eml.subject = subject
+        eml.body = body
+        eml.content_type = content_type
+        eml.received_on = mail.date
+      end
+
+      questions = Question.questions_from_text(body)
+      email.questions.delete_all
+      questions.each do |question|
+        email.questions.find_or_create_by(question: question)
+      end
+    end
+
+  end
+
+  def from(mail)
+    mail[:from].addrs.first.address
   end
 
   # Prefer the text version vs HTML version for multipart/alternative messages
@@ -72,6 +107,15 @@ class FollowupWorker
 
     return nil, nil if body.nil?
     return content_type, body
+  end
+
+  def from_same_address?(mail)
+    from = mail[:from].addrs.first.address
+    tos  = mail[:to].addrs.collect(&:address)
+
+    tos.include?(from)
+  rescue
+    nil
   end
 
   # Prefer the html version vs the text version for filtering out emails

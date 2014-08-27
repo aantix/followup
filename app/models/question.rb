@@ -7,6 +7,8 @@ class Question < ActiveRecord::Base
     text = Sanitize.clean(original_text, Sanitize::Config::RESTRICTED)
 
     text.gsub!("\n", " ")
+    text.gsub!(/(?:f|ht)tps?:\/[^\s]+/, '')
+
     sentences = PARSER.tokenize_text(text)
 
     sentences.inject([]) do |questions, sentence|

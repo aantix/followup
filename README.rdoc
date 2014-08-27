@@ -1,6 +1,11 @@
 == TODO
 
 * How to make this performant when someone requests for the first time?
+
+  -- What about just downloading the subject/headers?  If they pass the first round of filters, then download the body?
+
+  -- What about creating a sidekiq job (or Thread?) for each day that we need to download emails for.  So single gmail object (stor
+
   -- Is it possible to request multiple messages in parallel (e.msg) since this is the most time consuming?
 
   -- Start a bunch of sidekiq jobs to process email and download images?
