@@ -1,5 +1,9 @@
 == TODO
 
+* Deploy to Heroku failed; git push is too big I think with the NLP libraries..
+
+* Get build of talon working on the CI server.  Check in that build too (maybe build to another director; unbuntu_build?)
+
 * How to make this performant when someone requests for the first time?
 
   -- What about just downloading the subject/headers?  If they pass the first round of filters, then download the body?
@@ -61,3 +65,32 @@
 
      -- Remove any of the puts statements. They're extraneous.
      --
+
+
+
+    text = <<-TEXT
+Hey -
+
+Social Distortion is playing in Sacramento on Thursday, October 2nd.
+http://www.socialdistortion.com/tours/
+
+If I bought the tickets, would you want to go?
+
+Jim
+    TEXT
+
+ require 'stanford-core-nlp'
+
+ StanfordCoreNLP.jar_path = "/Users/aantix/dev/followup/libs/stanford-core-nlp-full/"
+ StanfordCoreNLP.model_path = "/Users/aantix/dev/followup/libs/stanford-core-nlp-full/"
+
+ new_text = text.gsub("\n", " ")
+ pipeline = StanfordCoreNLP.load(:tokenize, :ssplit, :pos, :lemma, :parse, :ner, :dcoref)
+ ttext    = StanfordCoreNLP::Annotation.new(new_text)
+ pipeline.annotate(ttext)
+
+ i = 0
+ ttext.get(:sentences).each do |sentence|
+ 	  puts "#{i} - #{sentence.to_s}"
+ 	  i+=1
+ end
