@@ -12,7 +12,9 @@ test:
 
 production:
   pool: 10
-  adapter: mysql2
-  database: followup_production
-  username: root
-  password:
+  adapter: postgresql
+  encoding: unicode
+  database: <%= ENV['FOLLOWUP_DB'] %>
+  username: <%= ENV['FOLLOWUP_USERNAME'] %>
+  password: <%= ENV['FOLLOWUP_PASSWORD'] %>
+  port: 5432
