@@ -14,6 +14,7 @@ production:
   pool: 10
   adapter: postgresql
   encoding: unicode
+  host: <%= ENV['FOLLOWUP_HOST'] %>
   database: <%= ENV['FOLLOWUP_DB'] %>
   username: <%= ENV['FOLLOWUP_USERNAME'] %>
   password: <%= ENV['FOLLOWUP_PASSWORD'] %>
