@@ -5,6 +5,8 @@ class Email < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   has_many :email_profile_images, primary_key: :from_email, foreign_key: :email
 
+  enum reload: [ :yes, :no]
+
   HTML        = "text/html"
   TEXT        = "text/plain"
   ALTERNATIVE = "multipart/alternative"
@@ -21,8 +23,9 @@ class Email < ActiveRecord::Base
                            'stop receiving email', 'stop receiving these', 'change your settings',
                            'dear customer']
 
-  BLACKLISTED_EMAILS    = ['noreply@', 'no-reply@','mailer-daemon@', 'alert@', 'alerts@', 'admin@', 'deploy@',
-                           'member@', 'notifications@', 'members@', "jobs-listings@", 'service@']
+  BLACKLISTED_EMAILS    = ['reply@', 'reply@','mailer-daemon@', 'alert@', 'alerts@', 'admin@', 'deploy@',
+                           'member@', 'notifications@', 'members@', "jobs-listings@", 'service@',
+                           'customercare@']
 
   BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply', 'password reset', "confirm subscription"]
 
