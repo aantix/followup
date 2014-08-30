@@ -1,36 +1,278 @@
-<div class="site-wrapper">
+<div class="welcome">
+  <header id="site-header" class="site-header">
+    <div class="container">
+      <h1><a class="site-title pull-left" href="#"><%= fa_icon "calendar" %> Email Reminder</a></h1>
 
-  <div class="site-wrapper-inner">
-
-    <div class="cover-container">
-
-      <div class="masthead clearfix">
-        <div class="inner">
-          <h3 class="masthead-brand">Cover</h3>
-          <ul class="nav masthead-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
+      <div class="btn-users text-right">
+        <a class="btn btn-login" href="#">Login</a>  &nbsp;&nbsp;
+        <a class="btn btn-register" href="#">Register</a>
       </div>
-
-      <div class="inner cover">
-        <h1 class="cover-heading">Never ever forget to respond to an email.</h1>
-        <p class="lead">A daily reminder of what emails you need to follow up on.</p>
-        <p class="lead">
-          <%= link_to "Start Now", omniauth_authorize_path("user", "google_oauth2"), class: "btn btn-lg btn-default" %><br />
-        </p>
-      </div>
-
-      <div class="mastfoot">
-        <div class="inner">
-          <p>Lisbon Street Labs. 2014. Made in San Francisco.</p>
-        </div>
-      </div>
-
     </div>
 
-  </div>
+    <div class="container">
+
+      <div class="header-description">
+        <h2>There's an email right now that you've forgotten to respond to.</h2>
+        <a class="btn btn-lg btn-header" href="#">Join now</a>
+      </div>
+
+      <div class="header-features">
+        <div class="row">
+          <div class="col-sm-6 header-feature">
+            <h3><%= fa_icon "random" %>&nbsp; Extremely flexible</h3>
+
+            <p>Proin ut iaculis nisl. Nulla dignissim neque magna, id hendrerit metus. Mauris non turpis eu arcu volutpat
+              cursus. Etiam hendrerit erat ac eros auctor at eleifend lacus tincidunt. Lorem ipsum dolor sit amet,
+              consectetur adipiscing elit. Nullam eu dignissim risus.</p>
+          </div>
+          <div class="col-sm-6 header-feature">
+            <h3><%= fa_icon "group" %>&nbsp; Developer for developer</h3>
+
+            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Nulla et porta
+              nunc. Duis volutpat tristique nisl ac adipiscing. Sed eget nibh sit amet enim faucibus porta.</p>
+          </div>
+        </div>
+      </div>
+      <!-- /.header-features -->
+
+    </div>
+    <!-- /.container -->
+  </header>
+
+  <section id="slider" class="slider text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+
+          <div id="slider-carousel" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="item active">
+                <%= image_tag "macbook-air-3.png" %>
+              </div>
+              <div class="item">
+                <%= image_tag "macbook-air-2.png" %>
+              </div>
+              <div class="item">
+                <%= image_tag "macbook-air-1.png" %>
+              </div>
+            </div>
+            <a class="carousel-control lef" href="#slider-carousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right-side" href="#slider-carousel" data-slide="next">&rsaquo;</a>
+          </div>
+          <!-- /slider-carousel -->
+
+        </div>
+        <!-- /span12 -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-sm-3">
+          <div class="feature">
+            <%= fa_icon "globe", base: "square" %>
+            <h4>Used by Millions</h4>
+
+            <p>Curabitur fringilla, elit pulvinar auctor tincidunt, arcu nibh adipiscing velit, at tincidunt libero nisl
+              sit amet nisl.</p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+        <div class="col-sm-3">
+          <div class="feature">
+            <%= fa_icon "wrench", base: "square" %>
+            <h4>Developers Friendly</h4>
+
+            <p>Nullam ac magna sit amet Justo eu vulputate fermentum.</p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+        <div class="col-sm-3">
+          <div class="feature">
+            <%= fa_icon "desktop", base: "square" %>
+            <h4>Responsive</h4>
+
+            <p>From desktop tto mobile. Dignissim et dolor. Proin facilisis nulla vitae dui luctus ac pulvinar magna
+              tincidunt.</p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+        <div class="col-sm-3">
+          <div class="feature">
+            <%= fa_icon "thumbs-up", base: "square" %>
+            <h4>Flat Design</h4>
+
+            <p>keeping up with trends, can impact your success. Integer.</p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </section>
+
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+
+      <div id="testimonials-carousel" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="item active">
+            <div class="row">
+              <div class="col-sm-12">
+                <blockquote>
+                  <div>
+                    <%= fa_icon "quote-left", base: "square" %>
+
+                    <p>Curabitur fringilla, elit pulvinar auctor tincidunt, arcu nibh adipiscing velit, at tincidunt
+                      libero nisl sit amet nisl. Proin facilisis nulla vitae dui luctus ac pulvinar magna tincidunt.</p>
+                    <small>Someone famous <cite title="Source Title">Source Title</cite></small>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="row">
+              <div class="col-sm-12">
+                <blockquote>
+                  <div>
+                    <%= fa_icon "quote-left", base: "square" %>
+
+                    <p>Curabitur fringilla, elit pulvinar auctor tincidunt, arcu nibh adipiscing velit, at tincidunt
+                      libero nisl sit amet nisl. Proin facilisis nulla vitae dui luctus ac pulvinar magna</p>
+                    <small>Someone famous <cite title="Source Title">Source Title</cite></small>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="row">
+              <div class="col-sm-12">
+                <blockquote>
+                  <div>
+                    <%= fa_icon "quote-left", base: "square" %>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                    <small>Someone famous <cite title="Source Title">Source Title</cite></small>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="carousel-control lef" href="#testimonials-carousel" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right-side" href="#testimonials-carousel" data-slide="next">&rsaquo;</a>
+      </div>
+      <!-- /testimonials-carousel -->
+
+    </div>
+    <!-- /container -->
+  </section>
+
+  <section id="prices" class="prices">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-sm-4">
+          <div class="plan plan-1">
+            <h4 class="plan-title"><a href="#">Starter Plan</a></h4>
+            <ul class="list-unstyled plan-features">
+              <li><a href="#">Quisque convallis</a></li>
+              <li><a href="#">Eros ut tincidunt</a></li>
+              <li><a href="#">Pellentesque ac</a></li>
+              <li><a href="#">Sed tempor metus</a></li>
+            </ul>
+            <p class="plan-price text-center"><a href="#">Free</a></p>
+          </div>
+        </div>
+        <!-- /span4 -->
+
+        <div class="col-sm-4">
+          <div class="plan plan-2">
+            <h4 class="plan-title"><a href="#">Business Plan</a></h4>
+            <ul class="list-unstyled plan-features">
+              <li><a href="#">Quisque convallis</a></li>
+              <li><a href="#">Eros ut tincidunt</a></li>
+              <li><a href="#">Pellentesque ac</a></li>
+              <li><a href="#">Sed tempor metus</a></li>
+              <li><a href="#">Morbi eu ante</a></li>
+              <li><a href="#">Eu ante iaculis</a></li>
+              <li><a href="#">Interdum non at turpis</a></li>
+            </ul>
+            <p class="plan-price text-center"><a href="#">$19 / month</a></p>
+          </div>
+        </div>
+        <!-- /span4 -->
+
+        <div class="col-sm-4">
+          <div class="plan plan-3">
+            <h4 class="plan-title"><a href="#">Pro Plan</a></h4>
+            <ul class="list-unstyled plan-features">
+              <li><a href="#">Quisque convallis</a></li>
+              <li><a href="#">Eros ut tincidunt</a></li>
+              <li><a href="#">Pellentesque ac</a></li>
+              <li><a href="#">Sed tempor metus</a></li>
+              <li><a href="#">Cras vel risus</a></li>
+              <li><a href="#">Tortor nullam condimentum</a></li>
+              <li><a href="#">Dignissim arcu</a></li>
+              <li><a href="#">Vulputate volutpat</a></li>
+              <li><a href="#">Elit ultrices in</a></li>
+            </ul>
+            <p class="plan-price text-center"><a href="#">$29 / month</a></p>
+          </div>
+        </div>
+        <!-- /span4 -->
+
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>Feedbacks & Questions</h2>
+
+            <p><%= fa_icon "bullhorn 4x", class: "pull-left text-muted" %>I'd love to hear from you. Duis dapibus varius
+            rhoncus. Aenean mauris urna, ultrices vitae faucibus quis, posuere id augue. Morbi id eros in nisl pretium
+            ultrices ac nec dui. Praesent felis risus, pretium a semper et, pretium commodo nibh.</p>
+        </div>
+        <div class="col-sm-6">
+          <br>
+
+          <p>There are different ways to keep in touch:</p>
+
+          <ul class="unstyled inline social">
+            <li><a href="#"><%= fa_icon "phone" %></a></li>
+            <li><a href="#"><%= fa_icon "facebook" %></a></li>
+            <li><a href="#"><%= fa_icon "twitter" %></a></li>
+            <li><a href="#"><%= fa_icon "github-alt" %></i></a></li>
+            <li><a href="#"><%= fa_icon "linkedin" %></a></li>
+            <li><a href="#"><%= fa_icon "google-plus" %></i></a></li>
+          </ul>
+
+          <ul class="list-inline text-center">
+            <li><a href="#">Our Ticket System</a></li>
+            <li><a href="#">Our Forum</a></li>
+            <li><a href="#">Following Contact Form</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </section>
 
 </div>

@@ -35,6 +35,8 @@ gem 'thread'
 gem 'rollbar'
 gem 'rails_12factor'
 
+gem 'font-awesome-rails'
+
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
@@ -73,6 +75,7 @@ group :development, :test do
   gem 'pry'
   gem "better_errors"
   gem "binding_of_caller"
+  gem 'quiet_assets'
 end
 
 group :production do
