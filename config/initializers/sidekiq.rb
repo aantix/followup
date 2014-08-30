@@ -1,9 +1,8 @@
 require 'sidekiq'
 require 'sidekiq-status'
 
-sidekiq_redis = { :namespace => 'sidekiq', url: "redis://localhost:6379" }
 Sidekiq.configure_server do |config|
-  config.redis = sidekiq_redis
+  config.redis = { :namespace => 'sidekiq', url: "redis://localhost:6379" }
 
   config.server_middleware do |chain|
     chain.add Sidekiq::Status::ServerMiddleware, expiration: 30.minutes # default
@@ -14,7 +13,9 @@ Sidekiq.configure_server do |config|
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = sidekiq_redis
+  host = Rails.env.production? ? ENV['REDIS_HOST'] : "localhost"
+  config.redis = { :namespace => 'sidekiq', url: "redis://#{host}:6379" }
+
   config.client_middleware do |chain|
     chain.add Sidekiq::Status::ClientMiddleware
   end
