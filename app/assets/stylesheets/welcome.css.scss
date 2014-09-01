@@ -1,49 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700);
-
-body.welcome {
-  font-family: "Lato";
-  font-size: 15px;
-  font-weight: 300;
-  color: #7c7c7c;
-}
-
 .welcome {
-  a {
-    color: #323232;
-    -webkit-transition: all 300ms ease;
-    transition: all 300ms ease;
-  }
-  a:hover,
-  a:focus {
-    color: #db522f;
-    text-decoration: none;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: "Lato";
-  }
-  /* Carousel control */
-  .carousel-control {
-    top: 24%;
-    font-size: 150px;
-  }
-  .carousel-control:hover,
-  .carousel-control:focus {
-    color: #db522f;
-  }
-  @media (max-width: 700px) {
-    .carousel-control {
-      top: 0;
-    }
-  }
-  .carousel-control.right-side {
-    right: 0;
-    left: auto;
-  }
   /* Form */
   .form-control:focus {
     -webkit-box-shadow: 0 0 0;
@@ -61,79 +16,6 @@ body.welcome {
   }
   /* Header
   / -------------------------------------------------- */
-  .site-header {
-    background-image: image-url("bg.jpg");
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    width: 100%;
-  }
-  /* logo  */
-  .site-title {
-    margin-top: 5px;
-    color: #fff;
-    font-weight: 300;
-    font-size: 30px;
-    display: inline-block;
-    margin-top: 34px;
-  }
-  /* user login / register */
-  .btn-users {
-    margin-top: 34px;
-  }
-  .btn-users .btn {
-    margin-top: 10px;
-    font-size: 14px;
-    padding: 10px 15px;
-    border: 2px solid #fff;
-    color: #fff;
-    border-radius: 9px;
-  }
-  .btn-users .btn:hover,
-  .btn-users .btn:focus {
-    background: #fff;
-    color: #db522f;
-  }
-  /* header-description */
-  .header-description {
-    margin: 130px 0 80px;
-    text-align: center;
-  }
-  .header-description h2 {
-    font-weight: 100;
-    font-size: 93px;
-    color: #fff;
-    text-shadow: 0 0px 12px rgba(36, 36, 36, 0.55);
-    padding: 0px 0 40px 0;
-  }
-  /* header button - call to action button */
-  .btn-header {
-    color: #fff;
-    margin-top: 130px;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 24px;
-    padding: 20px 35px;
-    border: 2px solid #db522f;
-    background: #db522f;
-    border-radius: 9px;
-  }
-  .btn-header:hover,
-  .btn-header:focus {
-    color: #fff;
-    background: transparent;
-  }
-  /* header features */
-  .header-features {
-    margin: -50px 110px 0 110px;
-    color: #fff;
-    display: block;
-  }
-  .header-features .header-feature {
-    padding: 50px;
-  }
   /* Slider
   / -------------------------------------------------- */
   .slider {
@@ -359,45 +241,6 @@ body.welcome {
   .contact-form .btn-custom:hover,
   .contact-form .btn-custom:focus {
     color: #000;
-  }
-  /* Subscribe
-  / -------------------------------------------------- */
-  .subscribe {
-    background: #1a1a1a;
-    color: #fff;
-    text-align: center;
-  }
-  .subscribe .subsc-form {
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  .subscribe .subsc-form .form-control {
-    -webkit-box-shadow: 0 0 0;
-    box-shadow: 0 0 0;
-    border-width: 2px;
-  }
-  .subscribe .subsc-form .form-control:focus {
-    border-color: #db522f;
-    border-width: 2px;
-  }
-  .subscribe .btn-custom {
-    display: inline-block;
-    padding: 11px 32px 11px;
-    margin-bottom: 0;
-    font-size: 14px;
-    line-height: 20px;
-    color: #fff;
-    text-align: center;
-    vertical-align: middle;
-    border: 2px solid #db522f;
-    background: #db522f;
-    -webkit-transition: all 300ms ease;
-    transition: all 300ms ease;
-  }
-  .subscribe .btn-custom:hover,
-  .subscribe .btn-custom:focus {
-    background: transparent;
-    color: #db522f;
   }
   /* Footer
   / -------------------------------------------------- */

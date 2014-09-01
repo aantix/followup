@@ -18,9 +18,10 @@ class FollowupWorker
     user.refresh_token!
 
     LOOKBACK.times do |lookback|
-      options = {after: LOOKBACK.days.ago, before: (LOOKBACK - 1).days.ago}
+      options = {after: (lookback + 1).days.ago, before: lookback.days.ago}
 
       pool.process do
+        puts "here1"
         gmails[lookback]||=Gmail.connect(:xoauth2, user.email, oauth2_token: user.omniauth_token)
 
         gmail   = gmails[lookback]
@@ -29,21 +30,10 @@ class FollowupWorker
 
         {sent => false, inbox => true}.each do |(box, direct_addressment)|
           box.each do |e|
-            @@jobs << FollowupWorker.perform_async(e.msg, e.thread_id, e.msg_id,
-                                                   e.subject, user.id, direct_addressment)
+            @@jobs << FollowupWorker.perform_async(e.message, e.thread_id, e.msg_id, e.subject, user.id, direct_addressment)
           end
         end
       end
-    end
-
-    complete = false
-    print "o #{@@jobs.size} o"
-    while !complete
-      complete = @@jobs.all? do |job_id|
-        Sidekiq::Status::complete? job_id
-      end
-      print "o #{@@jobs.size} o"
-      sleep 1
     end
 
     puts "Complete! #{Time.now}"

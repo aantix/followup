@@ -1,35 +1,39 @@
 <div class="welcome">
   <header id="site-header" class="site-header">
-    <div class="container">
-      <h1><a class="site-title pull-left" href="#"><%= fa_icon "calendar" %> Email Reminder</a></h1>
-
-      <div class="btn-users text-right">
-        <a class="btn btn-login" href="#">Login</a>  &nbsp;&nbsp;
-        <a class="btn btn-register" href="#">Register</a>
-      </div>
-    </div>
+    <%= render partial: "shared/site_header" %>
 
     <div class="container">
 
       <div class="header-description">
-        <h2>There's an email right now that you've forgotten to respond to.</h2>
-        <a class="btn btn-lg btn-header" href="#">Join now</a>
+        <h2>A daily email reminding you who to follow up with.</h2>
+        <%= link_to "Start my Free Trial", omniauth_authorize_path("user", "google_oauth2"),
+                    class: "btn btn-lg btn-header" %>
       </div>
 
       <div class="header-features">
         <div class="row">
           <div class="col-sm-6 header-feature">
-            <h3><%= fa_icon "random" %>&nbsp; Extremely flexible</h3>
+            <h3><%= fa_icon "group" %>&nbsp; We do the hard work</h3>
 
-            <p>Proin ut iaculis nisl. Nulla dignissim neque magna, id hendrerit metus. Mauris non turpis eu arcu volutpat
-              cursus. Etiam hendrerit erat ac eros auctor at eleifend lacus tincidunt. Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit. Nullam eu dignissim risus.</p>
+            <p>
+              We analyze your email and with some advanced algorithms, figure out exactly who
+              you need to follow up that day.
+              No cumbersome scheduling of reminders, flagging messages, or
+              BCC'ing some archiac email address.  You don't have to remember anything.
+              We understand your inbox.
+            </p>
           </div>
-          <div class="col-sm-6 header-feature">
-            <h3><%= fa_icon "group" %>&nbsp; Developer for developer</h3>
 
-            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Nulla et porta
-              nunc. Duis volutpat tristique nisl ac adipiscing. Sed eget nibh sit amet enim faucibus porta.</p>
+          <div class="col-sm-6 header-feature">
+            <h3><%= fa_icon "random" %>&nbsp;Follow up. Follow through.</h3>
+
+            <p>
+              Maybe you sent an email to potential customer three days ago, and haven't gotten a response?
+              We'll remind you.  Yesterday your customer asked for a refund while you were cooking dinner.
+              Don't worry, we'll remind you.  Your boss just sent a ten paragraph email outlining a number
+              of key questions for an important initiative.
+              We'll call out those key questions, and... we'll remind you.
+            </p>
           </div>
         </div>
       </div>
@@ -274,5 +278,7 @@
       </div>
     </div>
   </section>
+
+  <%= render partial: "shared/footer" %>
 
 </div>

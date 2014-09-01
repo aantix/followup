@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>
+    <a class="site-title pull-left" href="#">
+      <%= fa_icon "calendar 2x logo" %>
+
+      <span class="logo-text">
+        Email Reminder
+      </span>
+    </a>
+  </h1>
+
+  <div class="btn-users text-right">
+    <% if user_signed_in? %>
+      <%= link_to "Logout", destroy_user_session_path, class: "btn btn-login" %>
+    <% else %>
+      <%= link_to "Login", omniauth_authorize_path("user", "google_oauth2"), class: "btn btn-login" %>
+      &nbsp;&nbsp;
+      <%= link_to "Register", omniauth_authorize_path("user", "google_oauth2"), class: "btn btn-register" %>
+    <% end %>
+  </div>
+</div>

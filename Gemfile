@@ -67,15 +67,21 @@ gem 'nokogiri'
 gem 'carrierwave'
 gem 'cloudinary'
 
+gem 'premailer-rails'
+
+group :development do
+  gem 'letter_opener_web'
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem 'quiet_assets'
+end
+
 group :development, :test do
   gem 'crack'
   gem 'ap'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'pry'
-  gem "better_errors"
-  gem "binding_of_caller"
-  gem 'quiet_assets'
 end
 
 group :production do

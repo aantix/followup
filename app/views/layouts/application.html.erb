@@ -21,10 +21,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <header id="site-header" class="site-header">
+    <%= render partial: "shared/site_header" %>
+  </header>
 
   <div class="container">
     <%= yield %>
   </div>
 
+  <%= render partial: "shared/footer" %>
 </body>
 </html>

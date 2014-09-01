@@ -23,7 +23,11 @@ class Email < ActiveRecord::Base
 
   BLACKLISTED_EMAILS    = ['reply@', 'reply@','mailer-daemon@', 'alert@', 'alerts@', 'admin@', 'deploy@',
                            'member@', 'notifications@', 'members@', "jobs-listings@", 'service@',
-                           'customercare@']
+                           'customercare@', 'subscribe@', 'orders@', 'order@', 'support@', 'bizdev@',
+                           'noc@', 'security@', 'postmaster@', 'smtp@', 'hostmaster@', 'dns@', 'usenet@',
+                           'nntp@', 'news@', 'webmaster@', 'uucp@', 'ftp@', 'jobs@', 'whois@', 'abuse@',
+                           'contact@', 'investorrelations@', 'marketing@', 'privacy@', 'root@', 'sales@',
+                           'spam@', 'jira@']
 
   BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply', 'password reset', "confirm subscription"]
 

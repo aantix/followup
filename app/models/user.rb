@@ -48,5 +48,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def current_email_threads
+    email_threads.where("last_email_at > ?", FollowupWorker::LOOKBACK.days.ago).order("last_email_at desc")
+  end
+
 
 end

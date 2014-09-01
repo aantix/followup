@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :emails
+  resources :users, only: [:edit, :update]
 
   get 'welcome/index'
 
@@ -9,6 +10,10 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'welcome#index'
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/emails"
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

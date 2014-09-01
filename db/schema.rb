@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820200458) do
+ActiveRecord::Schema.define(version: 20140901055257) do
 
   create_table "email_profile_images", force: true do |t|
     t.string   "email"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20140820200458) do
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
+    t.string   "image_url"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
