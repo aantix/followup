@@ -1,18 +1,18 @@
 <div class="container">
   <h1>
-    <a class="site-title pull-left" href="#">
+    <% r_path = controller_name == "welcome" ? root_path : emails_path %>
+    <%= link_to r_path, class: "site-title pull-left" do %>
       <%= fa_icon "calendar #{classes} logo" %>
 
       <span class="logo-text">
         Email Reminder
       </span>
-    </a>
+
+    <% end %>
   </h1>
 
   <div class="btn-users text-right">
     <% if user_signed_in? %>
-      <%= link_to "Logout", destroy_user_session_path, class: "btn btn-login" %>
-      &nbsp;&nbsp;
       <%= link_to edit_user_path(current_user) do %>
         <%= image_tag current_user.profile_image_url, class: "img-circle" %>
       <% end %>

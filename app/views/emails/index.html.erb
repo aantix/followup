@@ -3,7 +3,8 @@
     <p/>
     <div class="alert alert-info" role="alert">
       We haven't procesed your inbox yet, but we will shortly.
-      Expect to receive an email from us at <%= current_user.email_send %>
+      Expect to receive an email from us by
+      <b><%= current_user.email_send.strftime("%l:%M %p") %></b>
       in the morning.
     </div>
   <% else %>
