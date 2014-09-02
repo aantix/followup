@@ -20,12 +20,25 @@
 
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="<%= controller_name %>">
   <header id="site-header" class="site-header">
-    <%= render partial: "shared/site_header" %>
+    <%= render partial: "shared/site_header", locals: {classes: ""} %>
   </header>
 
   <div class="container">
+    <% flash.each do |name, msg| %>
+      <% alert_type = "danger" %>
+      <% if name == "notice" %>
+        <% alert_type = "success" %>
+      <% elsif name == "warning" %>
+        <% alert_type = "warning" %>
+      <% end %>
+      <p/>
+      <div class="alert alert_abs alert-<%= alert_type %>">
+        <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+      </div>
+    <% end %>
+
     <%= yield %>
   </div>
 

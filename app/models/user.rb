@@ -2,6 +2,8 @@ require 'google/api_client'
 
 class User < ActiveRecord::Base
   has_many :email_threads
+  has_many :email_profile_images, primary_key: :email, foreign_key: :email
+
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -9,6 +11,8 @@ class User < ActiveRecord::Base
         :recoverable, :rememberable, :trackable, :validatable
 
   devise :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
+
+  after_create :find_profile_image
 
   #->Prelang (user_login/devise)
   def self.find_for_oauth(auth, signed_in_resource=nil)
@@ -30,6 +34,17 @@ class User < ActiveRecord::Base
                 omniauth_expires: auth.credentials.expires)
   end
 
+  def active_profile_images
+    email_profile_images.where(active: true)
+  end
+
+  def profile_image_url
+    if active_profile_images.size > 0
+      active_profile_images.first.image_url(:bright_face_small)
+    else
+      ActionController::Base.helpers.image_path("default-profile.jpg")
+    end
+  end
 
   def refresh_token!
     if omniauth_expires_at < Time.now
@@ -50,6 +65,10 @@ class User < ActiveRecord::Base
 
   def current_email_threads
     email_threads.where("last_email_at > ?", FollowupWorker::LOOKBACK.days.ago).order("last_email_at desc")
+  end
+
+  def find_profile_image
+    EmailProfileImageWorker.perform_async(self.email, nil, EmailProfileImageWorker::EMAIL_LOOKUP)
   end
 
 

@@ -21,17 +21,23 @@ class FollowupWorker
       options = {after: (lookback + 1).days.ago, before: lookback.days.ago}
 
       pool.process do
-        puts "here1"
-        gmails[lookback]||=Gmail.connect(:xoauth2, user.email, oauth2_token: user.omniauth_token)
+        begin
+          gmails[lookback]||=Gmail.connect(:xoauth2, user.email, oauth2_token: user.omniauth_token)
 
-        gmail   = gmails[lookback]
-        inbox   = gmail.inbox.emails(options)
-        sent    = gmail.mailbox(:sent).emails(options)
+          gmail   = gmails[lookback]
+          inbox   = gmail.inbox.emails(options)
+          sent    = gmail.mailbox(:sent).emails(options)
 
-        {sent => false, inbox => true}.each do |(box, direct_addressment)|
-          box.each do |e|
-            @@jobs << FollowupWorker.perform_async(e.message, e.thread_id, e.msg_id, e.subject, user.id, direct_addressment)
+          {sent => false, inbox => true}.each do |(box, direct_addressment)|
+            box.each do |e|
+              @@jobs << FollowupWorker.perform_async(e.message, e.thread_id, e.msg_id,
+                                                     e.subject, user.id, direct_addressment)
+            end
           end
+        rescue => e
+          # Need to manually catch any errors otherwise the thread silently fails
+          puts e.message
+          puts e.backtrace.join("\n")
         end
       end
     end

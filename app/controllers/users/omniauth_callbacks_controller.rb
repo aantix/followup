@@ -18,6 +18,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       #sign_in_and_redirect @user, :event => :authentication # This will throw if @user is not activated
       sign_in @user
       redirect_to emails_path
+
       set_flash_message(:notice, :success, :kind => "Google") if is_navigational_format?
     else
       #session["devise.facebook_data"] = request.env["omniauth.auth"]

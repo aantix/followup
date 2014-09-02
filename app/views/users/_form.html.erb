@@ -11,13 +11,33 @@
     </div>
   <% end %>
 
-  <h3>Timezone</h3>
-  <div class="field">
-    <%= f.label :time_zone %><br>
-    <%= f.collection_select :time_zone, ActiveSupport::TimeZone.all, :name, :to_s %>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="field">
+        <%= f.label :time_zone %><br>
+        <%= f.collection_select :time_zone, ActiveSupport::TimeZone.all, :name, :to_s %>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="field">
+        <%= f.label :email_send %><br>
+        <%= f.time_select :email_send %>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      &nbsp;
+    </div>
+
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="actions">
+        <p/>
+        <%= f.submit %>
+      </div>
+    </div>
   </div>
 <% end %>

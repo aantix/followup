@@ -1,16 +1,25 @@
 <div id="emails">
-  <% threads = @email_threads.group_by{|et| et.last_email_at.to_date } %>
+  <% if @email_threads.size == 0 %>
+    <p/>
+    <div class="alert alert-info" role="alert">
+      We haven't procesed your inbox yet, but we will shortly.
+      Expect to receive an email from us at <%= current_user.email_send %>
+      in the morning.
+    </div>
+  <% else %>
+    <% threads = @email_threads.group_by{|et| et.last_email_at.to_date } %>
 
-  <% threads.each do |last_email_at, threads_for_day| %>
-    <h1 class="email-date-header text-uppercase">
-      <% if last_email_at == Date.today %>
-        Today
-      <% elsif last_email_at == Date.today - 1.day %>
-        Yesterday
-      <% else %>
-        <%= last_email_at.to_formatted_s(:long_ordinal) %>
-      <% end %>
-    </h1>
-    <%= render partial: "email", collection: threads_for_day %>
+    <% threads.each do |last_email_at, threads_for_day| %>
+      <h1 class="email-date-header text-uppercase">
+        <% if last_email_at == Date.today %>
+          Today
+        <% elsif last_email_at == Date.today - 1.day %>
+          Yesterday
+        <% else %>
+          <%= last_email_at.to_formatted_s(:long_ordinal) %>
+        <% end %>
+      </h1>
+      <%= render partial: "email", collection: threads_for_day %>
+    <% end %>
   <% end %>
 </div>

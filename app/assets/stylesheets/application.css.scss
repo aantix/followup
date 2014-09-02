@@ -45,6 +45,13 @@ h5,
 h6 {
   font-family: "Lato";
 }
+
+.emails, .sessions {
+  .site-header {
+    padding-bottom: 20px;
+  }
+}
+
 /* Carousel control */
 .carousel-control {
   top: 24%;
@@ -74,19 +81,19 @@ h6 {
 }
 /* logo  */
 .site-title {
-  margin-top: 5px;
+//  margin-top: 5px;
   color: #fff;
   font-weight: 300;
   font-size: 30px;
   display: inline-block;
-  margin-top: 34px;
+  //margin-top: 34px;
 }
 /* user login / register */
 .btn-users {
-  margin-top: 34px;
+//  margin-top: 34px;
 }
 .btn-users .btn {
-  margin-top: 10px;
+//  margin-top: 10px;
   font-size: 14px;
   padding: 10px 15px;
   border: 2px solid #fff;
@@ -113,7 +120,7 @@ h6 {
 /* header button - call to action button */
 .btn-header {
   color: darkslategrey;
-  margin-top: 30px;
+//  margin-top: 30px;
   margin-bottom: 30px;
   text-transform: uppercase;
   font-weight: 300;

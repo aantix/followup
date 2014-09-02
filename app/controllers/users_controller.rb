@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'Your account was successfully updated.'
+      redirect_to edit_user_path(@user), notice: 'Your account was successfully updated.'
     else
       render :edit
     end
@@ -25,12 +25,12 @@ class UsersController < ApplicationController
 
   private
   # Use callbacks to share common setup or constraints between actions.
-  def set_email
-    @email = Email.find(params[:id])
+  def set_user
+    @user = current_user
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def email_params
-    params.require(:email).permit(:user_id, :thread_id, :message_id, :from, :body, :received_on)
+  def user_params
+    params.require(:user).permit(:time_zone, :email_send)
   end
 end

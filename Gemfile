@@ -32,7 +32,6 @@ gem 'sidekiq'
 gem 'sidekiq-status', git: "https://github.com/utgarda/sidekiq-status.git"
 gem 'thread'
 
-gem 'rollbar'
 gem 'rails_12factor'
 
 gem 'font-awesome-rails'
@@ -86,6 +85,7 @@ end
 
 group :production do
   gem 'pg'
+  gem 'rollbar'
 end
 
 group :test do
