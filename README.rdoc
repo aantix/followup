@@ -4,7 +4,16 @@
 
 * Get build of talon working on the CI server.  Check in that build too (maybe build to another director; unbuntu_build?)
 
+
 * How to make this performant when someone requests for the first time?
+
+  -- FollowupWorker just creates the gmail object pool
+  -- FollowupInboxWorker accesses the gmail object poll and downloads the emails for a given day
+  -- FollowupEmailWorker processes an email
+  -- EmailProfileInfoWorker downloads info for a given email
+  -- EmailProfileImageWorker downloads info for a given email
+  --------------------------------------------------------------
+
 
   -- What about just downloading the subject/headers?  If they pass the first round of filters, then download the body?
 

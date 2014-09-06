@@ -3,6 +3,7 @@
 <head>
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   <%= stylesheet_link_tag 'emails.css' %>
+  <%# stylesheet_link_tag 'application' %>
 </head>
 <body>
 <div id="emails">
@@ -18,7 +19,7 @@
         <%= last_email_at.to_formatted_s(:long_ordinal) %>
       <% end %>
     </h1>
-    <%= render partial: "email", collection: threads_for_day %>
+    <%= render partial: "email", collection: threads_for_day, locals: {current_user: @user} %>
   <% end %>
 </div>
 </body>

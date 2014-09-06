@@ -3,6 +3,7 @@ development:
   database: followup_development
   username: root
   password:
+  pool: 25
 
 test:
   adapter: mysql2

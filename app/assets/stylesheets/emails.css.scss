@@ -1,4 +1,11 @@
-@import "bootstrap";
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+@import "bootstrap/scaffolding";
+@import "bootstrap/type";
+@import "bootstrap/code";
+@import "bootstrap/tables";
+@import "bootstrap/buttons";
 
 #emails {
 //  h4 {
@@ -108,7 +115,23 @@
   }
 
   .email-subject {
-    #margin-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+
+  .email-html {
+    .email-subject {
+      margin: 0px;
+      vertical-align: bottom;
+    }
+
+    .email-time {
+      height: 0px;
+    }
+
+    .email-highlighs {
+      vertical-align: top;
+    }
   }
 }
 

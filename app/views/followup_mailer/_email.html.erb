@@ -1,21 +1,22 @@
 <% email = email.emails.last %>
-<% span = email.questions.empty? ? 0 : 2 %>
+<% span  = email.questions.empty? ? 0 : 150 %>
+<% col_span_inc = span > 0 ? 1 : 0 %>
 
-<table class="table">
+<table cellspacing="0" cellpadding="0" border="0" class="email-html" width="940px">
 
   <tr class="email-time">
-    <td colspan="2">
+    <td width="150px text-center">
       <h4>
         <%= email.received_on.strftime("%I:%M %p") %>
       </h4>
     </td>
-    <td colspan="10" class="spacer">
-      &nbsp;
+    <td width="790px" colspan="<%= 3 + col_span_inc %>">
+      <hr/>
     </td>
   </tr>
 
   <tr class="email-data">
-    <td colspan="2" class="email-image text-center">
+    <td width="150px" class="email-image text-center">
       <% if email.active_profile_images.present? %>
         <%= image_tag email.active_profile_images.first.image_url(:bright_face_medium), class: "img-circle" %>
       <% else %>
@@ -26,39 +27,41 @@
     </td>
 
 
-    <td colspan="<%= 9 - span %> email-body">
-      <tr>
-        <td>
-            <span class="email-displayname text-capitalize">
-              <%= subject_label(email, current_user) %>
-            </span>
-            <span class="email-displayname-action">
-              <%= action_label(email, current_user) %>..
-            </span>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <h4 class="email-subject">
-              <span class="subject text-uppercase">
-                <%= email.subject %>
+    <td class="email-body" width="<%= 640 - span %>px">
+      <table width="<%= 640 - span %>px">
+        <tr>
+          <td>
+              <span class="email-displayname text-capitalize">
+                <%= subject_label(email, current_user) %>
               </span>
-          </h4>
-        </td>
-      </tr>
+              <span class="email-displayname-action">
+                <%= action_label(email, current_user) %>..
+              </span>
+          </td>
+        </tr>
 
-      <tr>
-        <td>
-            <span class="<%= email_body_class(email.body) %>">
-              <%= highlight_body(email_body_display(email.body, email.content_type), email.questions) %>
-            </span>
-        </td>
-      </tr>
+        <tr>
+          <td>
+            <h4 class="email-subject">
+                <span class="subject text-uppercase">
+                  <%= email.subject %>
+                </span>
+            </h4>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+              <span class="<%= email_body_class(email.body) %>">
+                <%= highlight_body(email_body_display(email.body, email.content_type), email.questions) %>
+              </span>
+          </td>
+        </tr>
+      </table>
     </td>
 
     <% if span > 0 %>
-      <td class="col-md-<%= span %>">
+      <td width="<%= span %>px" class="email-highlighs">
         <% if email.questions.present? %>
           <blockquote>
             <%= highlight_questions(email.questions) %>
@@ -67,7 +70,7 @@
       </td>
     <% end %>
 
-    <td class="col-md-1 email-actions">
+    <td width="150px" class="email-actions">
       <% if email.from_email == current_user.email %>
         <%= link_to "Follow Up", '#', class: "btn btn-primary" %>
       <% else %>
@@ -80,83 +83,3 @@
   </tr>
 
 </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="row email-data">
-
-  <div class="col-md-2 email-image text-center">
-    <% if email.active_profile_images.present? %>
-      <%= image_tag email.active_profile_images.first.image_url(:bright_face_medium), class: "img-circle" %>
-    <% else %>
-      <div class="first-letter text-uppercase img-rounded" style="background: #<%= string_color(email.from_name) %>;">
-        <%= name_initials(email.from_name) %>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="col-md-<%= 9 - span %> email-body">
-    <div class="row">
-      <div class="col-md-12">
-        <span class="email-displayname text-capitalize">
-          <%= subject_label(email, current_user) %>
-        </span>
-        <span class="email-displayname-action">
-          <%= action_label(email, current_user) %>..
-        </span>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <h4 class="email-subject">
-          <span class="subject text-uppercase">
-            <%= email.subject %>
-          </span>
-        </h4>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-
-        <div class="<%= email_body_class(email.body) %>">
-          <%= highlight_body(email_body_display(email.body, email.content_type), email.questions) %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <% if span > 0 %>
-    <div class="col-md-<%= span %>">
-      <% if email.questions.present? %>
-        <blockquote>
-          <%= highlight_questions(email.questions) %>
-        </blockquote>
-      <% end %>
-    </div>
-  <% end %>
-
-  <div class="col-md-1 email-actions">
-    <% if email.from_email == current_user.email %>
-      <%= link_to "Follow Up", '#', class: "btn btn-primary" %>
-    <% else %>
-      <%= link_to "Respond", '#', class: "btn btn-primary" %>
-    <% end %>
-    <br/>
-    <br/>
-    <%= link_to "Remove&nbsp;".html_safe, '#', class: "btn btn-danger" %>
-  </div>
-
-</div>
