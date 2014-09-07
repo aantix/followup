@@ -68,6 +68,7 @@ gem 'carrierwave'
 gem 'cloudinary'
 
 gem 'premailer-rails'
+gem "paranoia", "~> 2.0"
 
 group :development do
   gem "better_errors"

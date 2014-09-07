@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902060748) do
+ActiveRecord::Schema.define(version: 20140907065411) do
 
   create_table "email_profile_images", force: true do |t|
     t.string   "email"
@@ -29,7 +29,10 @@ ActiveRecord::Schema.define(version: 20140902060748) do
     t.integer  "emails_count",  default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
+
+  add_index "email_threads", ["deleted_at"], name: "index_email_threads_on_deleted_at", using: :btree
 
   create_table "emails", force: true do |t|
     t.integer  "email_thread_id"
@@ -43,14 +46,20 @@ ActiveRecord::Schema.define(version: 20140902060748) do
     t.integer  "questions_count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
+
+  add_index "emails", ["deleted_at"], name: "index_emails_on_deleted_at", using: :btree
 
   create_table "questions", force: true do |t|
     t.integer  "email_id"
     t.text     "question"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
+
+  add_index "questions", ["deleted_at"], name: "index_questions_on_deleted_at", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",                           null: false

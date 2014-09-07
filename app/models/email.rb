@@ -1,7 +1,9 @@
 require 'rack/utils'
 
 class Email < ActiveRecord::Base
-  belongs_to :email_thread, dependent: :destroy, counter_cache: true
+  acts_as_paranoid
+
+  belongs_to :email_thread, counter_cache: true
   has_many :questions, dependent: :destroy
   has_many :email_profile_images, primary_key: :from_email, foreign_key: :email
 

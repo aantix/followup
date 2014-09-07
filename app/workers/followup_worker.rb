@@ -4,7 +4,7 @@ require 'thread/pool'
 class FollowupWorker
   include Sidekiq::Worker
 
-  LOOKBACK        = 1
+  LOOKBACK        = 2
   MAX_CONNECTIONS = 10
 
   def perform(user_id)

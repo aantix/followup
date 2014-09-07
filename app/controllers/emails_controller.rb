@@ -11,6 +11,10 @@ class EmailsController < ApplicationController
   # GET /emails/1
   # GET /emails/1.json
   def show
+    if params[:destroy]
+      self.destroy
+      return
+    end
   end
 
   # GET /emails/new
@@ -55,17 +59,20 @@ class EmailsController < ApplicationController
   # DELETE /emails/1
   # DELETE /emails/1.json
   def destroy
-    @email.destroy
+    @email.email_thread.destroy
     respond_to do |format|
-      format.html { redirect_to emails_url, notice: 'Email was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {
+        params[:destroy] = false
+        redirect_to emails_url, notice: 'Email conversation will no longer be tracked.'
+      }
+      format.js
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_email
-      @email = Email.find(params[:id])
+      @email = current_user.emails.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

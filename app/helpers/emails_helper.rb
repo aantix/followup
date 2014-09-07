@@ -55,4 +55,8 @@ module EmailsHelper
     (content_type == Email::TEXT ? simple_format(message) : message).html_safe
   end
 
+  def gmail_reply_link(msg_id)
+    "https://mail.google.com/mail/#inbox/#{msg_id.to_i.to_s(16)}"
+  end
+
 end

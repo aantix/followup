@@ -201,6 +201,8 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
+    paranoia (2.0.2)
+      activerecord (~> 4.0)
     pg (0.17.1)
     polyglot (0.3.5)
     possible_email (0.0.3)
@@ -383,6 +385,7 @@ DEPENDENCIES
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
+  paranoia (~> 2.0)
   pg
   possible_email
   premailer-rails

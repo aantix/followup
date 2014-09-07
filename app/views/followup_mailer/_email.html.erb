@@ -2,7 +2,7 @@
 <% span  = email.questions.empty? ? 0 : 150 %>
 <% col_span_inc = span > 0 ? 1 : 0 %>
 
-<table cellspacing="0" cellpadding="0" border="0" class="email-html" width="940px">
+<table cellspacing="0" cellpadding="0" border="0" class="email-html" width="940px" id="email_#{email.id}">
 
   <tr class="email-time">
     <td width="150px text-center">
@@ -71,14 +71,10 @@
     <% end %>
 
     <td width="150px" class="email-actions">
-      <% if email.from_email == current_user.email %>
-        <%= link_to "Follow Up", '#', class: "btn btn-primary" %>
-      <% else %>
-        <%= link_to "Respond", '#', class: "btn btn-primary" %>
-      <% end %>
+      <%= render partial: "shared/follow_up_respond_buttons", locals: {email: email, current_user: current_user} %>
       <br/>
       <br/>
-      <%= link_to "Remove&nbsp;".html_safe, '#', class: "btn btn-danger" %>
+      <%= link_to "Remove&nbsp;".html_safe, email_url(email, destroy: true), target: "_blank", class: "btn btn-danger" %>
     </td>
   </tr>
 

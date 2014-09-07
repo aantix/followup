@@ -3,6 +3,7 @@ require 'google/api_client'
 class User < ActiveRecord::Base
   has_many :email_threads
   has_many :email_profile_images, primary_key: :email, foreign_key: :email
+  has_many :emails, through: :email_threads
 
 
   # Include default devise modules. Others available are:
