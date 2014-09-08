@@ -20,8 +20,8 @@ class FollowupInboxWorker
           e_id  = email_id(e, user_id)
 
           FollowupEmailWorker.emails[e_id] = e
-          #FollowupEmailWorker.perform_async(e_id, user_id, direct_addressment)
-          FollowupEmailWorker.new.perform(e_id, user_id, direct_addressment)
+          FollowupEmailWorker.perform_async(e_id, user_id, direct_addressment)
+          #FollowupEmailWorker.new.perform(e_id, user_id, direct_addressment)
         end
 
         e_count+=1

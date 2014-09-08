@@ -69,8 +69,7 @@ class User < ActiveRecord::Base
   end
 
   def find_profile_image
-    EmailProfileImageWorker.perform_async(self.email, nil, EmailProfileImageWorker::EMAIL_LOOKUP)
+    FollowupProfileInfoWorker.perform_async(self.email)
   end
-
 
 end

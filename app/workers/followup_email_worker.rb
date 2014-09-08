@@ -27,7 +27,9 @@ class FollowupEmailWorker
       from_email = from(mail)
       FollowupProfileInfoWorker.perform_async(from_email)
 
-      thread = user.email_threads.find_or_create_by(thread_id: thread_id)
+      thread = user.email_threads.with_deleted.find_or_create_by(thread_id: thread_id)
+
+      return if thread.destroyed?
 
       email  = thread.emails.find_or_create_by(message_id: msg_id) do |eml|
         eml.from_email   = from_email
