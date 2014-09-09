@@ -6,8 +6,8 @@ gem 'mysql2'
 
 # Need to bump the mail gem to 2.5.4 to make it compaitble with Rails and gmail gem
 # https://github.com/nu7hatch/gmail/pull/114
-#gem 'gmail', git: 'https://github.com/aantix/gmail.git'
-gem 'gmail', path: '../gmail'
+gem 'gmail', git: 'https://github.com/aantix/gmail.git'
+#gem 'gmail', path: '../gmail'
 
 gem 'sass-rails', '~> 4.0.3'
 

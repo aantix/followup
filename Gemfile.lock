@@ -10,19 +10,20 @@ GIT
       warden (~> 1.2.3)
 
 GIT
-  remote: https://github.com/utgarda/sidekiq-status.git
-  revision: 74ee7312732695c59d0b746cb6654398a159f9c8
-  specs:
-    sidekiq-status (0.5.0)
-      sidekiq (>= 2.7, < 3.4)
-
-PATH
-  remote: ../gmail
+  remote: https://github.com/aantix/gmail.git
+  revision: 7e260507ef6c74f7c67b855c9bf19cf25987eea7
   specs:
     gmail (0.4.0)
       gmail_xoauth (>= 0.4.0)
       mail (>= 2.2.1)
       mime (>= 0.1)
+
+GIT
+  remote: https://github.com/utgarda/sidekiq-status.git
+  revision: 74ee7312732695c59d0b746cb6654398a159f9c8
+  specs:
+    sidekiq-status (0.5.0)
+      sidekiq (>= 2.7, < 3.4)
 
 GEM
   remote: https://rubygems.org/
