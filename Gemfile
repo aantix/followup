@@ -89,6 +89,7 @@ end
 group :production do
   gem 'pg'
   gem 'rollbar'
+  gem 'unicorn'
 end
 
 group :test do
