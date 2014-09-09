@@ -43,8 +43,8 @@ module EmailsHelper
     email.from_email == current_user.email ? "you" : email.from_name
   end
 
-  def action_label(email, current_user)
-    email.from_email == current_user.email ? "wrote" : "responded to"
+  def action_label(email, current_user, email_count)
+    email_count == 1 ? "wrote to" : "responded to"
   end
 
   def email_body_class(message)
