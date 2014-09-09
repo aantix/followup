@@ -14,7 +14,6 @@ end
 
 Sidekiq.configure_client do |config|
   host = Rails.env.production? ? ENV['REDIS_HOST'] : "localhost"
-  host = "localhost"
   config.redis = { :namespace => 'sidekiq', url: "redis://#{host}:6379" }
 
   config.client_middleware do |chain|
