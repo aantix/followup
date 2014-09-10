@@ -20,6 +20,3 @@ Sidekiq.configure_client do |config|
     chain.add Sidekiq::Status::ClientMiddleware
   end
 end
-
-Sidekiq.options[:concurrency] = 20
-#Sidekiq::Logging.initialize_logger(File.join(Rails.root, 'log', 'sidekiq.log'))

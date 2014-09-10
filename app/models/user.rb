@@ -16,14 +16,17 @@ class User < ActiveRecord::Base
   after_create :find_profile_image
 
   #->Prelang (user_login/devise)
-  def self.find_for_oauth(auth, signed_in_resource=nil)
+  def self.find_or_create_for_oauth(auth, signed_in_resource=nil)
     user = User.where(provider: auth.provider, uid: auth.uid).first
 
     # The User was found in our database
-    return user if user
+    if user
+      MIXPANEL.track(user.id, 'User signed in')
+      return user
+    end
 
     # The User was not found and we need to create them
-    User.create(name:     auth.extra.raw_info.name,
+    user = User.create(name:     auth.extra.raw_info.name,
                 provider: auth.provider,
                 uid:      auth.uid,
                 email:    auth.info.email,
@@ -33,6 +36,10 @@ class User < ActiveRecord::Base
                 omniauth_refresh_token: auth.credentials.refresh_token,
                 omniauth_expires_at: Time.at(auth.credentials.expires_at),
                 omniauth_expires: auth.credentials.expires)
+
+    MIXPANEL.track(user.id, 'User created')
+
+    user
   end
 
   def active_profile_images
@@ -65,7 +72,7 @@ class User < ActiveRecord::Base
   end
 
   def current_email_threads
-    email_threads.where("last_email_at > ?", FollowupWorker::LOOKBACK.days.ago).order("last_email_at desc")
+    email_threads.where("last_email_at > ?", FollowupWorker::DISPLAY_LOOKBACK.days.ago).order("last_email_at desc")
   end
 
   def find_profile_image

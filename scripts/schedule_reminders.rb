@@ -1,10 +1,20 @@
-require "#{ENV['RAILS_ROOT']}/config/environment.rb"
+ENV["RAILS_ENV"] ||= "production"
 
-users = User.all
+# Must schedule this script to start at or after midnight.
+#  It takes the current day plus the time the user has specified
+#  and schedules the email updates for that timestamp.
+#  E.g. perform_at "2014-09-09 09:00:00 -0700"
+
+root   = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+require File.join(root, "config", "environment")
+
+logger = Logger.new(File.open("#{root}/log/schedule_reminders_#{Rails.env}.log", 'w+'))
+users  = User.all
 
 users.each do |user|
   zone    = ActiveSupport::TimeZone.new(user.time_zone)
-  time_at = user.email_send.in_time_zone(zone)
+  time_at = Time.parse("#{Date.today} #{user.email_send.strftime("%I:%M %P")}").in_time_zone(zone)
 
+  logger.info "Scheduling #{user.id} to update at #{time_at}"
   FollowupWorker.perform_at(time_at, user.id)
 end

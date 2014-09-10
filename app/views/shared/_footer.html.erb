@@ -5,6 +5,11 @@
         <span class="xfooter-title">
           Lisbon Street Labs, LLC
         </span>
+        <span>
+          <% if user_signed_in? && current_user.admin? %>
+            | <%= link_to 'Sidekiq', sidekiq_web_path %>
+          <% end %>
+        </span>
       </div>
       <div class="col-sm-6">
         <span class="pull-right copyright">

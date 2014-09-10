@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140907065411) do
+ActiveRecord::Schema.define(version: 20140910055007) do
 
   create_table "email_profile_images", force: true do |t|
     t.string   "email"
@@ -83,7 +83,8 @@ ActiveRecord::Schema.define(version: 20140907065411) do
     t.datetime "omniauth_expires_at"
     t.boolean  "omniauth_expires"
     t.string   "time_zone",              default: "Pacific Time (US & Canada)"
-    t.datetime "email_send",             default: '2014-01-01 09:00:00'
+    t.datetime "email_send",             default: '2014-01-01 17:00:00'
+    t.boolean  "admin",                  default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -1,5 +1,13 @@
 == TODO
 
+* Setup Mixpanel
+ - Signups
+ - Unsubscribes
+ - Daily summary mail read
+ - Daily summary mail sent
+
+* Privacy Policy
+
 * Deploy to Heroku failed; git push is too big I think with the NLP libraries..
 
 * Get build of talon working on the CI server.  Check in that build too (maybe build to another director; unbuntu_build?)
@@ -103,3 +111,7 @@ Jim
  	  puts "#{i} - #{sentence.to_s}"
  	  i+=1
  end
+
+
+
+

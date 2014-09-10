@@ -4,12 +4,11 @@ require 'thread/pool'
 class FollowupWorker
   include Sidekiq::Worker
 
-  LOOKBACK        = 1
-  MAX_CONNECTIONS = 10
+  LOOKBACK         = 1
+  DISPLAY_LOOKBACK = 3
+  MAX_CONNECTIONS  = 10
 
   def perform(user_id)
-    puts "Start! #{Time.now}"
-
     FollowupInboxWorker.connections||= {}
     FollowupInboxWorker.connections.delete(user_id)
 
@@ -19,13 +18,10 @@ class FollowupWorker
     FollowupInboxWorker.connections[user.id] = []
 
     MAX_CONNECTIONS.times do |connection_count|
-      print "O"
-
       FollowupInboxWorker.connections[user.id] << Gmail.new(:xoauth2, user.email, oauth2_token: user.omniauth_token)
       FollowupInboxWorker.perform_async(user.id, LOOKBACK, connection_count + 1, MAX_CONNECTIONS)
     end
 
-    puts "Complete! #{Time.now}"
   end
 
 end
