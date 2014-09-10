@@ -1,5 +1,8 @@
 == TODO
 
+* Look at ActiveJob not just for scheduling sidekiq jobs, but delivering
+  the FollowupMailer.daily as well (update devise?)
+
 * Setup Mixpanel
  - Signups
  - Unsubscribes

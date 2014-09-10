@@ -17,4 +17,6 @@ users.each do |user|
 
   logger.info "Scheduling #{user.id} to update at #{time_at}"
   FollowupWorker.perform_at(time_at, user.id)
+
+  # FollowupMailer.daily(User.first).deliver
 end

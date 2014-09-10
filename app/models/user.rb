@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 
     # The User was found in our database
     if user
-      MIXPANEL.track(user.id, 'User signed in')
+      TRACKER.track(user.id, 'User signed in')
       return user
     end
 
@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
                 omniauth_expires_at: Time.at(auth.credentials.expires_at),
                 omniauth_expires: auth.credentials.expires)
 
-    MIXPANEL.track(user.id, 'User created')
+    TRACKER.track(user.id, 'User created')
 
     user
   end
