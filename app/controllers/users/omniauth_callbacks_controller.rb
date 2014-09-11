@@ -1,6 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   include ApplicationHelper
-  include Mixpanel
 
   def facebook
     oauth

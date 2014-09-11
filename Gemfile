@@ -3,7 +3,10 @@ source 'https://rubygems.org'
 ruby '2.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.5'
+# gem 'rails', '4.1.5'
+gem 'rails', '4.2.0.beta1'
+gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
+
 gem 'mysql2'
 
 # Need to bump the mail gem to 2.5.4 to make it compaitble with Rails and gmail gem
@@ -11,7 +14,7 @@ gem 'mysql2'
 gem 'gmail', git: 'https://github.com/aantix/gmail.git'
 #gem 'gmail', path: '../gmail'
 
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 5.0.0.beta1'
 
 gem 'tactful_tokenizer'
 gem 'sanitize'
@@ -58,7 +61,6 @@ gem 'spring',        group: :development
 
 gem 'bundler'
 
-gem 'devise', github: 'plataformatec/devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
@@ -75,8 +77,6 @@ gem 'premailer-rails'
 gem "paranoia", "~> 2.0"
 
 group :development do
-  gem "better_errors"
-  gem "binding_of_caller"
   gem 'quiet_assets'
 end
 
