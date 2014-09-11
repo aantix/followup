@@ -1,4 +1,5 @@
 require 'google/api_client'
+require 'concerns/mixpanel'
 
 class User < ActiveRecord::Base
   include Mixpanel
@@ -17,13 +18,12 @@ class User < ActiveRecord::Base
 
   after_create :find_profile_image
 
-  #->Prelang (user_login/devise)
   def self.find_or_create_for_oauth(auth, signed_in_resource=nil)
     user = User.where(provider: auth.provider, uid: auth.uid).first
 
     # The User was found in our database
     if user
-      TRACKER.track(user.id, 'User signed in')
+      tracker.track(user.id, 'User signed in')
       return user
     end
 
@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
                 omniauth_expires_at: Time.at(auth.credentials.expires_at),
                 omniauth_expires: auth.credentials.expires)
 
-    TRACKER.track(user.id, 'User created')
+    tracker.track(user.id, 'User created')
 
     user
   end

@@ -1,18 +1,16 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
-  config.secret_key = '6ec2ccb2e96c157a58f5741980b9ff0bb02c3012deda5e1f301bb5c7ffabd715f5710fc8d7303921682de1b5e92e4d0a7cd980aabc113f3865952529af4897c7'
-
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = '95cfb75f13f2d425871c0b50280c3fbcb1e83850973b19616eabd1f5cca4085a16f6fbcbde42f7466a29e557232ad2bfef9520ec39585c8499661e73eba2e87f'
+  # config.secret_key = '7879ea31b84a8bd58cd37df3445c4ffc78ae1914e11915236bb9e88e8a2c3c53ba0d405984a8287364cb39612598656c4cc00fbd7ff29baf38648dd2968d950b'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = 'jim.jones1@gmail.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -99,7 +97,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = '9658b7960456b401571403679c8f02a1b21ba5fcd99b0330c6812c3340a0b1b8023721a0f4ee260c63a110efef13b21e129b96544d403d5b5e0e82d798e77425'
+  # config.pepper = 'fc03c7adc177d694856cb73be97f63af4473800bb377c87b6256032e7fd61868ee2384f50dabb1dd0c2637e33be69fa1174f1c2e886d32629498c187d28ee4db'
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -235,7 +233,6 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-
   config.omniauth :google_oauth2, ENV['GOOGLE_APP_ID'], ENV['GOOGLE_SECRET_ID'], {
       prompt: 'consent',
       access_type: 'offline',
@@ -265,5 +262,4 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
-  config.omniauth :facebook, "", ENV['FACEBOOK_SECRET_ID']
 end

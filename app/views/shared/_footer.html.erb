@@ -7,7 +7,7 @@
         </span>
         <span>
           <% if user_signed_in? && current_user.admin? %>
-            | <%= link_to 'Sidekiq', sidekiq_web_path %>
+            | <%= link_to 'Sidekiq', '/sidekiq' %>
           <% end %>
         </span>
       </div>
