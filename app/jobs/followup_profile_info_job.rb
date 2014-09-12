@@ -1,6 +1,4 @@
-class FollowupProfileInfoWorker
-  include Sidekiq::Worker
-
+class FollowupProfileInfoJob < ActiveJob::Base
   def perform(email)
     result = PossibleEmail.find_profile(email)
     return unless result.respond_to? :data
@@ -9,7 +7,7 @@ class FollowupProfileInfoWorker
     if data.key?("contact") && data["contact"].key?("images")
 
       data["contact"]["images"].each do |nimage|
-        EmailProfileImageWorker.perform_async(email, nimage["url"])
+        EmailProfileImageJob.perform_later(email, nimage["url"])
       end
     end
   end

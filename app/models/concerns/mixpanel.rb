@@ -1,10 +1,5 @@
-puts "hi"
 module Mixpanel
   extend ActiveSupport::Concern
-
-  included do
-    puts "included!"
-  end
 
   module ClassMethods
     def tracker

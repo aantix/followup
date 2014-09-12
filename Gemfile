@@ -5,7 +5,13 @@ ruby '2.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 
 #gem 'rails', '4.1.5'
-gem 'rails', '4.2.0.beta1'
+#gem 'rails', '4.2.0.beta1'
+
+#gem 'rails', git: "https://github.com/rails/rails.git"
+#gem 'rails', path: "../rails"
+
+gem 'rails', git: "https://github.com/aantix/rails.git", branch: "fix_global_id_call"
+gem 'globalid', git: "https://github.com/rails/globalid.git"
 
 #gem 'devise', github: 'plataformatec/devise'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
@@ -14,7 +20,7 @@ gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm
 gem 'sass-rails', '~> 5.0.0.beta1'
 
 #gem 'turbolinks', '-> 2.2.2'
-gem 'turbolinks', '-> 2.3.0'
+gem 'turbolinks', '~> 2.3.0'
 
 gem 'mysql2'
 

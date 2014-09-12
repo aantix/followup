@@ -1,11 +1,8 @@
-class FollowupEmailWorker
-  include Sidekiq::Worker
-  include Sidekiq::Benchmark::Worker
-
+class FollowupEmailJob < ActiveJob::Base
   cattr_accessor :emails
 
   def perform(e_id, user_id, direct_addressment)
-    e         = FollowupEmailWorker.emails[e_id]
+    e         = FollowupEmailJob.emails[e_id]
 
     thread_id = e.thread_id
     msg_id    = e.msg_id
@@ -17,7 +14,7 @@ class FollowupEmailWorker
 
     content_type, body = email_body(mail)
 
-    print "."
+    print "." if Rails.env.development?
 
     unless Email.filtered?(mail, msg, filter_body(mail), user.email, direct_addressment)
       body, signature = Email.extract_body_signature(content_type, body)
@@ -25,7 +22,7 @@ class FollowupEmailWorker
       return if from_same_address?(mail)
 
       from_email = from(mail)
-      FollowupProfileInfoWorker.perform_async(from_email)
+      FollowupProfileInfoJob.perform_later(from_email)
 
       thread = user.email_threads.with_deleted.find_or_create_by(thread_id: thread_id)
 

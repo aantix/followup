@@ -74,11 +74,11 @@ class User < ActiveRecord::Base
   end
 
   def current_email_threads
-    email_threads.where("last_email_at > ?", FollowupWorker::DISPLAY_LOOKBACK.days.ago).order("last_email_at desc")
+    email_threads.where("last_email_at > ?", FollowupJob::DISPLAY_LOOKBACK.days.ago).order("last_email_at desc")
   end
 
   def find_profile_image
-    FollowupProfileInfoWorker.perform_async(self.email)
+    FollowupProfileInfoJob.perform_later(self.email)
   end
 
 end
