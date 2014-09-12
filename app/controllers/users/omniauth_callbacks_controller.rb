@@ -15,7 +15,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
 
       #sign_in_and_redirect @user, :event => :authentication # This will throw if @user is not activated
-      FollowupJob.perform_later(@user.id)
+      FollowupJob.perform_later(@user.id, false)
 
       sign_in @user
       redirect_to emails_path
