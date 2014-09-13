@@ -12,7 +12,7 @@ test:
   password:
 
 production:
-  pool: 10
+  pool: 5
   adapter: postgresql
   encoding: unicode
   host: <%= ENV['FOLLOWUP_HOST'] %>
