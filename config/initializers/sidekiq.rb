@@ -14,7 +14,7 @@ Sidekiq.configure_server do |config|
 
   if defined?(ActiveRecord::Base)
     config = Rails.application.config.database_configuration[Rails.env]
-    config['adapter'] = 'postgis'
+    config['adapter'] = 'postgresql'
     config['pool']    = pool_size
     config['reaping_frequency'] = ENV['DB_REAP_FREQ'] || 10 # seconds
     ActiveRecord::Base.establish_connection(config)
