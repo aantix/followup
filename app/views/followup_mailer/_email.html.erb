@@ -35,7 +35,7 @@
                 <%= subject_label(email, current_user) %>
               </span>
               <span class="email-displayname-action">
-                <%= action_label(email, current_user) %>..
+                <%= action_label(email, current_user, email.email_thread.emails_count) %>..
               </span>
           </td>
         </tr>
