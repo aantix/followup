@@ -2,7 +2,7 @@ require 'sidekiq'
 require 'sidekiq-status'
 
 Sidekiq.configure_server do |config|
-  config.redis = { :namespace => 'sidekiq', url: "redis://localhost:6379", :size => pool_size }
+  config.redis = { :namespace => 'sidekiq', url: "redis://localhost:6379" }
 
   config.server_middleware do |chain|
     chain.add Sidekiq::Status::ServerMiddleware, expiration: 30.minutes # default
