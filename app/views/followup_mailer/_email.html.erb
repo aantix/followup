@@ -10,7 +10,7 @@
         <%= email.received_on.strftime("%I:%M %p") %>
       </h4>
     </td>
-    <td width="790px" colspan="<%= 3 + col_span_inc %>">
+    <td width="790px" colspan="<%= 4 + col_span_inc %>">
       <hr/>
     </td>
   </tr>
@@ -26,9 +26,13 @@
       <% end %>
     </td>
 
+    <td width="50px">
+      &nbsp;
+    </td>
 
-    <td class="email-body" width="<%= 640 - span %>px">
-      <table width="<%= 640 - span %>px">
+
+    <td class="email-body" width="<%= 590 - span %>px">
+      <table width="<%= 590 - span %>px">
         <tr>
           <td>
               <span class="email-displayname text-capitalize">
