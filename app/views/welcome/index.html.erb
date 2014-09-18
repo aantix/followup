@@ -5,7 +5,7 @@
     <div class="container">
 
       <div class="header-description">
-        <h2>A daily email reminding you who to follow up with.</h2>
+        <h2>A daily email reminding you which emails you have forgotten to respond to.</h2>
         <%= link_to "Start my Free Trial", omniauth_authorize_path("user", "google_oauth2"),
                     class: "btn btn-lg btn-header" %>
       </div>
@@ -13,15 +13,19 @@
       <div class="header-features">
         <div class="row">
           <div class="col-sm-6 header-feature">
-            <h3><%= fa_icon "group" %>&nbsp; We do the hard work</h3>
+            <h3><%= fa_icon "group" %>&nbsp; You're forgetting someone</h3>
 
             <p>
-              We analyze your email and with some advanced algorithms, figure out exactly who
-              you need to follow up that day.
-              No cumbersome scheduling of reminders, flagging messages, or
-              BCC'ing some archiac email address.  You don't have to remember anything.
-              We understand your inbox.
+              Your inbox fills up fast.  Your boss needs you to follow up with a customer,
+              accounting needs the monthly revenue numbers, your co-workers are bugging you
+              to go out to lunch.  Along with personal emails, you've got daily deals from Groupon
+              and some guy sending you daily fitness tips.
             </p>
+
+            <p>
+              Who do you need to follow up with? Which customer is slipping through the cracks?
+            </p>
+
           </div>
 
           <div class="col-sm-6 header-feature">
@@ -37,6 +41,31 @@
           </div>
         </div>
       </div>
+
+      <div class="header-features">
+        <div class="row">
+          <div class="col-sm-12 header-feature">
+            <h3 class="text-center">Relax. You don't have do anything. That's our job.</h3>
+            <p>
+              Oh-No-Mail-Go analyzes your email and with the help of some advanced algorithms,
+              we figure out exactly which of your emails deserve a response.
+            </p>
+            <p>
+              No cumbersome settings of reminders, flagging messages, labeling or
+              BCC'ing some archiac email address (GAG, we're looking at you Followup.cc).
+            </p>
+            <h3 class="text-center">You don't have to remember anything.</h3>
+            <p>
+              Everyday you'll receive a simple, daily email summarizing who's waiting to hear from you and who
+              hasn't responded to you.  No nagging reminders or popups messages.  Just a simple list of emails.
+              You're never going to forget to follow up every again.
+              Your customers are going to be so impressed (as if they weren't already).
+            </p>
+
+          </div>
+        </div>
+      </div>
+
       <!-- /.header-features -->
 
     </div>
@@ -83,8 +112,7 @@
             <h4>Important Email</h4>
 
             <p>
-              You receive a ton of email.  Newsletters, bank statements,
-              spam.  We show you only your emails that require your personal
+              You receive a ton of email.  We remind you only of the emails that require your personal
               touch.
             </p>
           </div>
@@ -110,7 +138,8 @@
             <h4>Important People</h4>
 
             <p>For each of your emails, a picture of the person that sent the email is
-              shown to the left.  You won't be left guessing who you're replying to.</p>
+              shown to the left (if we can find one!).
+              You won't be left guessing who you're replying to.</p>
           </div>
         </div>
         <!-- /span3 -->
@@ -118,10 +147,10 @@
         <div class="col-sm-3">
           <div class="feature">
             <%= fa_icon "thumbs-up", base: "square" %>
-            <h4>Important Time</h4>
+            <h4>Important Timing</h4>
 
-            <p>A summary of all the emails that you need to respond to and follow up on
-            will be delivered in the morning, so that you can easily get caught up.</p>
+            <p>Your email summary is mailed to you first thing in the morning,
+              so that you can catch up on your emails from the day before.</p>
           </div>
         </div>
         <!-- /span3 -->
