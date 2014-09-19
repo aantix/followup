@@ -3,6 +3,7 @@ class FollowupEmailJob < ActiveJob::Base
 
   def perform(e_id, user_id, direct_addressment)
     e         = FollowupEmailJob.emails[e_id]
+    return unless e.present?
 
     thread_id = e.thread_id
     msg_id    = e.msg_id
