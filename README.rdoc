@@ -1,5 +1,34 @@
 == TODO
 
+* Better/more minimalistic view for mobile.
+
+  Maybe it should be text only?
+
+  The table columns take up way too much space.
+    - Make the email text all streamlined, where it shows picture,
+      followed by who wrote it, followed by the email body followed
+      by respond/ignore buttons.
+
+   - THe respond/remove buttons should be larger on iphones (make them responsive?)
+
+   - The remove button should be "ignore"
+
+    - The text should be larger.  Much larger.  Can't read it on my iphone.
+
+    - What about making the "Respond" button open up to the basic html interface?
+      That could speed things up.
+
+    - Look at Ramit Seethi's emails; his are easy to read on a phone.
+
+
+* Implement capistrabo deoploys; should recompile assets on deploy and restart sidekiq
+
+* Bug in displaying text with slashes (e.g. the text "100/hr" only shows the "/hr").
+
+* Buy a bunch of private proxies and route the Rapportive requests through that
+  http://www.myprivateproxy.net/buy.php
+
+
 * Look at ActiveJob not just for scheduling sidekiq jobs, but delivering
   the FollowupMailer.daily as well (update devise?)
 
