@@ -44,7 +44,7 @@ module EmailsHelper
   end
 
   def action_label(email, current_user, email_count)
-    email_count == 1 ? "wrote to" : "responded to"
+    email_count == 1 ? "wrote" : "responded"
   end
 
   def email_body_class(message)

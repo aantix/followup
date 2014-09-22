@@ -20,6 +20,8 @@
 
     - Look at Ramit Seethi's emails; his are easy to read on a phone.
 
+    - Change the "Reply" button to redirect to site, then to Gmail compose.
+
 
 * Implement capistrabo deoploys; should recompile assets on deploy and restart sidekiq
 
@@ -28,6 +30,8 @@
 * Buy a bunch of private proxies and route the Rapportive requests through that
   http://www.myprivateproxy.net/buy.php
 
+* Email analysis optimization: don't do a rapportive lookup unless the email is last in the thread (otherwise
+  you won't need it and the image may never be displayed)
 
 * Look at ActiveJob not just for scheduling sidekiq jobs, but delivering
   the FollowupMailer.daily as well (update devise?)

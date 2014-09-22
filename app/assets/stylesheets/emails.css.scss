@@ -63,9 +63,6 @@
     vertical-align: top;
 
     img {
-      width: 100px;
-      height: 100px;
-
       display:block;
       margin:auto;
     }
@@ -73,13 +70,13 @@
     .first-letter {
       background: lightblue;
       color: lightslategray;
-      padding: 25px;
-      font-size: 50px;
-      width: 100px;
-      height: 100px;
+      padding: 12px;
+      font-size: 25px;
+      width: 50px;
+      height: 50px;
       margin:auto;
       display: block;
-      line-height: 50px;
+      line-height: 25px;
       text-align: center
     }
   }
@@ -91,6 +88,7 @@
   .email-data{
     min-height: 100px;
     margin-bottom: 30px;
+    vertical-align: text-top;
   }
 
   .email-time{
@@ -132,6 +130,23 @@
 
     .email-highlighs {
       vertical-align: top;
+    }
+
+    .email-actions{
+      float: none;
+    }
+  }
+
+  .email-image{
+    margin:none;
+    vertical-align: top;
+
+    img {
+      display:normal;
+    }
+
+    .first-letter {
+      display:normal;
     }
   }
 }

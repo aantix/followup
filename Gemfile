@@ -46,7 +46,8 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'will_paginate'
-gem 'possible_email', git: "https://github.com/aantix/possible-email.git"
+#gem 'possible_email', git: "https://github.com/aantix/possible-email.git"
+gem 'possible_email', path: "../possible-email"
 gem 'sidekiq'
 gem 'sidekiq-status', git: "https://github.com/utgarda/sidekiq-status.git"
 gem 'thread'

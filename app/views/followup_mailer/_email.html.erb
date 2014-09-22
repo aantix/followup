@@ -5,7 +5,7 @@
 <table cellspacing="0" cellpadding="0" border="0" class="email-html" width="940px" id="email_#{email.id}">
 
   <tr class="email-time">
-    <td width="150px text-center">
+    <td width="50px text-center">
       <h4>
         <%= email.received_on.strftime("%I:%M %p") %>
       </h4>
@@ -16,9 +16,9 @@
   </tr>
 
   <tr class="email-data">
-    <td width="150px" class="email-image text-center">
+    <td width="50px" class="email-image text-center">
       <% if email.active_profile_images.present? %>
-        <%= image_tag email.active_profile_images.first.image_url(:bright_face_medium), class: "img-circle" %>
+        <%= image_tag email.active_profile_images.first.image_url(:bright_face_small), class: "img-circle" %>
       <% else %>
         <div class="first-letter text-uppercase img-rounded" style="background: #<%= string_color(email.from_name) %>;">
           <%= name_initials(email.from_name) %>
@@ -26,7 +26,7 @@
       <% end %>
     </td>
 
-    <td width="50px">
+    <td width="10px">
       &nbsp;
     </td>
 
@@ -74,11 +74,14 @@
       </td>
     <% end %>
 
-    <td width="150px" class="email-actions">
+  <tr>
+    <td colspan="2">
+      &nbsp;
+    </td>
+    <td colspan="<%= 2 + col_span_inc %>" class="email-actions">
       <%= render partial: "shared/follow_up_respond_buttons", locals: {email: email, current_user: current_user} %>
-      <br/>
-      <br/>
-      <%= link_to "Remove&nbsp;".html_safe, email_url(email, destroy: true), target: "_blank", class: "btn btn-danger" %>
+      &nbsp;&nbsp;
+      <%= link_to "Ignore&nbsp;".html_safe, email_url(email, destroy: true), target: "_blank", class: "btn btn-danger" %>
     </td>
   </tr>
 

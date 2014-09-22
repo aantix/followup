@@ -8,15 +8,6 @@ GIT
       mime (>= 0.1)
 
 GIT
-  remote: https://github.com/aantix/possible-email.git
-  revision: c7d74cf8eb0447e3dd8522b36a29fdf1aaba92ae
-  specs:
-    possible_email (0.0.3)
-      httpi (~> 2.2, >= 2.2.5)
-      rubyntlm (~> 0.3.4)
-      thor (~> 0.19, >= 0.19.1)
-
-GIT
   remote: https://github.com/aantix/rails.git
   revision: 86c91b9f38a319af157977278c038a9e3855d3f5
   branch: fix_global_id_call
@@ -99,6 +90,14 @@ GIT
   specs:
     sidekiq-status (0.5.0)
       sidekiq (>= 2.7, < 3.4)
+
+PATH
+  remote: ../possible-email
+  specs:
+    possible_email (0.0.3)
+      httpi (~> 2.2, >= 2.2.5)
+      rubyntlm (~> 0.3.4)
+      thor (~> 0.19, >= 0.19.1)
 
 GEM
   remote: https://rubygems.org/
