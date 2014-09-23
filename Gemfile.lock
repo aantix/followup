@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/aantix/possible-email.git
-  revision: b092a09aeec554e24d34bd153f8c8ae2b70ebfd0
+  revision: 6d8537b7af72abe2d72c199acb0b361ff7e01827
   specs:
     possible_email (0.0.3)
       httpi (~> 2.2, >= 2.2.5)
@@ -193,7 +193,7 @@ GEM
     httparty (0.13.1)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    httpi (2.2.5)
+    httpi (2.2.6)
       rack
     i18n (0.7.0.beta1)
     jbuilder (2.1.3)
