@@ -7,6 +7,7 @@ class FollowupMailer < ActionMailer::Base
   def daily(user)
     @user = user
     @email_threads = @user.current_email_threads
-    mail(to: @user.email, subject: "You have #{@email_threads.size} emails that you to follow up on")
+    greeting = ['Hey', 'Hi', 'Hello', 'Good morning']
+    mail(to: @user.email, subject: "#{greeting.shuffle.first} #{@user.first_name}, you have #{@email_threads.size} emails that you to follow up on")
   end
 end
