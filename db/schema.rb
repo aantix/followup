@@ -11,22 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140910055007) do
+ActiveRecord::Schema.define(version: 20140925061151) do
 
   create_table "email_profile_images", force: true do |t|
-    t.string   "email"
-    t.string   "url"
-    t.string   "image"
-    t.boolean  "active",     default: false
+    t.string   "email",      limit: 255
+    t.string   "url",        limit: 255
+    t.string   "image",      limit: 255
+    t.boolean  "active",     limit: 1,   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "email_threads", force: true do |t|
-    t.integer  "user_id"
-    t.string   "thread_id"
+    t.integer  "user_id",       limit: 4
+    t.string   "thread_id",     limit: 255
     t.datetime "last_email_at"
-    t.integer  "emails_count",  default: 0
+    t.integer  "emails_count",  limit: 4,   default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
@@ -35,15 +35,15 @@ ActiveRecord::Schema.define(version: 20140910055007) do
   add_index "email_threads", ["deleted_at"], name: "index_email_threads_on_deleted_at", using: :btree
 
   create_table "emails", force: true do |t|
-    t.integer  "email_thread_id"
-    t.string   "message_id"
-    t.string   "from_email"
-    t.string   "from_name"
-    t.string   "subject"
-    t.text     "body"
-    t.string   "content_type"
+    t.integer  "email_thread_id", limit: 4
+    t.string   "message_id",      limit: 255
+    t.string   "from_email",      limit: 255
+    t.string   "from_name",       limit: 255
+    t.string   "subject",         limit: 255
+    t.text     "body",            limit: 65535
+    t.string   "content_type",    limit: 255
     t.datetime "received_on"
-    t.integer  "questions_count", default: 0
+    t.integer  "questions_count", limit: 4,     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
@@ -52,8 +52,8 @@ ActiveRecord::Schema.define(version: 20140910055007) do
   add_index "emails", ["deleted_at"], name: "index_emails_on_deleted_at", using: :btree
 
   create_table "questions", force: true do |t|
-    t.integer  "email_id"
-    t.text     "question"
+    t.integer  "email_id",   limit: 4
+    t.text     "question",   limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
@@ -62,29 +62,31 @@ ActiveRecord::Schema.define(version: 20140910055007) do
   add_index "questions", ["deleted_at"], name: "index_questions_on_deleted_at", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",                           null: false
-    t.string   "encrypted_password",     default: "",                           null: false
-    t.string   "image_url"
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "",                           null: false
+    t.string   "encrypted_password",     limit: 255, default: "",                           null: false
+    t.string   "image_url",              limit: 255
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,                            null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,                            null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "provider"
-    t.string   "uid"
-    t.string   "name"
-    t.string   "omniauth_token"
-    t.string   "omniauth_refresh_token"
+    t.string   "provider",               limit: 255
+    t.string   "uid",                    limit: 255
+    t.string   "name",                   limit: 255
+    t.string   "omniauth_token",         limit: 255
+    t.string   "omniauth_refresh_token", limit: 255
     t.datetime "omniauth_expires_at"
-    t.boolean  "omniauth_expires"
-    t.string   "time_zone",              default: "Pacific Time (US & Canada)"
-    t.datetime "email_send",             default: '2014-01-01 17:00:00'
-    t.boolean  "admin",                  default: false
+    t.boolean  "omniauth_expires",       limit: 1
+    t.string   "time_zone",              limit: 255, default: "Pacific Time (US & Canada)"
+    t.datetime "email_send",                         default: '2014-01-01 17:00:00'
+    t.boolean  "admin",                  limit: 1,   default: false
+    t.string   "first_name",             limit: 255
+    t.string   "last_name",              limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

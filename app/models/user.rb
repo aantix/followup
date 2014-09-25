@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
 
     # The User was not found and we need to create them
     user = User.create(name:     auth.extra.raw_info.name,
+                first_name: auth.extra.raw_info.family_name,
+                given_name: auth.extra.raw_info.given_name,
                 provider: auth.provider,
                 uid:      auth.uid,
                 email:    auth.info.email,
