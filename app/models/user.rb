@@ -64,7 +64,11 @@ class User < ActiveRecord::Base
       client.authorization.grant_type = 'refresh_token'
       client.authorization.refresh_token = omniauth_refresh_token
 
-      client.authorization.fetch_access_token!
+      begin
+        client.authorization.fetch_access_token!
+      rescue => e
+        Rollbar.report_exception(e, {}, {user_id: self.id})
+      end
 
       self.omniauth_expires_at = Time.now + client.authorization.expires_in
       self.omniauth_token = client.authorization.access_token

@@ -2,7 +2,7 @@ class FollowupEmailJob < ActiveJob::Base
   cattr_accessor :emails
 
   def perform(e_id, user_id, direct_addressment)
-    e         = FollowupEmailJob.emails[e_id]
+    e         = FollowupEmailJob.emails[e_id] rescue nil
     return unless e.present?
 
     thread_id = e.thread_id
@@ -44,6 +44,8 @@ class FollowupEmailJob < ActiveJob::Base
         email.questions.find_or_create_by(question: question)
       end
     end
+
+    FollowupEmailJob.emails.delete(e_id)
 
   end
   def from(mail)
