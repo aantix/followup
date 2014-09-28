@@ -2,7 +2,9 @@ class FollowupEmailJob < ActiveJob::Base
   cattr_accessor :emails
 
   def perform(e_id, user_id, direct_addressment)
-    e         = FollowupEmailJob.emails[e_id] rescue nil
+    FollowupEmailJob.emails||={}
+    e         = FollowupEmailJob.emails[e_id]
+
     return unless e.present?
 
     thread_id = e.thread_id
@@ -17,7 +19,7 @@ class FollowupEmailJob < ActiveJob::Base
 
     print "." if Rails.env.development?
 
-    unless Email.filtered?(mail, msg, filter_body(mail), user.email, direct_addressment)
+    unless Email.filtered?(mail, msg, filter_body(mail), user.email, thread_id, direct_addressment)
       body, signature = Email.extract_body_signature(content_type, body)
       return if body.blank?
       return if from_same_address?(mail)

@@ -29,7 +29,7 @@ class Email < ActiveRecord::Base
                            'noc@', 'security@', 'postmaster@', 'smtp@', 'hostmaster@', 'dns@', 'usenet@',
                            'nntp@', 'news@', 'webmaster@', 'uucp@', 'ftp@', 'jobs@', 'whois@', 'abuse@',
                            'contact@', 'investorrelations@', 'marketing@', 'privacy@', 'root@', 'sales@',
-                           'spam@', 'jira@']
+                           'spam@', 'jira@', 'bot@', 'auto-confirm@']
 
   BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply', 'password reset', "confirm subscription"]
 
@@ -76,8 +76,9 @@ class Email < ActiveRecord::Base
     message.index(/#{TEXT}/i)
   end
 
-  def self.filtered?(message, msg, message_body, owner_email, direct_addressment)
+  def self.filtered?(message, msg, message_body, owner_email, thread_id, direct_addressment)
     return true if message_body.nil?
+    return false if EmailThread.exists?(thread_id: thread_id)
 
     blacklisted_email?(message.from) ||
         blacklisted_phrases?(message_body) ||

@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
         Rollbar.report_exception(e, {}, {user_id: self.id})
       end
 
-      self.omniauth_expires_at = Time.now + client.authorization.expires_in
+      self.omniauth_expires_at = Time.now + client.authorization.expiry.minutes
       self.omniauth_token = client.authorization.access_token
 
       save!
