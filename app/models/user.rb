@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
     if active_profile_images.size > 0
       active_profile_images.first.image_url(:bright_face_small)
     else
-      ActionController::Base.helpers.image_path("default-profile.jpg")
+      "http://tadcaster.yoursquaremile.co.uk/img/default-profile-pic.png"
     end
   end
 
