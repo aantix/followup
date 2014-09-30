@@ -55,6 +55,14 @@ module EmailsHelper
     (content_type == Email::TEXT ? simple_format(message) : message).html_safe
   end
 
+  def muted_text?(email)
+    email.questions.blank?
+  end
+
+  def muted_text(email)
+    muted_text?(email) ? "text-muted" : ""
+  end
+
   def gmail_reply_link(msg_id)
     "https://mail.google.com/mail/#inbox/#{msg_id.to_i.to_s(16)}"
   end

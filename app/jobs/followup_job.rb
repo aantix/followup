@@ -1,6 +1,6 @@
 class FollowupJob < ActiveJob::Base
   LOOKBACK         = 1
-  DISPLAY_LOOKBACK = 3
+  DISPLAY_LOOKBACK = 14
   MAX_CONNECTIONS  = 10
 
   def perform(user_id, email_results)

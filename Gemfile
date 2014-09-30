@@ -23,6 +23,7 @@ gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'turbolinks', '~> 2.3.0'
 
 gem 'mysql2'
+gem 'truncate_html'
 
 # Need to bump the mail gem to 2.5.4 to make it compaitble with Rails and gmail gem
 # https://github.com/nu7hatch/gmail/pull/114

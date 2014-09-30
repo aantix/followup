@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/aantix/possible-email.git
-  revision: 6d8537b7af72abe2d72c199acb0b361ff7e01827
+  revision: 0bba79c364570c73081eeb0480ff842ea71a3848
   specs:
     possible_email (0.0.3)
       httpi (~> 2.2, >= 2.2.5)
@@ -193,7 +193,7 @@ GEM
     httparty (0.13.1)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    httpi (2.2.6)
+    httpi (2.2.7)
       rack
     i18n (0.7.0.beta1)
     jbuilder (2.1.3)
@@ -372,6 +372,7 @@ GEM
     thread_safe (0.3.4)
     tilt (1.4.1)
     timers (1.1.0)
+    truncate_html (0.9.3)
     turbolinks (2.3.0)
       coffee-rails
     tzinfo (1.2.2)
@@ -446,6 +447,7 @@ DEPENDENCIES
   spring
   tactful_tokenizer
   thread
+  truncate_html
   turbolinks (~> 2.3.0)
   tzinfo-data
   uglifier (>= 1.3.0)

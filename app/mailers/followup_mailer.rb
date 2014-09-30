@@ -2,6 +2,7 @@ class FollowupMailer < ActionMailer::Base
   default from: "jim.jones1@gmail.com"
 
   helper EmailsHelper
+  helper TruncateHtmlHelper
 
   # preview : http://localhost:3000/rails/mailers/followup_mailer/daily
   def daily(user)

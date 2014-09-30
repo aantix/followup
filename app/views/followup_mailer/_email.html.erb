@@ -47,17 +47,23 @@
         <tr>
           <td>
             <h4 class="email-subject">
-                <span class="subject text-uppercase">
-                  <%= email.subject %>
-                </span>
+              <span class="subject text-uppercase <%= muted_text(email) %>">
+                <%= email.subject %>
+              </span>
             </h4>
           </td>
         </tr>
 
         <tr>
           <td>
-              <span class="<%= email_body_class(email.body) %>">
-                <%= highlight_body(email_body_display(email.body, email.content_type), email.questions) %>
+              <span class="<%= email_body_class(email.body) %> <%= muted_text(email) %>">
+                <% if muted_text?(email) %>
+                  <%= truncate_html(highlight_body(email_body_display("<s>#{email.body}</s>".html_safe, email.content_type), email.questions), length: 100) %>
+                  <br/>
+                  (NO FOLLOW UP NEEDED)
+                <% else %>
+                  <%= highlight_body(email_body_display(email.body, email.content_type), email.questions) %>
+                <% end %>
               </span>
           </td>
         </tr>
@@ -79,7 +85,8 @@
       &nbsp;
     </td>
     <td colspan="<%= 2 + col_span_inc %>" class="email-actions">
-      <%= render partial: "shared/follow_up_respond_buttons", locals: {email: email, current_user: current_user} %>
+      <% c = muted_text(email) ? "" : "btn-primary" %>
+      <%= render partial: "shared/follow_up_respond_buttons", locals: {email: email, current_user: current_user, btn_class: c} %>
       &nbsp;&nbsp;
       <%= link_to "Ignore&nbsp;".html_safe, email_url(email, destroy: true), target: "_blank", class: "btn btn-danger" %>
     </td>
