@@ -1,20 +1,21 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.2.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 
 #gem 'rails', '4.1.5'
 #gem 'rails', '4.2.0.beta1'
 
-#gem 'rails', git: "https://github.com/rails/rails.git"
+gem 'rails', git: "https://github.com/rails/rails.git"
+gem 'arel', git: 'https://github.com/rails/arel.git'
 #gem 'rails', path: "../rails"
 
-gem 'rails', git: "https://github.com/aantix/rails.git", branch: "fix_global_id_call"
-gem 'globalid', git: "https://github.com/rails/globalid.git"
+# gem 'rails', git: "https://github.com/aantix/rails.git", branch: "fix_global_id_call"
+# gem 'globalid', git: "https://github.com/rails/globalid.git"
 
 #gem 'devise', github: 'plataformatec/devise'
-gem 'devise', git: 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
+gem 'devise', git: 'https://github.com/plataformatec/devise.git' #, :branch => 'lm-rails-4-2'
 
 #gem 'sass-rails', '~> 4.0.3'
 gem 'sass-rails', '~> 5.0.0.beta1'
@@ -24,6 +25,8 @@ gem 'turbolinks', '~> 2.3.0'
 
 gem 'mysql2'
 gem 'truncate_html'
+
+gem 'gibberish'
 
 # Need to bump the mail gem to 2.5.4 to make it compaitble with Rails and gmail gem
 # https://github.com/nu7hatch/gmail/pull/114
@@ -86,9 +89,11 @@ gem 'nokogiri'
 
 gem 'carrierwave'
 gem 'cloudinary'
+gem 'google-spreadsheet-ruby'
+gem 'google_drive', '0.3.9'
 
 gem 'premailer-rails'
-gem "paranoia", "~> 2.0"
+#gem "paranoia", git: 'https://github.com/radar/paranoia.git', branch: "rails4"
 
 group :development do
   gem 'quiet_assets'
