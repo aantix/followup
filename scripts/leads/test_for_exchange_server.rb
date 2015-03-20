@@ -15,11 +15,13 @@ require 'mail'
 require 'google_spreadsheet'
 
 EMAILED_STATUS = 'emailed'
+INVALID_STATUS = 'invalid'
 
-sheet_index  = 1
-email_index  = 9
-name_index   = 2
-status_index = 0
+sheet_index    = 1
+
+email_index    = 9
+name_index     = 2
+status_index   = 0
 exchange_index = 1
 
 cipher = Gibberish::AES.new(ENV["PASSCODE"] || '')
@@ -33,19 +35,21 @@ spreadsheet = GoogleSpreadsheet.login(username, password)
 ws       = spreadsheet.spreadsheet_by_key(spreadsheet_id).worksheets[sheet_index]
 
 mail     = Gmail.connect(username, password)
-to_email = "test-xyzabc1230"
+to_email = "abcdefk"
 
 rows     = ws.rows
 entries  = {}
 
 puts "Checking for any companies that haven't been emailed.."
 (1..rows.size - 1).each do |i|
+  print "."
   row         = rows[i]
 
-  next if row[status_index] == EMAILED_STATUS
-
+  next unless row[status_index].blank?
   email       = row[email_index]
   n           = row[name_index]
+
+  ws[i + 1, status_index + 1] = INVALID_STATUS
 
   email_parts = nil
   begin
@@ -56,41 +60,67 @@ puts "Checking for any companies that haven't been emailed.."
 
   next if email_parts.domain.blank?
 
-  entries[email_parts.domain] = i
+  entries[email_parts.domain] = i + 1
 
+  puts
   puts "#{i}) #{to_email}@#{email_parts.domain}"
 
-	mail.deliver do
+	email = mail.compose do
 	  to "#{to_email}@#{email_parts.domain}"
-	  subject "Hello?"
-	  body "Did you send the doc?"
-	  row[status_index] = EMAILED_STATUS
-	end  
+	  subject "Looking for"
+    text_part do
+      body "Did you send the doc?"
+    end
+    html_part do
+      content_type 'text/html; charset=UTF-8'
+      body "<p>Did you send the doc?</p>"
+    end
+  end
+  email.deliver!
 
-	ws.save
+  ws[i + 1, status_index + 1] = EMAILED_STATUS
 
 end
 
+ws.save
 
-
+puts
+puts
 puts "Now checking for responses.... "
 
 while true
 	print "."
-  emails = gmail.inbox.emails(gm: "#{to_email}@*")
+  emails = mail.inbox.find(search: "#{to_email}@*")
 
   emails.each do |email|
-  	from_email = Mail::Address.new(email.from)
-  	r = entries[from_email.domain] 
+    domain = email.from.first.host rescue nil
 
-    if email.message =~ /Microsoft/i
-    	rows[r][exchange_index] = 'yes'
-    else
-    	rows[r][exchange_index] = 'no'
+    # Deeper search of message body in case from wasn't specified
+    domain = entries.find {|(k, v)| email.body =~ /#{k}/i} if domain.blank?
+
+    if domain.nil?
+      email.delete!
+      next
     end
 
-    # email.delete
+  	row    = entries[domain.first]
+
+    puts
+    puts "-------------------"
+    puts domain.inspect
+    puts row
+    puts email.subject
+    puts "-------------------"
+    puts
+
+    exchange = email.message =~ /Microsoft/i ? 'yes' : 'no'
+    ws[row][exchange_index + 1] = exchange
+
+    ws.save
+
+    email.delete!
   end
 
+
   sleep 1
-end	
+end
