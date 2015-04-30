@@ -9,7 +9,8 @@ root   = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 require File.join(root, "config", "environment")
 
 logger = Logger.new(File.open("#{root}/log/schedule_reminders_#{Rails.env}.log", 'w+'))
-users  = User.all
+#users  = User.all
+users  = User.where(email: "jim.jones1@gmail.com")
 
 users.each do |user|
   zone    = ActiveSupport::TimeZone.new(user.time_zone)

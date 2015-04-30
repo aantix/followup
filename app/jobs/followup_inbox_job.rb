@@ -4,6 +4,7 @@ class FollowupInboxJob < ActiveJob::Base
     user  = User.find(user_id)
     user.refresh_token!
 
+    options    = {after: 3.days.ago}
     connection = Gmail.new(:xoauth2, user.email, oauth2_token: user.omniauth_token)
     inbox      = connection.inbox.emails(options)
     sent       = connection.mailbox(:sent).emails(options)
