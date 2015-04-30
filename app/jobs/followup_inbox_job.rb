@@ -1,14 +1,10 @@
 class FollowupInboxJob < ActiveJob::Base
-  cattr_accessor :connections
 
-  def perform(user_id, lookback, starting, offset, send_email = false)
-    e_count = 1
-    options = {after: lookback.days.ago}
+  def perform(user_id, send_email = false)
+    user  = User.find(user_id)
+    user.refresh_token!
 
-    FollowupEmailJob.emails||={}
-
-    connection = FollowupInboxJob.connections[user_id][starting - 1]
-
+    connection = Gmail.new(:xoauth2, user.email, oauth2_token: user.omniauth_token)
     inbox      = connection.inbox.emails(options)
     sent       = connection.mailbox(:sent).emails(options)
 
@@ -16,23 +12,16 @@ class FollowupInboxJob < ActiveJob::Base
       box.each do |e|
         print "." if Rails.env.development?
 
-        if e_count == starting
-          e_id = email_id(e, user_id)
+        thread_id = e.thread_id
+        msg_id    = e.msg_id
+        subject   = e.subject
+        msg       = e.message
 
-          FollowupEmailJob.emails[e_id] = e
-          FollowupEmailJob.perform_later(e_id, user_id, direct_addressment)
-          starting+=offset
-        end
-
-        e_count+=1
+        FollowupEmailJob.perform_later(user_id, thread_id, msg_id, subject, msg, direct_addressment)
       end
     end
 
     FollowupMailer.daily(User.find(user_id)).deliver_later if send_email
-  end
-
-  def email_id(e, user_id)
-    "#{e.to_s}-#{user_id}"
   end
 
 end

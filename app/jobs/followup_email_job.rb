@@ -1,17 +1,6 @@
 class FollowupEmailJob < ActiveJob::Base
-  cattr_accessor :emails
 
-  def perform(e_id, user_id, direct_addressment)
-    FollowupEmailJob.emails||={}
-    e         = FollowupEmailJob.emails[e_id]
-
-    return unless e.present?
-
-    thread_id = e.thread_id
-    msg_id    = e.msg_id
-    subject   = e.subject
-    msg       = e.message
-
+  def perform(user_id, thread_id, msg_id, subject, msg, direct_addressment)
     mail      = Mail.read_from_string msg
     user      = User.find(user_id)
 
@@ -25,11 +14,11 @@ class FollowupEmailJob < ActiveJob::Base
       return if from_same_address?(mail)
 
       from_email = from(mail)
-      FollowupProfileInfoJob.perform_later(from_email)
-
-      thread = user.email_threads.with_deleted.find_or_create_by(thread_id: thread_id)
+      thread     = user.email_threads.with_deleted.find_or_create_by(thread_id: thread_id)
 
       return if thread.destroyed?
+
+      FollowupProfileInfoJob.perform_later(from_email)
 
       email  = thread.emails.find_or_create_by(message_id: msg_id) do |eml|
         eml.from_email   = from_email
@@ -46,10 +35,8 @@ class FollowupEmailJob < ActiveJob::Base
         email.questions.find_or_create_by(question: question)
       end
     end
-
-    FollowupEmailJob.emails.delete(e_id)
-
   end
+
   def from(mail)
     mail[:from].addrs.first.address
   end

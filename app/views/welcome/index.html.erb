@@ -6,8 +6,24 @@
 
       <div class="header-description">
         <h2>A daily reminder of which emails you've forgotten to reply to.</h2>
-        <%= link_to "Start my Free Trial", omniauth_authorize_path("user", "google_oauth2"),
+        <%# link_to "Start my Free Trial", omniauth_authorize_path("user", "google_oauth2"),
                     class: "btn btn-lg btn-header" %>
+
+        <form action="" method="POST">
+          <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_dVDRjuxnmFU9tLH1UjDt7Jhx"
+          data-name="JumpUP.io"
+          data-description="JumpUP.io Deposit ($500.00)"
+          data-image="/assets/jumpup_logo70x70.png"
+          data-panelLabel="Reserve"
+          data-label="Reserve Your Instance"
+          data-allowRememberMe="false"
+          data-class="xxxxx"
+          >
+          </script>
+        </form>
+
       </div>
 
       <div class="header-features">
