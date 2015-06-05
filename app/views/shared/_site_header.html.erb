@@ -2,10 +2,10 @@
   <h1>
     <% r_path = controller_name == "welcome" ? root_path : emails_path %>
     <%= link_to r_path, class: "site-title pull-left" do %>
-      <%= fa_icon "mail-reply-all #{classes} logo" %>
+      <%= fa_icon "inbox #{classes} logo" %>
 
       <span class="logo-text">
-        JumpUP.io
+        Productive.Email
       </span>
 
     <% end %>

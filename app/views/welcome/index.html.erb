@@ -5,17 +5,20 @@
     <div class="container">
 
       <div class="header-description">
-        <h2>A daily reminder of which emails you've forgotten to reply to.</h2>
+        <h2>Increase productivity across your organization by 10%</h2>
+        <<hr/>
+        <h3>Employees receive a daily reminder of which emails they've forgotten to reply to.</h3>
+        <h3>Managers receive real-time email analytics .</h3>
         <%# link_to "Start my Free Trial", omniauth_authorize_path("user", "google_oauth2"),
                     class: "btn btn-lg btn-header" %>
 
-        <form action="" method="POST">
+        <form action="" method="POST" class="reserve1">
           <script
           src="https://checkout.stripe.com/checkout.js" class="stripe-button"
           data-key="pk_test_dVDRjuxnmFU9tLH1UjDt7Jhx"
-          data-name="JumpUP.io"
-          data-description="JumpUP.io Deposit ($500.00)"
-          data-image="/assets/jumpup_logo70x70.png"
+          data-name="Productive.email"
+          data-description="Productive.email Deposit ($500.00)"
+          data-image="/assets/productive_email_logo.png"
           data-panelLabel="Reserve"
           data-label="Reserve Your Instance"
           data-allowRememberMe="false"
@@ -29,12 +32,12 @@
       <div class="header-features">
         <div class="row">
           <div class="col-sm-6 header-feature">
-            <h3><%= fa_icon "group" %>&nbsp; You're forgetting someone</h3>
+            <h3><%= fa_icon "group" %>&nbsp;EMPLOYEES, You're forgetting someone</h3>
 
             <p>
-              Your inbox fills up fast.  Your boss needs you to follow up with a customer,
+              Your inbox fills up fast. Your boss needs you to follow up with a customer,
               accounting needs the monthly revenue numbers, your co-workers are bugging you
-              to go out to lunch.  Along with personal emails, you've got daily deals from Groupon
+              to go out to lunch. Along with personal emails, you've got daily deals from Groupon
               and some guy sending you daily fitness tips.
             </p>
 
@@ -48,35 +51,40 @@
             <h3><%= fa_icon "random" %>&nbsp;Follow up. Follow through.</h3>
 
             <p>
-              Maybe you sent an email to potential customer three days ago, and haven't gotten a response?
-              We'll remind you.  Yesterday your customer asked for a refund while you were cooking dinner.
-              Don't worry, we'll remind you.  Your boss just sent a ten paragraph email outlining a number
+              Maybe you sent an email to your programmer three days ago and haven't gotten a response?
+              Productive.email will remind you. Yesterday your customer asked for a refund while you were cooking
+              dinner.
+              Don't worry, we'll remind you. Your boss just sent a ten paragraph email outlining a number
               of key questions for an important initiative.
-              We'll call out those key questions, and... we'll remind you.
+              Productive.email will call out those key questions for you.
             </p>
           </div>
         </div>
-      </div>
 
-      <div class="header-features">
         <div class="row">
-          <div class="col-sm-12 header-feature">
-            <h3 class="text-center">Relax. You don't have do anything. That's our job.</h3>
+          <div class="col-sm-6 header-feature">
+            <h3>Relax. You don't have do anything. That's our job.</h3>
+
             <p>
-              Oh-No-Mail-Go analyzes your email and with the help of some advanced algorithms,
-              we figure out exactly which of your emails deserve a response. No cumbersome settings of reminders, flagging messages, labeling or
-              BCC'ing some archiac email address (GAG, we're looking at you Followup.cc).
+              Productive.email analyzes your email and with the help of some advanced algorithms,
+              figures out exactly which of your emails deserve a response. No cumbersome settings of reminders,
+              flagging messages or labeling.
             </p>
-            <h3 class="text-center">You don't have to remember anything.</h3>
+          </div>
+
+          <div class="col-sm-6 header-feature">
+            <h3>You don't have to remember anything.</h3>
             <p>
               Everyday you'll receive a simple, daily email summarizing who's waiting to hear from you and who
-              hasn't responded to you.  No nagging reminders or popups messages.  Just a simple list of emails.
+              hasn't responded to you. No nagging reminders or popups messages.
+              Just a simple list of email to respond to.
               You're never going to forget to follow up ever again.
               Your customers are going to be so impressed (as if they weren't already).
             </p>
 
           </div>
         </div>
+
       </div>
 
       <!-- /.header-features -->
@@ -111,6 +119,145 @@
     </div>
     <!-- /container -->
   </section>
+
+
+  <section id="features" class="features">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-sm-3">
+          <div class="feature">
+            <%= fa_icon "globe", base: "square" %>
+            <h4>Important Email</h4>
+
+            <p>
+              You receive a ton of email.  We remind you only of the emails that require your personal
+              touch.
+            </p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+        <div class="col-sm-3">
+          <div class="feature">
+            <%= fa_icon "wrench", base: "square" %>
+            <h4>Important Questions</h4>
+
+            <p>
+              Each of your emails will have the revelent questions called out and highlighted
+              so that you know exactly which points to respond to.
+            </p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+        <div class="col-sm-3">
+          <div class="feature">
+            <%= fa_icon "desktop", base: "square" %>
+            <h4>Important People</h4>
+
+            <p>For each of your emails, a picture of the person that sent the email is
+              shown to the left (if we can find one!).
+              You won't be left guessing who you're replying to.</p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+        <div class="col-sm-3">
+          <div class="feature">
+            <%= fa_icon "thumbs-up", base: "square" %>
+            <h4>Important Timing</h4>
+
+            <p>Your email summary is mailed to you first thing in the morning,
+              so that you can catch up on your emails from the day before.
+              Not a morning person? Don't worry, you can change your delivery time.</p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </section>
+
+  <header id="site-header" class="site-header">
+    <div class="container">
+      <div class="header-features">
+        <div class="row">
+          <div class="col-sm-6 header-feature">
+            <h3><%= fa_icon "star" %>&nbsp;MANAGERS, Who are your best team members?</h3>
+
+            <p>
+              Which of your team members respond the fastest when asked a question?  Which team member
+              responds quickly when a design decision needs to be made or an issue arises with the production system?
+            </p>
+
+          </div>
+
+          <div class="col-sm-6 header-feature">
+            <h3><%= fa_icon "bar-chart" %>&nbsp;Know Your Employees.</h3>
+
+            <p>
+              Sales and support aren't the only groups in the company that need email analytics.
+              Time to market, customer acquisition and opportunity costs are all tightly coupled
+              to email communication and are greatly dependent on how efficiently everyone makes decisions
+              together.
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <form action="" method="POST" class="reserve2">
+              <script
+              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="pk_test_dVDRjuxnmFU9tLH1UjDt7Jhx"
+              data-name="Productive.email"
+              data-description="Productive.email Deposit ($500.00)"
+              data-image="/assets/productive_email_logo.png"
+              data-panelLabel="Reserve"
+              data-label="Reserve Your Instance"
+              data-allowRememberMe="false"
+              data-class="xxxxx"
+              >
+              </script>
+            </form>
+            <p/>
+            <p/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container -->
+  </header>
+
+  <section id="slider" class="slider text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+
+          <div id="slider-carousel" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="item active">
+                <%= image_tag "time_to_respond.png" %>
+              </div>
+            </div>
+            <a class="carousel-control lef" href="#slider-carousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right-side" href="#slider-carousel" data-slide="next">&rsaquo;</a>
+          </div>
+          <!-- /slider-carousel -->
+
+        </div>
+        <!-- /span12 -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </section>
+
+
+
 
   <section id="features" class="features">
     <div class="container">
