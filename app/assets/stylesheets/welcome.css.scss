@@ -43,6 +43,7 @@
     border-right: 1px solid rgba(255, 255, 255, 0.3);
     border-left: 1px solid rgba(255, 255, 255, 0.3);
     padding: 20px 10px;
+    height: 220px;
   }
   /* Testimonials
   / -------------------------------------------------- */
@@ -128,6 +129,11 @@
   / -------------------------------------------------- */
   .contact {
     background: #f3f3f3;
+  }
+
+  .tech {
+    background: #f3f3f3;
+    color: #444444;
   }
   /* google map */
   #map {

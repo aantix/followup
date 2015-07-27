@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
 
     # The User was found in our database
     if user
+      user.update!(omniauth_token: auth.credentials.token,
+                   omniauth_refresh_token: auth.credentials.refresh_token,
+                   omniauth_expires_at: Time.at(auth.credentials.expires_at))
+
       tracker.track(user.id, 'User signed in')
       return user
     end
@@ -80,7 +84,7 @@ class User < ActiveRecord::Base
   end
 
   def current_email_threads
-    email_threads.where("last_email_at > ?", FollowupJob::DISPLAY_LOOKBACK.days.ago).order("last_email_at desc")
+    email_threads.where("last_email_at > ?", FollowupInboxJob::DISPLAY_LOOKBACK.days.ago).order("last_email_at desc")
   end
 
   def find_profile_image

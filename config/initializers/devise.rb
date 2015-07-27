@@ -236,9 +236,8 @@ Devise.setup do |config|
   config.omniauth :google_oauth2, ENV['GOOGLE_APP_ID'], ENV['GOOGLE_SECRET_ID'], {
       prompt: 'consent',
       access_type: 'offline',
-      scope: 'https://mail.google.com/,https://www.googleapis.com/auth/userinfo.email'
+      scope: "email,profile,gmail.readonly,gmail.modify"
   }
-
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

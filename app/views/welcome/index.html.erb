@@ -6,9 +6,48 @@
 
       <div class="header-description">
         <h2>Increase productivity across your organization by 10%</h2>
-        <<hr/>
-        <h3>Employees receive a daily reminder of which emails they've forgotten to reply to.</h3>
-        <h3>Managers receive real-time email analytics .</h3>
+
+        <hr/>
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>
+              <blockquote>
+                The average interaction worker spends an estimated 28 percent of the workweek managing e-mail
+                <footer>
+                  <strong>
+                  <%= link_to "McKinsey Global Institute", "http://www.mckinsey.com/" %>,
+                  <cite title="Source Title">
+                    <%= link_to "The social economy: Unlocking value and productivity through social technologies", "http://www.mckinsey.com/insights/high_tech_telecoms_internet/the_social_economy" %>
+                  </cite>
+                  </strong>
+                </footer>
+              </blockquote>
+            </h3>
+          </div>
+        </div>
+        <hr/>
+
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <h2>For Your Employees</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6 header-feature">
+            <h3>Q: How can your organization work faster?</h3>
+
+            <h3>A: Give them feedback on how responsive they are.</h3>
+          </div>
+          <div class="col-sm-6 header-feature text-left">
+            <h3>- Daily email reminder to each employee outlining which emails they need to follow up on.</h3>
+
+            <h3>- Weekly email summary showing each employee how quickly they responded to team members
+              and which email threads were most active<br/>
+            </h3>
+          </div>
+        </div>
+
         <%# link_to "Start my Free Trial", omniauth_authorize_path("user", "google_oauth2"),
                     class: "btn btn-lg btn-header" %>
 
@@ -32,7 +71,7 @@
       <div class="header-features">
         <div class="row">
           <div class="col-sm-6 header-feature">
-            <h3><%= fa_icon "group" %>&nbsp;EMPLOYEES, You're forgetting someone</h3>
+            <h3><%= fa_icon "group" %>&nbsp;You're forgetting to email someone</h3>
 
             <p>
               Your inbox fills up fast. Your boss needs you to follow up with a customer,
@@ -63,7 +102,7 @@
 
         <div class="row">
           <div class="col-sm-6 header-feature">
-            <h3>Relax. You don't have do anything. That's our job.</h3>
+            <h3>Relax. You don't have do anything.</h3>
 
             <p>
               Productive.email analyzes your email and with the help of some advanced algorithms,
@@ -74,6 +113,7 @@
 
           <div class="col-sm-6 header-feature">
             <h3>You don't have to remember anything.</h3>
+
             <p>
               Everyday you'll receive a simple, daily email summarizing who's waiting to hear from you and who
               hasn't responded to you. No nagging reminders or popups messages.
@@ -121,7 +161,7 @@
   </section>
 
 
-  <section id="features" class="features">
+  <section class="features">
     <div class="container">
       <div class="row">
 
@@ -131,7 +171,7 @@
             <h4>Important Email</h4>
 
             <p>
-              You receive a ton of email.  We remind you only of the emails that require your personal
+              You receive a ton of email. We remind you only of the emails that require your personal
               touch.
             </p>
           </div>
@@ -181,22 +221,46 @@
     <!-- /container -->
   </section>
 
-  <header id="site-header" class="site-header">
+  <section class="site-header">
     <div class="container">
-      <div class="header-features">
+      <div class="header-description">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <h2>For Your Managers</h2>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-sm-6 header-feature">
-            <h3><%= fa_icon "star" %>&nbsp;MANAGERS, Who are your best team members?</h3>
+            <h3>Q: How can a product manager improve email communication?</h3>
+
+            <h3>A: First you must measure, then make improvements.</h3>
+          </div>
+          <div class="col-sm-6 header-feature text-left">
+            <h3>- Each manager receives a weekly email summary showing
+              a breakdown of each of their team members, how responsive they are
+              with their email, what are the most talked about projects, and what
+              are some of the questions being asked.<br/>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-features">
+
+        <div class="row">
+          <div class="col-sm-6 header-feature">
+            <h3><%= fa_icon "star" %>&nbsp;Who are your best team members?</h3>
 
             <p>
-              Which of your team members respond the fastest when asked a question?  Which team member
+              Which of your team members respond the fastest when asked a question? Which team member
               responds quickly when a design decision needs to be made or an issue arises with the production system?
             </p>
 
           </div>
 
           <div class="col-sm-6 header-feature">
-            <h3><%= fa_icon "bar-chart" %>&nbsp;Know Your Employees.</h3>
+            <h3><%= fa_icon "bar-chart" %>&nbsp;Know Your Team.</h3>
 
             <p>
               Sales and support aren't the only groups in the company that need email analytics.
@@ -223,14 +287,15 @@
               >
               </script>
             </form>
-            <p/>
-            <p/>
+            <p></p>
+
+            <p></p>
           </div>
         </div>
       </div>
     </div>
     <!-- /.container -->
-  </header>
+  </section>
 
   <section id="slider" class="slider text-center">
     <div class="container">
@@ -240,7 +305,18 @@
           <div id="slider-carousel" class="carousel slide">
             <div class="carousel-inner">
               <div class="item active">
+                <p class="text-center">
+                  Average Email Response Times
+                </p>
+
                 <%= image_tag "time_to_respond.png" %>
+                <p>
+
+                <p/>
+
+                <p>
+
+                <p/>
               </div>
             </div>
             <a class="carousel-control lef" href="#slider-carousel" data-slide="prev">&lsaquo;</a>
@@ -257,58 +333,33 @@
   </section>
 
 
-
-
-  <section id="features" class="features">
+  <section class="features">
     <div class="container">
       <div class="row">
 
-        <div class="col-sm-3">
+        <div class="col-sm-6">
           <div class="feature">
             <%= fa_icon "globe", base: "square" %>
-            <h4>Important Email</h4>
+            <h4>Improved Time to Market</h4>
 
             <p>
-              You receive a ton of email.  We remind you only of the emails that require your personal
-              touch.
+              Slow email responders are costing your company money. In order for initiatives to move forward
+              everyone needs to be responding in a timely manner. Productive.email shows you the email response
+              times for all of the employees on your team,
+              so that you can see who is pushing things forward and who is holding up the show.
             </p>
           </div>
         </div>
         <!-- /span3 -->
 
-        <div class="col-sm-3">
+        <div class="col-sm-6">
           <div class="feature">
             <%= fa_icon "wrench", base: "square" %>
-            <h4>Important Questions</h4>
+            <h4>Improved Transparency</h4>
 
             <p>
-              Each of your emails will have the revelent questions called out and highlighted
-              so that you know exactly which points to respond to.
+              Know which email threads are the most active, which projects are most talked about..
             </p>
-          </div>
-        </div>
-        <!-- /span3 -->
-
-        <div class="col-sm-3">
-          <div class="feature">
-            <%= fa_icon "desktop", base: "square" %>
-            <h4>Important People</h4>
-
-            <p>For each of your emails, a picture of the person that sent the email is
-              shown to the left (if we can find one!).
-              You won't be left guessing who you're replying to.</p>
-          </div>
-        </div>
-        <!-- /span3 -->
-
-        <div class="col-sm-3">
-          <div class="feature">
-            <%= fa_icon "thumbs-up", base: "square" %>
-            <h4>Important Timing</h4>
-
-            <p>Your email summary is mailed to you first thing in the morning,
-              so that you can catch up on your emails from the day before.
-              Not a morning person? Don't worry, you can change your delivery time.</p>
           </div>
         </div>
         <!-- /span3 -->
@@ -317,6 +368,63 @@
       <!-- /row -->
     </div>
     <!-- /container -->
+  </section>
+
+  <section class="features tech">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h2>The Tech</h2>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-4">
+          <div class="feature">
+            <%= fa_icon "laptop", base: "square" %>
+            <h4>Virtualization</h4>
+
+            <p>
+              Productive.email runs as a virtual appliance
+              and can easily run on VMware, OpenStack KVM or AWS.
+            </p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+        <div class="col-sm-4">
+          <div class="feature">
+            <%= fa_icon "key", base: "square" %>
+            <h4>Secure</h4>
+
+            <p>
+              Your email is the lifeblood of your company.  Productive.email runs behind
+              your corporate network so that you maintain full control.  All data is encrypted using
+              AES256 (American Encryption Standard), the same encryption standards banks use.
+            </p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+        <div class="col-sm-4">
+          <div class="feature">
+            <%= fa_icon "envelope", base: "square" %>
+            <h4>Platform</h4>
+
+            <p>
+              Productive.email runs under Microsoft Exchange Server, the most popular Enterprise email server in the world.
+            </p>
+          </div>
+        </div>
+        <!-- /span3 -->
+
+
+      </div>
+      <!-- /row -->
+    </div>
+
   </section>
 
   <section id="testimonials" class="testimonials">
@@ -347,7 +455,7 @@
                     <%= fa_icon "quote-left", base: "square" %>
 
                     <p>Fantastic service. I make a living selling insurance and there's times where
-                    I have more leads than I can handle.  Now none of my potential clients
+                      I have more leads than I can handle. Now none of my potential clients
                       slip through the cracks.</p>
                     <small>Jim Jones <cite title="Source Title">CEO of Enron</cite></small>
                   </div>
@@ -428,7 +536,7 @@
         <div class="col-sm-6">
           <h2>Feedbacks & Questions</h2>
 
-            <p><%= fa_icon "bullhorn 4x", class: "pull-left text-muted" %>We'd love to hear from you.</p>
+          <p><%= fa_icon "bullhorn 4x", class: "pull-left text-muted" %>We'd love to hear from you.</p>
         </div>
         <div class="col-sm-6">
           <br>

@@ -25,6 +25,7 @@ gem 'gibberish'
 # Need to bump the mail gem to 2.5.4 to make it compaitble with Rails and gmail gem
 # https://github.com/nu7hatch/gmail/pull/114
 gem 'gmail', git: 'https://github.com/aantix/gmail.git'
+gem 'google-api-client', require: 'google/api_client'
 #gem 'gmail', path: '../gmail'
 
 gem 'tactful_tokenizer'
@@ -70,7 +71,6 @@ gem 'bundler'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
-gem 'google-api-client'
 gem 'rails_config'
 gem 'validates_formatting_of'
 gem 'tzinfo-data'
