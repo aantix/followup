@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 20150628043600) do
     t.string   "url",        limit: 255
     t.string   "image",      limit: 255
     t.boolean  "active",                 default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "email_threads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20150628043600) do
     t.string   "thread_id",     limit: 255
     t.datetime "last_email_at"
     t.integer  "emails_count",  limit: 4,   default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_email_threads_on_deleted_at", using: :btree
   end
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20150628043600) do
     t.string   "content_type",    limit: 255
     t.datetime "received_on"
     t.integer  "questions_count", limit: 4,     default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_emails_on_deleted_at", using: :btree
   end
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(version: 20150628043600) do
   create_table "questions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer  "email_id",   limit: 4
     t.text     "question",   limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_questions_on_deleted_at", using: :btree
   end
@@ -72,8 +72,8 @@ ActiveRecord::Schema.define(version: 20150628043600) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                                                null: false
+    t.datetime "updated_at",                                                                null: false
     t.string   "provider",               limit: 255
     t.string   "uid",                    limit: 255
     t.string   "name",                   limit: 255
