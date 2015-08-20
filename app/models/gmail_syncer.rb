@@ -17,6 +17,8 @@ class GmailSyncer
                                         authorization: auth)
 
     @total_count = result.data.messages_total
+
+    puts "!!! total_count = #{@total_count}"
   end
 
   def get_next_page params={}
@@ -33,45 +35,57 @@ class GmailSyncer
     ((@total_cached_messages / @total_count.to_f) * 100).round
   end
 
+  # message.data.payload.mimeType
+  # => "multipart/alternative"
+
+  # message.data.payload.parts.first.mimeType  => text/plain;text/html
+  # message.data.payload.parts.first.body.data =>
+
+
   def cache_messages_for_page page
     logger.info "Getting a new page of messages"
 
     batch = Google::APIClient::BatchRequest.new do |message|
+      puts "!!! batch syncing"
       thread  = user.email_threads.find_or_create_by(thread_id: message.data.thread_id)
 
       return if thread.destroyed?
 
       cached_message = thread.emails.where(message_id: message.data.id).first_or_initialize
 
-      # begin
+      begin
+        binding.pry
         from = email_for(find_header('From', message))
         to   = email_for(find_header('To', message))
 
-        cached_message.update_attributes! from_name: from.display_name,
-                                          from_email: from.address,
-                                          to_name: to.display_name,
-                                          to_email: to.address,
-                                          subject: find_header('Subject', message),
-                                          received_on: find_header('Date', message)
-      # rescue
+        begin
+          cached_message.update_attributes! from_name: from.display_name,
+                                            from_email: from.address,
+                                            to_name: to.display_name,
+                                            to_email: to.address,
+                                            subject: find_header('Subject', message),
+                                            received_on: find_header('Date', message)
+        end
+
+      rescue
         logger.error "Could not cache message #{message.data.id} for user #{user.email}"
-      # end
+      end
 
       @total_cached_messages += 1
 
-      logger.info "#{@total_cached_messages}) #{message.data.id} -- #{message.data.payload.mime_type}"
+      logger.info "#{@total_cached_messages}) #{message.data.id}"
     end
 
     page.data.messages.each do |message|
+      binding.pry
+
       batch.add(api_method: $gmail_api.users.messages.get,
-                parameters: {userId: 'me', id: message.id, format: 'metadata'})
+                parameters: {userId: 'me', id: message.id, format: 'full'})
     end
 
-    $google_api_client.execute(batch, authorization: auth)
+    $google_api_client.execute(batch, authorization: auth) unless page.data.messages.empty?
 
-    if page.next_page_token
-      get_next_page pageToken: page.next_page_token
-    end
+    get_next_page(pageToken: page.next_page_token) if page.next_page_token
   end
 
   def find_header header_name, message
@@ -79,8 +93,8 @@ class GmailSyncer
   end
 
   def email_for e
-    raw_addresses = Mail::AddressList.new(e)
-    if raw_addresses.addresses.any?
+    raw_addresses = Mail::AddressList.new(e) rescue nil
+    if raw_addresses.present? && raw_addresses.addresses.any?
       raw_addresses.addresses.first
     else
       address = Struct.new(:address, :display_name)

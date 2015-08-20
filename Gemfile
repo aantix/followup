@@ -4,7 +4,7 @@ ruby '2.2.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 
-gem 'rails', github: "rails/rails"
+gem 'rails', github: "rails/rails", ref: "2ea95a522a058183c27552d78722ed52716b3b13"
 gem 'arel', github: "rails/arel"
 
 gem 'devise', github: 'plataformatec/devise'
@@ -75,6 +75,8 @@ gem 'rails_config'
 gem 'validates_formatting_of'
 gem 'tzinfo-data'
 gem 'nokogiri'
+
+gem 'record_tag_helper', git: "https://github.com/rails/record_tag_helper.git"
 
 gem 'carrierwave'
 gem 'cloudinary'
