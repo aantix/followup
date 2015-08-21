@@ -1,14 +1,15 @@
 module Mail
   module Adapters
     class GmailAdapter
-      attr_reader :user, :total_cached_messages
+      include Retryable
+
+      attr_reader :user, :total_cached_messages, :full_filter_messages
 
       FULL_MESSAGE     = 'full'
       METADATA_MESSAGE = 'metadata'  # Headers plus message subject. No message body
       MAX_BATCH        = 1000
-      PARAMETERS       = {userId: 'me', labelIds: 'INBOX'}
 
-      def initialize(user, adapter = nil)
+      def initialize(user)
         @user = user
         @full_filter_messages = []
         @total_cached_messages = 0
@@ -16,46 +17,52 @@ module Mail
 
       def messages
         query_message_count
-        filter_meta_messages
-        filter_full_messages
+
+        filter_full_messages if filter_meta_messages
       end
 
       private
 
+      def parameters
+        @lookback||=2.days.ago.to_date
+        @parameters||={userId: 'me', labelIds: 'INBOX', q: "after:#{@lookback.year}/#{@lookback.month}/#{@lookback.day}"}
+      end
+
       def filter_meta_messages
         page = begin
-          $google_api_client.execute(api_method: $gmail_api.users.messages.list,
-                                     parameters: PARAMETERS,
-                                     authorization: auth)
-        rescue StandardError => error
-          logger.info "!!! filter_meta_messages - #{error.message}"
-          logger.info error.backtrace.join("\n")
-
-          sleep 10
-          retry
+          message_list
+        rescue StandardError
+          retry_it? ? retry : (return false)
         end
 
         begin
           batch_messages_for_page page.data.messages, meta_filter, METADATA_MESSAGE
 
           page = begin
-            $google_api_client.execute(api_method: $gmail_api.users.messages.list,
-                                       parameters: PARAMETERS.merge({pageToken: page.next_page_token}),
-                                       authorization: auth) if page.next_page_token
-          rescue StandardError => error
-            logger.info "!!! filter_meta_messages - #{error.message}"
-            logger.info error.backtrace.join("\n")
-
-            sleep 10
-            retry
+            message_list(pageToken: page.next_page_token) if page.next_page_token
+          rescue StandardError
+            retry_it? ? retry : (return false)
           end
 
         end while page.next_page_token
+        true
+      end
+
+      def message_list(params = {})
+        $google_api_client.execute(api_method: $gmail_api.users.messages.list,
+                                   parameters: parameters.merge(params),
+                                   authorization: auth)
+      end
+
+      def label_list(params = {})
+        $google_api_client.execute(api_method: $gmail_api.users.labels.get,
+                                   parameters: parameters.merge(params),
+                                   authorization: auth)
       end
 
       def filter_full_messages
         # Process full messages in groups of 1,000
-        full_filtering_groups = @full_filter_messages.uniq.in_groups_of(MAX_BATCH)
+        full_filtering_groups = full_filter_messages.uniq.in_groups_of(MAX_BATCH)
 
         full_filtering_groups.each do |filtered_messages|
           batch_messages_for_page filtered_messages.compact, full_filter, FULL_MESSAGE
@@ -63,8 +70,7 @@ module Mail
       end
 
       def query_message_count
-        result = $google_api_client.execute(api_method: $gmail_api.users.labels.get, parameters: {userId: 'me', id: 'INBOX'}, authorization: auth)
-
+        result = label_list(id: 'INBOX')
         @total_count = result.data.messages_total
       end
 
@@ -74,22 +80,29 @@ module Mail
 
       def full_filter
         Google::APIClient::BatchRequest.new do |message|
-          unless Mail::Filters::BodyFilter.filtered?(message.data.payload.parts[1].body.data)
+          payload = message.data.payload rescue nil
 
-            msg  = Message.new(thread_id: message.data.thread_id,
-                               message_id: message.data.id,
-                               to_name: to(message).display_name, to_email: to(message).address,
-                               from_name: from(message).display_name, from_email: from(message).address,
-                               subject: find_header('Subject', message),
-                               received_on: find_header('Date', message),
-                               plain_body: message.data.payload.parts[0].body.data,
-                               html_body: message.data.payload.parts[1].body.data)
+          if payload.present? && payload.parts.present? && payload.parts.size > 0
+            unless Mail::Filters::BodyFilter.filtered?(payload.parts[payload.parts.size - 1].body.data)
 
-            Mail::Adapters::MailAdapter.save_message!(msg)
+              msg  = Mail::EmailMessage.new(thread_id: message.data.thread_id,
+                                            message_id: message.data.id,
 
-            total_cached_messages += 1
+                                            to_name: to(message).display_name,
+                                            to_email: to(message).address,
 
-            logger.info "#{total_cached_messages}) #{message.data.id}"
+                                            from_name: from(message).display_name,
+                                            from_email: from(message).address,
+
+                                            subject: find_header('Subject', message),
+                                            received_on: find_header('Date', message),
+
+                                            plain_body: message.data.payload.parts[0].body.data.force_encoding('UTF-8'),
+                                            html_body: message.data.payload.parts[1].body.data.force_encoding('UTF-8'))
+
+              Mail::Adapters::MailAdapter.save_message!(user, msg)
+              @total_cached_messages += 1
+            end
           end
         end
       end
@@ -98,7 +111,7 @@ module Mail
         msg = Struct.new(:id)
         Google::APIClient::BatchRequest.new do |message|
           unless filtered?(message)
-            @full_filter_messages << msg.new(message.data.id)
+            full_filter_messages << msg.new(message.data.id)
           end
         end
       end
@@ -124,18 +137,21 @@ module Mail
         end
 
         begin
-          $google_api_client.execute(filter, authorization: auth) unless messages.empty?
+          filtered_message_list(filter) unless messages.empty?
         rescue StandardError => error
-          logger.info "!!! batch_messages_for_page - #{error.message}"
-          logger.info error.backtrace.join("\n")
+          puts "*** Error : #{error.message}"
+          puts "*** #{error.backtrace.join("\n")}"
 
-          sleep 10
-          retry
+          retry if retry_it?
         end
       end
 
+      def filtered_message_list(filter)
+        $google_api_client.execute(filter, authorization: auth)
+      end
+
       def find_header header_name, message
-        message.data.payload.headers.find { |h| h.name.strip.downcase == header_name.downcase }.value
+        message.data.payload.headers.find { |h| h.name.strip.downcase == header_name.downcase }.value.scrub
       end
 
       def from(message)

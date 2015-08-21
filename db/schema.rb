@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150628043600) do
+ActiveRecord::Schema.define(version: 20150820184101) do
 
   create_table "email_profile_images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "email",      limit: 255
@@ -41,7 +41,8 @@ ActiveRecord::Schema.define(version: 20150628043600) do
     t.string   "to_email",        limit: 255
     t.string   "to_name",         limit: 255
     t.string   "subject",         limit: 255
-    t.text     "body",            limit: 65535
+    t.text     "plain_body",      limit: 65535
+    t.text     "html_body",       limit: 65535
     t.string   "content_type",    limit: 255
     t.datetime "received_on"
     t.integer  "questions_count", limit: 4,     default: 0

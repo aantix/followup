@@ -1,6 +1,7 @@
 $google_api_client = Google::APIClient.new(
     application_name: 'Followup',
-    application_version: '1.0.0'
+    application_version: '1.0.0',
+    force_encoding: true
 )
 
 auth = Signet::OAuth2::Client.new
