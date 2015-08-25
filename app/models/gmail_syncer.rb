@@ -54,7 +54,6 @@ class GmailSyncer
       cached_message = thread.emails.where(message_id: message.data.id).first_or_initialize
 
       begin
-        binding.pry
         from = email_for(find_header('From', message))
         to   = email_for(find_header('To', message))
 
@@ -77,8 +76,6 @@ class GmailSyncer
     end
 
     page.data.messages.each do |message|
-      binding.pry
-
       batch.add(api_method: $gmail_api.users.messages.get,
                 parameters: {userId: 'me', id: message.id, format: 'full'})
     end

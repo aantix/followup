@@ -1,7 +1,10 @@
+Encoding.default_external="UTF-8"
+Encoding.default_internal = Encoding.default_external
+
 $google_api_client = Google::APIClient.new(
     application_name: 'Followup',
-    application_version: '1.0.0',
-    force_encoding: true
+    application_version: '1.0.0'
+    #force_encoding: true
 )
 
 auth = Signet::OAuth2::Client.new

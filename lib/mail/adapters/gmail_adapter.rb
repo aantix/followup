@@ -19,12 +19,17 @@ module Mail
         query_message_count
 
         filter_full_messages if filter_meta_messages
+
+        puts "-------------------------------------------"
+        puts "total_saves = #{@total_saves}"
+        puts "total_failed_saves = #{@total_failed_saves.inspect}"
+        puts "-------------------------------------------"
       end
 
       private
 
       def parameters
-        @lookback||=2.days.ago.to_date
+        @lookback||=4.days.ago.to_date
         @parameters||={userId: 'me', labelIds: 'INBOX', q: "after:#{@lookback.year}/#{@lookback.month}/#{@lookback.day}"}
       end
 
@@ -44,7 +49,7 @@ module Mail
             retry_it? ? retry : (return false)
           end
 
-        end while page.next_page_token
+        end while page.present? && page.next_page_token
         true
       end
 
@@ -79,11 +84,26 @@ module Mail
       end
 
       def full_filter
-        Google::APIClient::BatchRequest.new do |message|
-          payload = message.data.payload rescue nil
+        @total_saves||=0
+        @total_failed_saves||=Hash.new(0)
 
-          if payload.present? && payload.parts.present? && payload.parts.size > 0
+        Google::APIClient::BatchRequest.new do |message|
+          # binding.pry if ["14f61ddba89cf3a2", "14f60b9dd2934e22", "14f60abbb6d7052f"].include?(message.data.id)
+          payload = message.data.payload rescue return
+
+          if payload.parts.any? && payload.parts.size > 0
             unless Mail::Filters::BodyFilter.filtered?(payload.parts[payload.parts.size - 1].body.data)
+
+              message_json = JSON.parse(message.data.to_json)
+
+              # begin
+                plain_body = Base64.urlsafe_decode64(message_json['payload']['parts'][0]['body']['data']) rescue nil
+              # rescue => e
+                # Looks like some of these emails have parts that have more multiple parts.
+                #  Just look
+                # binding.pry
+              # end
+              html_body  = Base64.urlsafe_decode64(message_json['payload']['parts'][1]['body']['data']) rescue nil
 
               msg  = Mail::EmailMessage.new(thread_id: message.data.thread_id,
                                             message_id: message.data.id,
@@ -97,11 +117,21 @@ module Mail
                                             subject: find_header('Subject', message),
                                             received_on: find_header('Date', message),
 
-                                            plain_body: message.data.payload.parts[0].body.data.force_encoding('UTF-8'),
-                                            html_body: message.data.payload.parts[1].body.data.force_encoding('UTF-8'))
+                                            plain_body: plain_body,
+                                            html_body: html_body)
 
-              Mail::Adapters::MailAdapter.save_message!(user, msg)
+              @total_saves+=1
+
+              begin
+                Mail::Adapters::MailAdapter.save_message!(user, msg)
+                "Message saved!"
+              rescue
+                puts "Message not saved!"
+                @total_failed_saves[message.data.id]+=1
+              end
               @total_cached_messages += 1
+
+              puts "!!! total_saves = #{@total_saves} -- total_failed_saves = #{@total_failed_saves}"
             end
           end
         end
@@ -144,6 +174,15 @@ module Mail
 
           retry if retry_it?
         end
+      end
+
+      def plain_message(parts)
+
+
+      end
+
+      def html_message(parts)
+
       end
 
       def filtered_message_list(filter)
