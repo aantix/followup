@@ -1,7 +1,9 @@
 module Mail
   module Filters
     class SubjectFilter < BaseFilter
-      BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply', 'password reset', "confirm subscription"]
+      BLACKLISTED_SUBJECTS  = ['do not reply', 'donotreply',
+                               'password reset', 'confirm subscription',
+                               'invited you']
 
       def self.filtered?(subject)
         blacklisted_words?(BLACKLISTED_SUBJECTS, subject)

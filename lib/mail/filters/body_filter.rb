@@ -13,7 +13,7 @@ module Mail
                                'Help Center', 'Security']
 
       def self.filtered?(body)
-        blacklisted_words?(BLACKLISTED_PHRASES, body) || too_many_links?(body)
+        blacklisted_words?(BLACKLISTED_PHRASES, body) # || too_many_links?(body)
       end
 
       private

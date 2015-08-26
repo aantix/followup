@@ -84,26 +84,16 @@ module Mail
       end
 
       def full_filter
-        @total_saves||=0
-        @total_failed_saves||=Hash.new(0)
-
         Google::APIClient::BatchRequest.new do |message|
-          # binding.pry if ["14f61ddba89cf3a2", "14f60b9dd2934e22", "14f60abbb6d7052f"].include?(message.data.id)
           payload = message.data.payload rescue return
 
-          if payload.parts.any? && payload.parts.size > 0
-            unless Mail::Filters::BodyFilter.filtered?(payload.parts[payload.parts.size - 1].body.data)
+          if payload.parts.any?
+            message_json = JSON.parse(message.data.to_json)
 
-              message_json = JSON.parse(message.data.to_json)
+            plain        = plain_message(message_json)
+            html         = html_message(message_json)
 
-              # begin
-                plain_body = Base64.urlsafe_decode64(message_json['payload']['parts'][0]['body']['data']) rescue nil
-              # rescue => e
-                # Looks like some of these emails have parts that have more multiple parts.
-                #  Just look
-                # binding.pry
-              # end
-              html_body  = Base64.urlsafe_decode64(message_json['payload']['parts'][1]['body']['data']) rescue nil
+            unless Mail::Filters::BodyFilter.filtered?(html) || Mail::Filters::BodyFilter.filtered?(plain)
 
               msg  = Mail::EmailMessage.new(thread_id: message.data.thread_id,
                                             message_id: message.data.id,
@@ -117,21 +107,11 @@ module Mail
                                             subject: find_header('Subject', message),
                                             received_on: find_header('Date', message),
 
-                                            plain_body: plain_body,
-                                            html_body: html_body)
+                                            plain_body: plain,
+                                            html_body: html)
 
-              @total_saves+=1
+              Mail::Adapters::MailAdapter.save_message!(user, msg)
 
-              begin
-                Mail::Adapters::MailAdapter.save_message!(user, msg)
-                "Message saved!"
-              rescue
-                puts "Message not saved!"
-                @total_failed_saves[message.data.id]+=1
-              end
-              @total_cached_messages += 1
-
-              puts "!!! total_saves = #{@total_saves} -- total_failed_saves = #{@total_failed_saves}"
             end
           end
         end
@@ -151,6 +131,31 @@ module Mail
             Mail::Filters::FromFilter.filtered?(from(message).address, user.email) ||
             Mail::Filters::HeaderFilter.filtered?(message.data.payload.headers) ||
             Mail::Filters::SubjectFilter.filtered?(find_header('Subject', message))
+      end
+
+      def html_message(json)
+        decode_message(message_for(EmailMessage::HTML, json['payload']['parts']))
+      end
+
+      def plain_message(json)
+        decode_message(message_for(EmailMessage::TEXT, json['payload']['parts']))
+      end
+
+      def decode_message(messages)
+        message = messages.first || {body => {data => ""}}
+        Base64.urlsafe_decode64 message['body']['data']
+      end
+
+      def message_for(type, json)
+        collection = []
+        json.each do |message_part|
+          if message_part['parts'].present?
+            collection.concat(message_for(type, message_part['parts']))
+          else
+            collection << message_part if message_part['mimeType'] == type
+          end
+        end
+        collection
       end
 
       # message.data.payload.mimeType
@@ -174,15 +179,6 @@ module Mail
 
           retry if retry_it?
         end
-      end
-
-      def plain_message(parts)
-
-
-      end
-
-      def html_message(parts)
-
       end
 
       def filtered_message_list(filter)

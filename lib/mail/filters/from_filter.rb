@@ -18,7 +18,7 @@ module Mail
                                "main.office@", "manager@", "manchester@", "marketplace-messages@", "marketing@", "md@",
                                "media@", "member@", "@marketplace.amazon.com", "members@", "membership@", "news@",
                                "newsletter@", "nntp@", "noc@", "noreply", "no-reply@", "notifications@", "notify@", "notifier@",
-                               "nytdirect@", "office@", "officeadmin@", "order@",
+                               "nytdirect@", "office@", "officeadmin@", "order@", "feedback@",
                                "orders@", "payroll@", "post@", "postbox@", "postmaster@", "pr@", "president@", "privacy@",
                                "property@", "reception@", "recruit@", "recruitment@", "renewals@", "rental@",
                                "replies@", "reply@", "request@", "reservation@", "reservations@", "root@",
