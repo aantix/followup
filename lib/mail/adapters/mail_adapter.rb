@@ -1,6 +1,8 @@
 module Mail
   module Adapters
     class MailAdapter
+      CLAW_PATH  = "/usr/bin/python #{Rails.root}/scripts/email_extract/extract_response.py"
+
       attr_reader :adapter, :user
       delegate :messages, to: :adapter
 
@@ -16,26 +18,22 @@ module Mail
 
         cached_message = thread.emails.where(message_id: message.message_id).first_or_initialize
 
-        # begin
-          cached_message.update_attributes from_name: message.from_name,
-                                           from_email: message.from_email,
-                                           to_name: message.to_name,
-                                           to_email: message.to_email,
-                                           subject: valid_utf8(message.subject),
-                                           received_on: message.received_on,
-                                           html_body: message.html_body,
-                                           plain_body: message.plain_body
-        # rescue
-        #   logger.error "Could not cache message #{message.data.id} for user #{user.email}"
-        #
-        # end
+        cached_message.update_attributes! from_name: message.from_name,
+                                          from_email: message.from_email,
+                                          to_name: message.to_name,
+                                          to_email: message.to_email,
+                                          subject: message.subject,
+                                          received_on: message.received_on,
+                                          html_body: message.html_body,
+                                          plain_body: message.plain_body
+      end
+
+      def self.extract_body(content_type, quoted_body)
+        response  = `#{CLAW_PATH} \"#{content_type}\" \"#{Rack::Utils.escape_html(quoted_body)}\"` || {}
+        JSON.parse(response)["reply"]
       end
 
       private
-
-      def self.valid_utf8(s)
-        s.present? ? s.encode('UTF-8') : s
-      end
 
       def default_adapter
         Mail::Adapters::GmailAdapter

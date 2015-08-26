@@ -134,16 +134,20 @@ module Mail
       end
 
       def html_message(json)
-        decode_message(message_for(EmailMessage::HTML, json['payload']['parts']))
+        extract_body(EmailMessage::HTML, decode_message(message_for(EmailMessage::HTML, json['payload']['parts'])))
       end
 
       def plain_message(json)
-        decode_message(message_for(EmailMessage::TEXT, json['payload']['parts']))
+        extract_body(EmailMessage::TEXT, decode_message(message_for(EmailMessage::TEXT, json['payload']['parts'])))
       end
 
       def decode_message(messages)
-        message = messages.first || {body => {data => ""}}
+        message = messages.first || {'body' => {'data' => ""}}
         Base64.urlsafe_decode64 message['body']['data']
+      end
+
+      def extract_body(content_type, body)
+        Mail::Adapters::MailAdapter.extract_body(content_type, body)
       end
 
       def message_for(type, json)
