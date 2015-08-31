@@ -5,10 +5,15 @@ module Mail
                                'password reset', 'confirm subscription',
                                'invited you']
 
-      def self.filtered?(subject)
-        blacklisted_words?(BLACKLISTED_SUBJECTS, subject)
+      attr_reader :subject
+
+      def initialize(subject)
+        @subject = subject
       end
 
+      def filtered?
+        blacklisted_words?(BLACKLISTED_SUBJECTS, subject)
+      end
     end
   end
 end

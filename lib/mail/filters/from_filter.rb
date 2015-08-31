@@ -29,12 +29,19 @@ module Mail
                                "uk-info@", "usenet@", "uucp@", "vets@", "www@", "webadmin@", "webmail@", "webmaster@",
                                "whois@", "yahoogroups.com"]
 
-      def self.filtered?(from, owner)
-        blacklisted_words?(BLACKLISTED_EMAILS, from) || same_addresse(from, owner)
+      attr_reader :from, :owner
+
+      def initialize(from, owner)
+        @from  = from
+        @owner = owner
+      end
+
+      def filtered?
+        blacklisted_words?(BLACKLISTED_EMAILS, from) || same_addressee(from, owner)
       end
 
       private
-      def self.same_addresse(from, owner)
+      def same_addressee(from, owner)
         from == owner
       end
 

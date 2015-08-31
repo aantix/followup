@@ -12,16 +12,22 @@ module Mail
       BLACKLISTED_LINKS     = ['Privacy', 'Support', 'Blog', 'Legal', 'Terms', 'Terms of Use', 'Facebook', 'Twitter', 'Click Here',
                                'Help Center', 'Security']
 
-      def self.filtered?(body)
+      attr_reader :body
+
+      def initialize(body)
+        @body = body
+      end
+
+      def filtered?
         blacklisted_words?(BLACKLISTED_PHRASES, body) # || too_many_links?(body)
       end
 
       private
-      def self.too_many_links?(body)
+      def too_many_links?(body)
         link_count(body) > MAX_LINKS
       end
 
-      def self.link_count(body)
+      def link_count(body)
         doc = Nokogiri::HTML(body, 'utf-8')
         doc.search("a").reject do |a|
           BLACKLISTED_LINKS.any?{|bl| a.text =~ /#{bl}/i}

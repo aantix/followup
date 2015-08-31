@@ -1,6 +1,6 @@
 module Mail
   module Adapters
-    class GmailAdapter
+    class GmailAdapter < MailAdapter
       include Retryable
 
       attr_reader :user, :total_cached_messages, :full_filter_messages
@@ -19,11 +19,6 @@ module Mail
         query_message_count
 
         filter_full_messages if filter_meta_messages
-
-        puts "-------------------------------------------"
-        puts "total_saves = #{@total_saves}"
-        puts "total_failed_saves = #{@total_failed_saves.inspect}"
-        puts "-------------------------------------------"
       end
 
       private
@@ -75,7 +70,7 @@ module Mail
       end
 
       def query_message_count
-        result = label_list(id: 'INBOX')
+        result       = label_list(id: 'INBOX')
         @total_count = result.data.messages_total
       end
 
@@ -83,35 +78,39 @@ module Mail
         ((total_cached_messages / @total_count.to_f) * 100).round
       end
 
+      def save_message(message, plain_body, html_body, filtered = false, filter_message = nil)
+        msg = Mail::EmailMessage.new(thread_id: message.data.thread_id,
+                                     message_id: message.data.id,
+
+                                     to_name: to(message).display_name,
+                                     to_email: to(message).address,
+
+                                     from_name: from(message).display_name,
+                                     from_email: from(message).address,
+
+                                     subject: find_header('Subject', message),
+                                     received_on: find_header('Date', message),
+
+                                     plain_body: plain_body,
+                                     html_body: html_body,
+
+                                     filtered: filtered,
+                                     filter_message: filter_message)
+
+        save_message!(user, msg)
+
+      end
+
       def full_filter
         Google::APIClient::BatchRequest.new do |message|
-          payload = message.data.payload rescue return
+          payload = message.data.payload rescue nil
+          if payload.present? && payload.parts.any?
+            filter  = body_filtering(message)
 
-          if payload.parts.any?
-            message_json = JSON.parse(message.data.to_json)
-
-            plain        = plain_message(message_json)
-            html         = html_message(message_json)
-
-            unless Mail::Filters::BodyFilter.filtered?(html) || Mail::Filters::BodyFilter.filtered?(plain)
-
-              msg  = Mail::EmailMessage.new(thread_id: message.data.thread_id,
-                                            message_id: message.data.id,
-
-                                            to_name: to(message).display_name,
-                                            to_email: to(message).address,
-
-                                            from_name: from(message).display_name,
-                                            from_email: from(message).address,
-
-                                            subject: find_header('Subject', message),
-                                            received_on: find_header('Date', message),
-
-                                            plain_body: plain,
-                                            html_body: html)
-
-              Mail::Adapters::MailAdapter.save_message!(user, msg)
-
+            if body_filtering(message).filtered?
+              save_message(message, filter.html_body, filter.plain_body, true, filter.message)
+            else
+              save_message(message, filter.html_body, filter.plain_body)
             end
           end
         end
@@ -120,17 +119,31 @@ module Mail
       def meta_filter
         msg = Struct.new(:id)
         Google::APIClient::BatchRequest.new do |message|
-          unless filtered?(message)
+          filter = meta_filtering(message)
+
+          if filter.filtered?
+            save_message(message, nil, nil, true, filter.message)
+          else
             full_filter_messages << msg.new(message.data.id)
           end
         end
       end
 
-      def filtered?(message)
-        EmailThread.exists?(thread_id: message.data.thread_id) ||
-            Mail::Filters::FromFilter.filtered?(from(message).address, user.email) ||
-            Mail::Filters::HeaderFilter.filtered?(message.data.payload.headers) ||
-            Mail::Filters::SubjectFilter.filtered?(find_header('Subject', message))
+      def meta_filtering(message)
+        Mail::Filters::MetaFiltering.new(from(message).address, user.email,
+                                         message.data.payload.headers,
+                                         find_header('Subject', message))
+      end
+
+      def body_filtering(message)
+        plain = plain_message(message_json(message))
+        html  = html_message(message_json(message))
+
+        Mail::Filters::BodyFiltering.new(html, plain)
+      end
+
+      def message_json(message)
+        JSON.parse(message.data.to_json)
       end
 
       def html_message(json)
@@ -144,10 +157,6 @@ module Mail
       def decode_message(messages)
         message = messages.first || {'body' => {'data' => ""}}
         Base64.urlsafe_decode64 message['body']['data']
-      end
-
-      def extract_body(content_type, body)
-        Mail::Adapters::MailAdapter.extract_body(content_type, body)
       end
 
       def message_for(type, json)
@@ -190,7 +199,7 @@ module Mail
       end
 
       def find_header header_name, message
-        message.data.payload.headers.find { |h| h.name.strip.downcase == header_name.downcase }.value.scrub
+        (message.data.payload.headers.find { |h| h.name.strip.downcase == header_name.downcase } || Struct.new(:value).new).value
       end
 
       def from(message)

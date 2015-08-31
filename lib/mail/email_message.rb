@@ -9,7 +9,7 @@ module Mail
     attr_reader :to_name, :to_email
     attr_reader :from_name, :from_email
     attr_reader :html_body, :plain_body, :headers
-    attr_reader :received_on
+    attr_reader :received_on, :filtered, :filtered_message
 
     def initialize(properties)
       @thread_id   = properties[:thread_id]
@@ -27,6 +27,9 @@ module Mail
 
       @headers     = properties[:headers]
       @received_on = properties[:received_on]
+
+      @filtered         = properties[:filtered]
+      @filtered_message = properties[:filtered_message]
     end
   end
 end

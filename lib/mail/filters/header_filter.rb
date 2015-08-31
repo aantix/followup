@@ -5,7 +5,13 @@ module Mail
                              'Precedence' => 'junk', 'Auto-Submitted' => 'auto-generated',
                              'List-Unsubscribe' => :any}
 
-      def self.filtered?(headers)
+      attr_reader :headers
+
+      def initialize(headers)
+        @headers = headers
+      end
+
+      def filtered?
         if headers.is_a?(Hash)
           blacklisted_key_value?(BLACKLISTED_HEADERS, headers)
         else

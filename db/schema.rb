@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820184101) do
+ActiveRecord::Schema.define(version: 20150826175033) do
 
-  create_table "email_profile_images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "email_profile_images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "email",      limit: 255
     t.string   "url",        limit: 255
     t.string   "image",      limit: 255
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20150820184101) do
     t.datetime "updated_at",                             null: false
   end
 
-  create_table "email_threads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "email_threads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "user_id",       limit: 4
     t.string   "thread_id",     limit: 255
     t.datetime "last_email_at"
@@ -33,26 +33,28 @@ ActiveRecord::Schema.define(version: 20150820184101) do
     t.index ["deleted_at"], name: "index_email_threads_on_deleted_at", using: :btree
   end
 
-  create_table "emails", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer  "email_thread_id", limit: 4
-    t.string   "message_id",      limit: 255
-    t.string   "from_email",      limit: 255
-    t.string   "from_name",       limit: 255
-    t.string   "to_email",        limit: 255
-    t.string   "to_name",         limit: 255
-    t.string   "subject",         limit: 255
-    t.text     "plain_body",      limit: 65535
-    t.text     "html_body",       limit: 65535
-    t.string   "content_type",    limit: 255
+  create_table "emails", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "email_thread_id",  limit: 4
+    t.boolean  "filtered",                       default: true
+    t.string   "filtered_message", limit: 255
+    t.string   "message_id",       limit: 255
+    t.string   "from_email",       limit: 255
+    t.string   "from_name",        limit: 255
+    t.string   "to_email",         limit: 255
+    t.string   "to_name",          limit: 255
+    t.string   "subject",          limit: 255
+    t.text     "plain_body",       limit: 65535
+    t.text     "html_body",        limit: 65535
+    t.string   "content_type",     limit: 255
     t.datetime "received_on"
-    t.integer  "questions_count", limit: 4,     default: 0
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.integer  "questions_count",  limit: 4,     default: 0
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_emails_on_deleted_at", using: :btree
   end
 
-  create_table "questions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "questions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "email_id",   limit: 4
     t.text     "question",   limit: 65535
     t.datetime "created_at",               null: false
@@ -61,11 +63,11 @@ ActiveRecord::Schema.define(version: 20150820184101) do
     t.index ["deleted_at"], name: "index_questions_on_deleted_at", using: :btree
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "email",                  limit: 255, default: "",                           null: false
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.string   "email",                  limit: 128, default: "",                           null: false
     t.string   "encrypted_password",     limit: 255, default: "",                           null: false
     t.string   "image_url",              limit: 255
-    t.string   "reset_password_token",   limit: 255
+    t.string   "reset_password_token",   limit: 128
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",          limit: 4,   default: 0,                            null: false

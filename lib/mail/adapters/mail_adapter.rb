@@ -11,7 +11,7 @@ module Mail
         @adapter = (adapter || default_adapter).new(user)
       end
 
-      def self.save_message!(user, message)
+      def save_message!(user, message)
         thread = user.email_threads.find_or_create_by(thread_id: message.thread_id)
 
         return if thread.destroyed?
@@ -28,7 +28,7 @@ module Mail
                                           plain_body: message.plain_body
       end
 
-      def self.extract_body(content_type, quoted_body)
+      def extract_body(content_type, quoted_body)
         response  = `#{CLAW_PATH} \"#{content_type}\" \"#{Rack::Utils.escape_html(quoted_body)}\"` || {}
         JSON.parse(response)["reply"]
       end
