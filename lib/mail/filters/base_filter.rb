@@ -1,8 +1,8 @@
 module Mail
   module Filters
     class BaseFilter
-      attr_reader :filter
-      attr_reader :message
+      attr_accessor :filter
+      attr_accessor :message
 
       def initialize
         @filter  = nil
@@ -28,8 +28,8 @@ module Mail
       private
 
       def filtered(result)
-        filter  = result
-        message = "#{self.class}: '#{filter}' detected" if filter
+        self.filter  = result
+        self.message = "#{self.class}: '#{filter}'" if filter
         result
       end
     end

@@ -9,9 +9,9 @@ module Mail
 
       def filtered?
         invoked_filter = filters.detect{|filter| filter.filtered?}
-        message        = (invoked_filter || Struct.new(:message).new).message
+        self.message   = (invoked_filter || Struct.new(:message).new).message
 
-        invoked_filter
+        invoked_filter.present?
       end
 
     end

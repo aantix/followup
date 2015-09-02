@@ -25,7 +25,9 @@ module Mail
                                           subject: message.subject,
                                           received_on: message.received_on,
                                           html_body: message.html_body,
-                                          plain_body: message.plain_body
+                                          plain_body: message.plain_body,
+                                          filtered: message.filtered,
+                                          filtered_message: message.filter_message
       end
 
       def extract_body(content_type, quoted_body)

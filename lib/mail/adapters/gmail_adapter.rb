@@ -95,7 +95,7 @@ module Mail
                                      html_body: html_body,
 
                                      filtered: filtered,
-                                     filter_message: filter_message)
+                                     filtered_message: filter_message)
 
         save_message!(user, msg)
 
@@ -105,13 +105,10 @@ module Mail
         Google::APIClient::BatchRequest.new do |message|
           payload = message.data.payload rescue nil
           if payload.present? && payload.parts.any?
-            filter  = body_filtering(message)
-
-            if body_filtering(message).filtered?
-              save_message(message, filter.html_body, filter.plain_body, true, filter.message)
-            else
-              save_message(message, filter.html_body, filter.plain_body)
-            end
+            filter = body_filtering(message)
+            save_message(message,
+                         filter.html_body, filter.plain_body,
+                         filter.filtered?, filter.message)
           end
         end
       end
