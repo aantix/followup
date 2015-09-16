@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826175033) do
+ActiveRecord::Schema.define(version: 20150904174613) do
 
   create_table "email_profile_images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "email",      limit: 255
@@ -27,9 +27,10 @@ ActiveRecord::Schema.define(version: 20150826175033) do
     t.string   "thread_id",     limit: 255
     t.datetime "last_email_at"
     t.integer  "emails_count",  limit: 4,   default: 0
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.datetime "deleted_at"
+    t.boolean  "filtered",                  default: true
     t.index ["deleted_at"], name: "index_email_threads_on_deleted_at", using: :btree
   end
 

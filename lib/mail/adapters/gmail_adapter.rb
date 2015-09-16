@@ -9,15 +9,16 @@ module Mail
       METADATA_MESSAGE = 'metadata'  # Headers plus message subject. No message body
       MAX_BATCH        = 1000
 
-      def initialize(user)
+      def initialize(user, count_callback, message_callback)
         @user = user
         @full_filter_messages = []
         @total_cached_messages = 0
+        @count_callback   = count_callback
+        @message_callback = message_callback
       end
 
-      def messages
-        query_message_count
-
+      def messages(&block)
+        @count_callback.call query_message_count if @count_callback
         filter_full_messages if filter_meta_messages
       end
 
@@ -79,6 +80,8 @@ module Mail
       end
 
       def save_message(message, plain_body, html_body, filtered = false, filter_message = nil)
+        @message_callback.call if @message_callback
+
         msg = Mail::EmailMessage.new(thread_id: message.data.thread_id,
                                      message_id: message.data.id,
 

@@ -52,7 +52,7 @@ module EmailsHelper
   end
 
   def email_body_display(message, content_type)
-    (content_type == Email::TEXT ? simple_format(message) : message).html_safe
+    (content_type == Mail::EmailMessage::TEXT ? simple_format(message) : message).html_safe
   end
 
   def muted_text?(email)

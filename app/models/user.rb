@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
   end
 
   def current_email_threads
-    email_threads.where("last_email_at > ?", FollowupInboxJob::DISPLAY_LOOKBACK.days.ago).order("last_email_at desc")
+    email_threads.includes(:emails).where("last_email_at > ?", FollowupInboxJob::DISPLAY_LOOKBACK.days.ago).order("last_email_at desc")
   end
 
   def find_profile_image

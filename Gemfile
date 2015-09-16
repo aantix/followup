@@ -46,6 +46,7 @@ gem 'possible_email', git: "https://github.com/aantix/possible-email.git"
 
 gem 'sidekiq'
 gem 'sidekiq-status', git: "https://github.com/utgarda/sidekiq-status.git"
+
 gem 'thread'
 gem 'sidekiq-benchmark'
 

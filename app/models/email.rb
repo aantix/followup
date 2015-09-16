@@ -20,4 +20,16 @@ class Email < ActiveRecord::Base
     email_thread.save!
   end
 
+  def from_name
+    read_attribute(:from_name) || "--"
+  end
+
+  def body
+    html_body || plain_body
+  end
+
+  def content_type
+    read_attribute(:html_body).present? ? Mail::EmailMessage::HTML : Mail::EmailMessage::TEXT
+  end
+
 end
