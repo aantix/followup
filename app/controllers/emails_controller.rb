@@ -5,6 +5,12 @@ class EmailsController < ApplicationController
   # GET /emails
   # GET /emails.json
   def index
+    gon.debug = false
+    if params[:job_id]
+      gon.job_id = params[:job_id]
+      gon.debug  = true
+    end
+
     @email_threads = current_user.current_email_threads
   end
 
@@ -67,6 +73,11 @@ class EmailsController < ApplicationController
       }
       format.js
     end
+  end
+
+  def status
+    @percent = (Sidekiq::Status::pct_complete(params[:job_id]) * 100).ceil
+    render "shared/progress_bar"
   end
 
   private

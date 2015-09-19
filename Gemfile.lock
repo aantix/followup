@@ -240,6 +240,11 @@ GEM
       activesupport (>= 4.1.0)
     gmail_xoauth (0.4.1)
       oauth (>= 0.3.6)
+    gon (6.0.1)
+      actionpack (>= 3.0)
+      json
+      multi_json
+      request_store (>= 1.0)
     google-api-client (0.8.6)
       activesupport (>= 3.2)
       addressable (~> 2.3)
@@ -374,6 +379,7 @@ GEM
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
+    request_store (1.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rest-client (1.8.0)
@@ -507,6 +513,7 @@ DEPENDENCIES
   font-awesome-rails
   gibberish
   gmail!
+  gon
   google-api-client
   google-spreadsheet-ruby
   google_drive (= 0.3.9)

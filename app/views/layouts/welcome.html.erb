@@ -5,11 +5,13 @@
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= Gon::Base.render_data %>
   <%= csrf_meta_tags %>
   <meta name="google-site-verification" content="NHiuHvKre0g1V7qdYta4Q7yl1aJhav0lP39FpxtEm8g" />
   <%= render partial: "shared/mixpanel" %>
 </head>
-<body>
+
+<body class="<%= controller_name %> <%= action_name %>">
 
 <%= yield %>
 

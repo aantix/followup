@@ -17,13 +17,14 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <meta name="google-site-verification" content="6O6X0lz0eOg_8INHMqcY2ntltw7AFi1bN9viwrH4gBQ" />
   <%= render partial: "shared/mixpanel" %>
+  <%= Gon::Base.render_data %>
 
   <%= yield(:head) %>
 
   <%= csrf_meta_tags %>
 </head>
 
-<body class="<%= controller_name %>">
+<body class="<%= controller_name %> <%= action_name %>">
   <header id="site-header" class="site-header">
     <%= render partial: "shared/site_header", locals: {classes: ""} %>
   </header>

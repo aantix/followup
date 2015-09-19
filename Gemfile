@@ -73,6 +73,7 @@ gem 'rails_config'
 gem 'validates_formatting_of'
 gem 'tzinfo-data'
 gem 'nokogiri'
+gem 'gon'
 
 gem 'record_tag_helper', git: "https://github.com/rails/record_tag_helper.git"
 

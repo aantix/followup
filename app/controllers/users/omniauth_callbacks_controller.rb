@@ -15,10 +15,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
 
       #sign_in_and_redirect @user, :event => :authentication # This will throw if @user is not activated
-      FollowupInboxJob.perform_later(@user.id, false)
+      job_id = FollowupInboxJob.perform_async(@user.id)
 
       sign_in @user
-      redirect_to emails_path
+      redirect_to emails_path(job_id: job_id)
 
       set_flash_message(:notice, :success, :kind => "Google") if is_navigational_format?
     else

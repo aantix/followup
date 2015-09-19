@@ -25,7 +25,7 @@ module Mail
       private
 
       def parameters
-        @lookback||=4.days.ago.to_date
+        @lookback||=LOOKBACK.days.ago.to_date
         @parameters||={userId: 'me', labelIds: 'INBOX', q: "after:#{@lookback.year}/#{@lookback.month}/#{@lookback.day}"}
       end
 

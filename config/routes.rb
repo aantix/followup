@@ -1,7 +1,17 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :emails
+  # concern :progress_bar do
+  #   get "status"
+  # end
+
+  # get '/emails/status/:job_id', to: 'emails#status', concerns: :progress_bar
+  resources :emails do
+    collection do
+      get 'status/:job_id', to: "emails#status"
+    end
+  end
+
   resources :users, only: [:edit, :update]
 
   root 'welcome#index'

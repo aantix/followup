@@ -1,6 +1,7 @@
 module Mail
   module Adapters
     class MailAdapter
+      LOOKBACK   = 4
       CLAW_PATH  = "/usr/bin/python #{Rails.root}/scripts/email_extract/extract_response.py"
 
       attr_reader :adapter, :user

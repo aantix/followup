@@ -17,5 +17,6 @@ users.each do |user|
   time_at = Time.parse("#{Date.today} #{user.email_send.strftime("%I:%M %P")}").in_time_zone(zone)
 
   logger.info "Scheduling #{user.id} to update at #{time_at}"
-  FollowupInboxJob.set(wait_until: time_at).perform_later(user.id, true)
+  # FollowupInboxJob.set(wait_until: time_at).perform_later(user.id, true)
+  FollowupInboxJob.perform_at(time_at, user.id)
 end
