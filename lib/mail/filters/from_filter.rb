@@ -27,7 +27,7 @@ module Mail
                                "service@", "services@", "ship-confirm@", "slashdot.org", "smtp@", "spam@", "studio@", "subscribe@",
                                "supervisor@", "support@", "technique@", "theoffice@", "undisclosed-recipients@", "update@",
                                "uk-info@", "usenet@", "uucp@", "vets@", "www@", "webadmin@", "webmail@", "webmaster@",
-                               "whois@", "yahoogroups.com", "builds@"]
+                               "whois@", "yahoogroups.com", "builds@", "ebay@"]
 
       attr_reader :from, :owner
 

@@ -12,6 +12,7 @@ gem 'devise', github: 'plataformatec/devise'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
+gem 'modernizr-rails'
 gem "jquery-rails"
 gem 'turbolinks', github: 'rails/turbolinks'
 gem 'rails_12factor'

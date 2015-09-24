@@ -11,6 +11,8 @@ class FollowupInboxJob
 
     adapter = Mail::Adapters::GmailAdapter.new(user, count_callback, message_callback)
     adapter.messages
+
+    FollowupMailer.daily(User.find(user_id)).deliver_now
   end
 
   def count_callback
